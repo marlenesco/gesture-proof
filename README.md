@@ -9,15 +9,16 @@ the eventual portfolio experience.
 
 ## Current state
 
-- Experiments 001, 002, and 003 are implemented as separate, linkable routes;
+- Experiments 001 through 004 are implemented as separate, linkable routes;
   physical-camera studies remain pending.
 - A Research Spine connects studies by phase, current position, evidence record,
   and keep/revise/discard decision.
 - Camera, image, and deterministic tracking or pinch fixture paths are
   available.
 - Camera permission is requested only after the explicit Start camera action.
-- Landmark inspection, temporal pinch intent, and local pinch/fist calibration
-  comparisons are implemented with recoverable failure states.
+- Landmark inspection, temporal pinch intent, local pinch/fist calibration, and
+  five-family gesture competition are implemented with recoverable failure
+  states.
 - No frame, photo, landmark, or telemetry data leaves the browser.
 
 ## Start
@@ -36,6 +37,8 @@ Open `http://127.0.0.1:4173`.
 - `/experiments/002-intent-gate/` — pinch evidence and intent state machine
 - `/experiments/003-gesture-calibration-bench/` — fixed, filtered, and locally
   calibrated pinch/fist comparison
+- `/experiments/004-gesture-state-matrix/` — competing pinch, fist, open-palm,
+  pointing, and two-hand-span evidence
 
 For a GitHub project page build, set `VITE_BASE_PATH` to repository path:
 
@@ -73,7 +76,8 @@ pnpm format       # format repository files
 3. [`docs/experiments/001-landmark-explorer.md`](./docs/experiments/001-landmark-explorer.md)
 4. [`docs/experiments/002-intent-gate.md`](./docs/experiments/002-intent-gate.md)
 5. [`docs/experiments/003-gesture-calibration-bench.md`](./docs/experiments/003-gesture-calibration-bench.md)
-6. [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md)
+6. [`docs/experiments/004-gesture-state-matrix.md`](./docs/experiments/004-gesture-state-matrix.md)
+7. [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md)
 
 ## Repository map
 
