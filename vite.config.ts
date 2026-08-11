@@ -27,6 +27,10 @@ export default defineConfig({
           import.meta.dirname,
           'experiments/003-gesture-calibration-bench/index.html',
         ),
+        gestureStateMatrix: resolve(
+          import.meta.dirname,
+          'experiments/004-gesture-state-matrix/index.html',
+        ),
       },
     },
   },
