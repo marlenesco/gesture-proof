@@ -1,0 +1,14 @@
+node_modules/
+dist/
+coverage/
+playwright-report/
+test-results/
+.DS_Store
+*.log
+.env
+.env.*
+!.env.example
+
+# Downloaded locally by `pnpm models:fetch`.
+public/models/*.task
+!public/models/.gitkeep

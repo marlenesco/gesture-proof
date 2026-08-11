@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Test when palm-normalized pinch evidence becomes stable intent. Camera processing stays on-device."
+    />
+    <title>Intent Gate — Gesture Proof</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="wordmark" href="%BASE_URL%" aria-label="Gesture Proof home">
+        <span>GP</span><span class="wordmark-index">/ 002</span>
+      </a>
+      <p class="privacy-mark">
+        <i aria-hidden="true"></i> On-device / no recording
+      </p>
+      <a href="%BASE_URL%experiments/001-landmark-explorer/"
+        >← Experiment 001</a
+      >
+    </header>
+
+    <main>
+      <section
+        class="gate"
+        id="intent-gate"
+        data-active="false"
+        data-phase="unknown"
+        aria-labelledby="gate-title"
+      >
+        <div class="visual-plane">
+          <canvas
+            id="gate-landmarks"
+            aria-label="Hand tracking and pinch intent visualization"
+          ></canvas>
+          <canvas id="gate-effect" aria-hidden="true"></canvas>
+          <video id="gate-video" playsinline muted hidden></video>
+
+          <div
+            class="coordinate-label coordinate-label--top"
+            aria-hidden="true"
+          >
+            ACTIVATE ≤ 0.34
+          </div>
+          <div
+            class="coordinate-label coordinate-label--side"
+            aria-hidden="true"
+          >
+            CONTINUE ≤ 0.46
+          </div>
+
+          <div class="hero-copy">
+            <p class="eyebrow">Experiment 002 / Signal becomes state</p>
+            <h1 id="gate-title"><span>Intent</span><span>Gate</span></h1>
+            <p class="lede">
+              A pinch is not one frame. Cross a strict distance threshold, hold
+              for 120 ms, then release through a wider gate.
+            </p>
+            <div class="hero-actions">
+              <button
+                class="primary-action"
+                id="gate-start-camera"
+                type="button"
+              >
+                <span>Start camera</span><span aria-hidden="true">↗</span>
+              </button>
+              <button class="text-action" id="gate-start-fixture" type="button">
+                Run deterministic pinch
+              </button>
+            </div>
+            <p class="permission-copy">
+              Permission appears only after “Start camera.” Frames, landmarks,
+              and gesture evidence stay in this tab.
+            </p>
+          </div>
+
+          <div class="controls" aria-label="Experiment controls">
+            <div class="mode-switch" role="group" aria-label="Input source">
+              <button type="button" data-gate-input="camera">Camera</button>
+              <button type="button" data-gate-input="fixture">Fixture</button>
+            </div>
+            <label class="select-control" for="gate-scenario"
+              ><span>Evidence</span>
+              <select id="gate-scenario">
+                <option value="clean-pinch">Clean pinch</option>
+                <option value="near-miss">Near miss</option>
+                <option value="threshold-jitter">Threshold jitter</option>
+                <option value="short-tap">Short tap</option>
+                <option value="slow-release">Slow release</option>
+                <option value="short-dropout">Short dropout</option>
+                <option value="long-dropout">Long dropout</option>
+                <option value="left-hand">Left hand</option>
+                <option value="mirrored">Mirrored input</option>
+              </select>
+            </label>
+            <div class="toggles">
+              <label
+                ><input id="gate-overlay" type="checkbox" checked />
+                Skeleton</label
+              >
+              <label
+                ><input id="gate-mirror" type="checkbox" checked />
+                Mirror</label
+              >
+            </div>
+          </div>
+
+          <aside class="signal" aria-labelledby="signal-title">
+            <div class="signal-heading">
+              <p class="section-kicker">Temporal state machine</p>
+              <h2 id="signal-title">Evidence → intent</h2>
+            </div>
+            <div class="phase-readout">
+              <span id="gate-phase">UNKNOWN</span><b id="gate-confidence">0%</b>
+            </div>
+            <div class="ratio-readout">
+              <span>Pinch / palm</span><strong id="gate-ratio">—</strong>
+            </div>
+            <div class="progress-row">
+              <span>Activation hold</span
+              ><meter id="gate-activation" min="0" max="1" value="0"></meter
+              ><b id="gate-activation-value">0%</b>
+            </div>
+            <div class="progress-row">
+              <span>Release hold</span
+              ><meter id="gate-release" min="0" max="1" value="0"></meter
+              ><b id="gate-release-value">0%</b>
+            </div>
+            <dl>
+              <div>
+                <dt>Decision</dt>
+                <dd id="gate-reason">Awaiting evidence</dd>
+              </div>
+              <div>
+                <dt>Selected hand</dt>
+                <dd id="gate-hand">—</dd>
+              </div>
+              <div>
+                <dt>Inference</dt>
+                <dd id="gate-inference">—</dd>
+              </div>
+            </dl>
+          </aside>
+
+          <div class="timeline" aria-label="Recent state transitions">
+            <p>Recent transitions</p>
+            <ol id="gate-timeline">
+              <li><b>UNKNOWN</b><span>Awaiting evidence</span></li>
+            </ol>
+          </div>
+
+          <div class="status-line" data-state="idle">
+            <i aria-hidden="true"></i>
+            <p id="gate-status" role="status" aria-live="polite">
+              Ready. Camera permission has not been requested.
+            </p>
+          </div>
+          <button class="reset-action" id="gate-reset" type="button">
+            Reset experiment
+          </button>
+        </div>
+      </section>
+
+      <section class="notes" id="notes" aria-labelledby="notes-title">
+        <p class="section-kicker">Experiment record / 002</p>
+        <h2 id="notes-title">Frames suggest.<br />Time decides.</h2>
+        <div class="findings">
+          <article>
+            <span>01</span>
+            <h3>Scale disappears</h3>
+            <p>
+              Thumb-to-index distance is divided by palm size, so the gate
+              describes hand geometry instead of camera pixels.
+            </p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>Hysteresis holds intent</h3>
+            <p>
+              Activation is strict. Continuation is forgiving. Two thresholds
+              stop border noise from flipping the effect.
+            </p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>Uncertainty is a state</h3>
+            <p>
+              Missing or impossible evidence returns unknown. A short active
+              dropout gets only a bounded 100 ms grace period.
+            </p>
+          </article>
+        </div>
+        <a href="#intent-gate">Return to experiment ↑</a>
+      </section>
+    </main>
+    <script type="module" src="/src/intent-gate-main.ts"></script>
+  </body>
+</html>

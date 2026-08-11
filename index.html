@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Private, on-device motion experiments that reveal when hand tracking becomes trustworthy."
+    />
+    <title>Gesture Proof</title>
+    <link rel="stylesheet" href="/src/home.css" />
+  </head>
+  <body>
+    <header class="lab-header">
+      <a class="wordmark" href="%BASE_URL%" aria-label="Gesture Proof home">
+        GP <span>/ INDEX</span>
+      </a>
+      <p><i aria-hidden="true"></i> On-device laboratory</p>
+      <a href="#experiments">Experiments ↓</a>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="lab-title">
+        <div class="orbit" aria-hidden="true">
+          <span class="orbit-ring orbit-ring--outer"></span>
+          <span class="orbit-ring orbit-ring--inner"></span>
+          <span class="orbit-core"></span>
+        </div>
+        <p class="eyebrow">Tracking studies / 2026</p>
+        <h1 id="lab-title">
+          <span>Gesture</span>
+          <span>Proof</span>
+        </h1>
+        <p class="lede">
+          Private, on-device motion experiments. Learn signal before designing
+          spectacle.
+        </p>
+        <a class="hero-action" href="%BASE_URL%experiments/002-intent-gate/">
+          Run current experiment <span aria-hidden="true">↗</span>
+        </a>
+        <p class="hero-index">02 experiments / 01 active question</p>
+      </section>
+
+      <section
+        class="experiment-list"
+        id="experiments"
+        aria-labelledby="list-title"
+      >
+        <header>
+          <p class="eyebrow">Experiment index</p>
+          <h2 id="list-title">From observation<br />to intent.</h2>
+        </header>
+
+        <ol>
+          <li>
+            <a href="%BASE_URL%experiments/001-landmark-explorer/">
+              <span class="number">001</span>
+              <span class="experiment-name">Landmark Explorer</span>
+              <span class="question">What does the tracker actually see?</span>
+              <span class="state">Foundation / live</span>
+              <span class="arrow" aria-hidden="true">↗</span>
+            </a>
+          </li>
+          <li>
+            <a href="%BASE_URL%experiments/002-intent-gate/">
+              <span class="number">002</span>
+              <span class="experiment-name">Intent Gate</span>
+              <span class="question">When does a pinch become intent?</span>
+              <span class="state">Current / live</span>
+              <span class="arrow" aria-hidden="true">↗</span>
+            </a>
+          </li>
+        </ol>
+      </section>
+    </main>
+  </body>
+</html>

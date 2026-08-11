@@ -1,0 +1,180 @@
+# Project Context
+
+## Product name
+
+Gesture Proof.
+
+Public tagline: **Private, on-device motion experiments.**
+
+## One-line vision
+
+Turn human movement into visible, understandable material for images and video,
+while keeping capture local and user-controlled.
+
+## Current stage
+
+Tracking foundation plus the first temporal gesture experiment. Product concept
+remains intentionally unresolved; isolated studies still decide which signals
+deserve expressive effects.
+
+## Why this exists
+
+Hand tracking demos often hide uncertainty behind novelty. This project should
+show both magic and mechanism: viewers see an immediate visual reaction, while
+curious users can reveal landmarks, confidence, timing, and gesture state.
+
+Portfolio value should come from:
+
+- original interaction design
+- technically legible experiments
+- local-first privacy architecture
+- strong visual direction
+- documented decisions and rejected paths
+- real performance and failure evidence
+
+## Product thesis
+
+A gesture is not a button replacement. Best interactions use qualities unique to
+hands: spatial extent, direction, speed, tension, symmetry, rhythm, and relation
+between two hands.
+
+The eventual experience may become a collection rather than one tool. Each study
+should remain independently linkable and narratively useful.
+
+## Audience
+
+- designers and creative technologists
+- frontend and graphics engineers
+- recruiters or clients evaluating interaction craft
+- curious visitors who want an immediate camera-based experience
+
+No prior knowledge of computer vision should be required.
+
+## Experience principles
+
+1. **Signal before effect.** Understand and expose landmark behavior first.
+2. **Movement has consequence.** Every motion response must feel causal.
+3. **Uncertainty stays visible.** Graceful degradation beats false certainty.
+4. **Local by default.** Camera and uploads remain on-device.
+5. **One experiment, one question.** Avoid feature collections without thesis.
+6. **Portfolio, not dashboard.** Image-led, editorial, sparse, memorable.
+7. **Accessible fallback.** Camera denial never produces a dead page.
+
+## Technical thesis
+
+- Platform: modern browser, desktop first, mobile supported when feasible.
+- Language: strict TypeScript.
+- Tooling: Vite, Vitest, ESLint, Prettier, pnpm.
+- Tracking: MediaPipe Tasks Vision behind a local adapter.
+- Rendering: Canvas 2D first; WebGL/WebGPU only after an effect proves need.
+- Architecture: input → tracking → gesture → effect → experience.
+- Data: ephemeral memory; no backend in initial phases.
+- Model: downloaded explicitly, served from local project origin.
+
+Why no framework yet: experiment loop needs direct control over media, canvas,
+workers, and allocation. A UI framework may be added later if narrative and
+navigation complexity justify it.
+
+## Gesture vocabulary to explore
+
+These are research candidates, not committed features:
+
+- pinch distance: continuous intensity or focus
+- index direction: pointing, ray, brush direction
+- open palm: reveal, pause, reset, or field generation
+- fist: capture, compress, freeze, or collapse
+- hand velocity: force, turbulence, persistence
+- wrist rotation: hue, depth, timeline, or effect orientation
+- two-hand span: scale or spatial boundary
+- two-hand symmetry/asymmetry: blend between visual states
+- repeated rhythm: trigger sequences or audiovisual loops
+- hand depth: foreground/background response, with conservative confidence
+
+## Effect families to explore
+
+- spatial masks and reveals
+- trails, echoes, and temporal accumulation
+- displacement fields and fluid-like distortion
+- particles attracted to landmarks or gesture vectors
+- painterly strokes driven by hand velocity
+- palette extraction and color remapping
+- typography responding to pose and tension
+- photo transformations controlled by live gestures
+- semantic actions on an explicitly selected region, only after separate review
+
+## Implemented experiments
+
+**001 — Landmark Explorer**
+
+Question: can users understand tracking quality and intentionally manipulate its
+signals without an effect hiding errors?
+
+Deliverable: camera/image view with landmark overlay, handedness, confidence,
+frame timing, mirrored coordinates, deterministic fixture mode, and an inspector
+for derived distances and joint angles. No showcase effect yet.
+
+See `docs/experiments/001-landmark-explorer.md`.
+
+**002 — Intent Gate**
+
+Question: can a palm-normalized pinch measurement plus elapsed-time evidence,
+hysteresis, dropout handling, and cooldown produce controllable intent?
+
+Deliverable: camera and deterministic fixture modes, inspectable phase and
+decision evidence, transition timeline, and an aperture effect that consumes
+only the gesture signal.
+
+See `docs/experiments/002-intent-gate.md`.
+
+## Candidate follow-ups
+
+1. Gesture State Matrix — compare the proven pinch contract with open palm,
+   pointing, and two-hand span.
+2. Motion Field — hand velocity creates a persistent displacement or particle
+   field.
+3. Photo Conductor — gestures modulate a still image without touching controls.
+4. Temporal Sculpture — movement writes into layered video history.
+5. Intent Lens — a user-defined spatial region becomes a private processing
+   boundary for color, text, or visual transformations.
+
+## Non-goals
+
+- cloning Finger Frame behavior, effects, source, or visual identity
+- building a generic gesture-controlled menu
+- training a custom model before heuristics are understood
+- face recognition, identity, surveillance, or behavioral profiling
+- uploading continuous camera footage
+- premature backend, authentication, accounts, analytics, or CMS
+- claiming robust accessibility replacement for mouse, keyboard, or touch
+
+## Known risks
+
+- camera permission friction and browser differences
+- main-thread inference causing interaction stutter
+- noisy fingertip landmarks under blur and occlusion
+- unstable hand identity when hands cross
+- gesture activation varying with hand size and orientation
+- novelty overwhelming portfolio narrative
+- over-polished effects masking weak gesture contracts
+
+## Success measures
+
+Foundation succeeds when:
+
+- new experiment can reuse input and tracking without duplicating them
+- deterministic fixtures reproduce edge cases without camera access
+- gesture state can be inspected frame by frame
+- no media leaves device
+- a visitor understands experiment within ten seconds
+- mobile and reduced-motion states remain usable
+- result page explains what worked, failed, and changed
+
+## Open decisions
+
+- single flagship experience versus curated experiment collection
+- first expressive effect after Landmark Explorer
+- whether final public build bundles model or fetches it from same-origin storage
+- project license before publication
+- whether anonymous analytics can ever meet privacy thesis
+
+Do not resolve these silently. Record decisions in `docs/decisions/`.

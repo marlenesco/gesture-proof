@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Explore what browser hand tracking sees. Camera and images stay on-device."
+    />
+    <title>Landmark Explorer — Gesture Proof</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="wordmark" href="%BASE_URL%" aria-label="Gesture Proof home">
+        <span>GP</span>
+        <span class="wordmark-index">/ 001</span>
+      </a>
+      <p class="privacy-mark">
+        <span class="privacy-dot" aria-hidden="true"></span>
+        On-device / no capture leaves browser
+      </p>
+      <a class="notes-link" href="%BASE_URL%experiments/002-intent-gate/"
+        >Next experiment →</a
+      >
+    </header>
+
+    <main>
+      <section
+        class="experiment"
+        id="experiment"
+        data-active="false"
+        data-mode="idle"
+        aria-labelledby="experiment-title"
+      >
+        <div class="visual-plane" id="visual-plane">
+          <canvas
+            id="landmark-canvas"
+            aria-label="Hand landmark visualization. Select landmarks using inspector controls."
+          ></canvas>
+          <video id="camera-video" playsinline muted hidden></video>
+
+          <div class="axis-label axis-label--x" aria-hidden="true">X / 01</div>
+          <div class="axis-label axis-label--y" aria-hidden="true">Y / 01</div>
+
+          <div class="hero-copy">
+            <p class="eyebrow">Experiment 001 / See the signal</p>
+            <h1 id="experiment-title">
+              <span>Landmark</span>
+              <span>Explorer</span>
+            </h1>
+            <p class="lede">
+              See all 21 hand points, confidence, timing, and coordinate changes
+              before an effect hides uncertainty.
+            </p>
+            <div class="hero-actions">
+              <button class="primary-action" id="start-camera" type="button">
+                <span>Start camera</span>
+                <span aria-hidden="true">↗</span>
+              </button>
+              <button class="text-action" id="start-fixture" type="button">
+                Use no-camera fixture
+              </button>
+            </div>
+            <p class="permission-copy" id="permission-copy">
+              Browser asks camera permission only after “Start camera.” Frames
+              stay in this tab and tracks stop when tab becomes inactive.
+            </p>
+          </div>
+
+          <div class="workspace-controls" aria-label="Experiment controls">
+            <div class="mode-switch" role="group" aria-label="Input source">
+              <button type="button" data-input="camera">Camera</button>
+              <button type="button" data-input="image">Image</button>
+              <button type="button" data-input="fixture">Fixture</button>
+            </div>
+
+            <label class="file-action" for="image-input">Choose image</label>
+            <input id="image-input" type="file" accept="image/*" hidden />
+
+            <label class="select-control" for="fixture-scenario">
+              <span>Sequence</span>
+              <select id="fixture-scenario">
+                <option value="stable">Stable hand</option>
+                <option value="jitter">Fingertip jitter</option>
+                <option value="dropout">Short dropout</option>
+                <option value="crossing">Two-hand crossing</option>
+                <option value="rapid-motion">Rapid motion</option>
+                <option value="mirrored">Pre-mirrored input</option>
+                <option value="low-confidence">Low confidence</option>
+              </select>
+            </label>
+
+            <div class="view-toggles">
+              <label
+                ><input id="overlay-toggle" type="checkbox" checked />
+                Overlay</label
+              >
+              <label
+                ><input id="mirror-toggle" type="checkbox" checked /> Mirror
+                display</label
+              >
+              <label
+                ><input id="inspector-toggle" type="checkbox" checked />
+                Inspector</label
+              >
+            </div>
+          </div>
+
+          <aside
+            class="inspector"
+            id="inspector"
+            aria-labelledby="inspector-title"
+          >
+            <div class="inspector-heading">
+              <div>
+                <p class="section-kicker">Signal inspector</p>
+                <h2 id="inspector-title">No hand selected</h2>
+              </div>
+              <span class="confidence-readout" id="confidence-value">—</span>
+            </div>
+
+            <div class="selection-controls">
+              <label for="hand-select">Hand</label>
+              <select id="hand-select" disabled>
+                <option value="">No hand</option>
+              </select>
+              <label for="landmark-select">Landmark</label>
+              <select id="landmark-select"></select>
+            </div>
+
+            <dl class="signal-list">
+              <div>
+                <dt>Input normalized</dt>
+                <dd id="input-coordinate">—</dd>
+              </div>
+              <div>
+                <dt>Display pixels</dt>
+                <dd id="display-coordinate">—</dd>
+              </div>
+              <div>
+                <dt>Depth estimate</dt>
+                <dd id="depth-value">—</dd>
+              </div>
+              <div>
+                <dt>Frame age</dt>
+                <dd id="frame-age">—</dd>
+              </div>
+              <div>
+                <dt>Palm scale</dt>
+                <dd id="palm-scale">—</dd>
+              </div>
+              <div>
+                <dt>Pinch / palm</dt>
+                <dd id="pinch-distance">—</dd>
+              </div>
+              <div>
+                <dt>Index PIP angle</dt>
+                <dd id="joint-angle">—</dd>
+              </div>
+              <div>
+                <dt>Wrist velocity</dt>
+                <dd id="wrist-velocity">—</dd>
+              </div>
+            </dl>
+
+            <p class="inspector-note">
+              Confidence is classification evidence, not truth. Depth is
+              relative, not physical distance.
+            </p>
+          </aside>
+
+          <div class="metrics-strip" aria-label="Performance measurements">
+            <span><b id="input-size">—</b> input</span>
+            <span><b id="display-rate">—</b> display</span>
+            <span><b id="inference-rate">—</b> inference</span>
+            <span><b id="inference-time">—</b> median / worst</span>
+            <span><b id="long-tasks">0</b> long tasks</span>
+          </div>
+
+          <div class="status-line" data-state="idle">
+            <span class="status-pulse" aria-hidden="true"></span>
+            <p id="experiment-status" role="status" aria-live="polite">
+              Ready. Camera permission has not been requested.
+            </p>
+          </div>
+
+          <div class="final-actions">
+            <button id="reset-experiment" type="button">Reset</button>
+            <a href="#notes">Read findings ↓</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="notes" id="notes" aria-labelledby="notes-title">
+        <header class="notes-intro">
+          <p class="section-kicker">Experiment record / 001</p>
+          <h2 id="notes-title">Signal before effect.</h2>
+          <p>
+            This study exposes tracking mechanics. Use fixture sequences to
+            inspect failure behavior without granting camera access.
+          </p>
+        </header>
+
+        <div class="notes-grid">
+          <article>
+            <span>01</span>
+            <h3>Coordinates stay explicit</h3>
+            <p>
+              Tracker values remain normalized. Mirroring happens only when
+              source and landmarks reach display space.
+            </p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>Uncertainty remains visible</h3>
+            <p>
+              Line weight follows confidence. Dropout, jitter, crossing, and
+              rapid motion fixtures remain inspectable and repeatable.
+            </p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>Capture stays temporary</h3>
+            <p>
+              No backend, storage, or telemetry. Camera tracks and temporary
+              image URLs are disposed during mode changes and teardown.
+            </p>
+          </article>
+        </div>
+
+        <a class="return-action" href="#experiment">Return to experiment ↑</a>
+      </section>
+    </main>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
