@@ -13,9 +13,10 @@ while keeping capture local and user-controlled.
 
 ## Current stage
 
-Tracking foundation plus temporal gesture and calibration experiments. The
-Research Spine now presents isolated studies as a curated collection while the
-studies still decide which signals deserve expressive effects.
+Tracking foundation plus temporal gesture, calibration, and gesture-vocabulary
+experiments. The Research Spine presents isolated studies as a curated
+collection while the studies still decide which signals deserve expressive
+effects.
 
 ## Why this exists
 
@@ -139,15 +140,24 @@ and latency. Calibration can explicitly return `inconclusive`.
 
 See `docs/experiments/003-gesture-calibration-bench.md`.
 
+**004 — Gesture State Matrix**
+
+Question: can pinch, fist, open palm, pointing, and two-hand span share one
+timestamp-driven recognizer without direct handoffs or single-frame activation?
+
+Deliverable: one observation stream produces five competing normalized scores,
+an explicit winner margin, stable ownership, temporal confirmation, cooldown,
+and `unknown` for ambiguous or missing evidence.
+
+See `docs/experiments/004-gesture-state-matrix.md`.
+
 ## Candidate follow-ups
 
-1. Gesture State Matrix — compare the calibrated pinch/fist contracts with open
-   palm, pointing, and two-hand span.
-2. Motion Field — hand velocity creates a persistent displacement or particle
+1. Motion Field — hand velocity creates a persistent displacement or particle
    field.
-3. Photo Conductor — gestures modulate a still image without touching controls.
-4. Temporal Sculpture — movement writes into layered video history.
-5. Intent Lens — a user-defined spatial region becomes a private processing
+2. Photo Conductor — gestures modulate a still image without touching controls.
+3. Temporal Sculpture — movement writes into layered video history.
+4. Intent Lens — a user-defined spatial region becomes a private processing
    boundary for color, text, or visual transformations.
 
 ## Non-goals

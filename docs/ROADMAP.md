@@ -1,9 +1,9 @@
 # Roadmap
 
-Current position: Experiments 001–003 are implemented. Experiment 003 compares
-fixed, filtered, and session-calibrated pinch/fist evidence. Physical-camera,
-lighting, occlusion, diversity, and device measurements remain required before
-the studies can be concluded.
+Current position: Experiments 001–004 are implemented. Experiment 004 compares
+five gesture families through one temporal winner-margin contract.
+Physical-camera, lighting, occlusion, diversity, and device measurements remain
+required before the studies can be concluded.
 
 ## Phase 0 — Foundation
 
@@ -29,10 +29,10 @@ Exit: tracking behavior can be inspected without any expressive effect.
 - Experiment 002: Intent Gate — temporal, palm-normalized pinch contract
 - Experiment 003: Gesture Calibration Bench — fixed, filtered, and local
   pinch/fist thresholds
-- compare pinch, point, open palm, rotation, velocity, and two-hand span
-- temporal gesture state machines
-- false-positive matrix
-- gesture recorder and deterministic playback
+- Experiment 004: Gesture State Matrix — pinch, fist, open palm, point, and
+  two-hand span competition
+- timestamp-driven state machines and deterministic playback
+- visible score, ambiguity, ownership, and false-positive evidence
 
 Exit: choose two signals that feel controllable across diverse conditions.
 
