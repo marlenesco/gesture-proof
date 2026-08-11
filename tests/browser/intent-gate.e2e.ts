@@ -27,9 +27,7 @@ async function installNoopTracker(page: Page): Promise<void> {
   });
 }
 
-test('index keeps both experiments separate and reachable', async ({
-  page,
-}) => {
+test('index keeps all experiments separate and reachable', async ({ page }) => {
   await page.goto('/');
 
   await expect(
@@ -42,6 +40,9 @@ test('index keeps both experiments separate and reachable', async ({
     'href',
     EXPERIMENT_PATH,
   );
+  await expect(
+    page.getByRole('link', { name: /Gesture Calibration Bench/ }),
+  ).toHaveAttribute('href', '/experiments/003-gesture-calibration-bench/');
 });
 
 test('initial gate does not request camera permission', async ({ page }) => {

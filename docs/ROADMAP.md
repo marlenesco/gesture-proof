@@ -1,8 +1,9 @@
 # Roadmap
 
-Current position: Experiment 001 and the first Phase 2 study, Experiment 002,
-are implemented. Physical-camera, lighting, occlusion, diversity, and device
-measurements remain required before either study can be concluded.
+Current position: Experiments 001–003 are implemented. Experiment 003 compares
+fixed, filtered, and session-calibrated pinch/fist evidence. Physical-camera,
+lighting, occlusion, diversity, and device measurements remain required before
+the studies can be concluded.
 
 ## Phase 0 — Foundation
 
@@ -26,6 +27,8 @@ Exit: tracking behavior can be inspected without any expressive effect.
 ## Phase 2 — Name the movement
 
 - Experiment 002: Intent Gate — temporal, palm-normalized pinch contract
+- Experiment 003: Gesture Calibration Bench — fixed, filtered, and local
+  pinch/fist thresholds
 - compare pinch, point, open palm, rotation, velocity, and two-hand span
 - temporal gesture state machines
 - false-positive matrix
