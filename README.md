@@ -11,6 +11,8 @@ the eventual portfolio experience.
 
 - Experiments 001, 002, and 003 are implemented as separate, linkable routes;
   physical-camera studies remain pending.
+- A Research Spine connects studies by phase, current position, evidence record,
+  and keep/revise/discard decision.
 - Camera, image, and deterministic tracking or pinch fixture paths are
   available.
 - Camera permission is requested only after the explicit Start camera action.

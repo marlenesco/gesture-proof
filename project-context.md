@@ -13,9 +13,9 @@ while keeping capture local and user-controlled.
 
 ## Current stage
 
-Tracking foundation plus temporal gesture and calibration experiments. Product
-concept remains intentionally unresolved; isolated studies still decide which
-signals deserve expressive effects.
+Tracking foundation plus temporal gesture and calibration experiments. The
+Research Spine now presents isolated studies as a curated collection while the
+studies still decide which signals deserve expressive effects.
 
 ## Why this exists
 
@@ -38,8 +38,10 @@ A gesture is not a button replacement. Best interactions use qualities unique to
 hands: spatial extent, direction, speed, tension, symmetry, rhythm, and relation
 between two hands.
 
-The eventual experience may become a collection rather than one tool. Each study
-should remain independently linkable and narratively useful.
+The experience is a curated collection rather than one tool. Each study remains
+independently linkable, occupies a clear research phase, and records evidence and
+its keep/revise/discard decision. See
+`docs/decisions/0004-research-spine-collection-and-records.md`.
 
 ## Audience
 
@@ -182,7 +184,6 @@ Foundation succeeds when:
 
 ## Open decisions
 
-- single flagship experience versus curated experiment collection
 - first expressive effect after Landmark Explorer
 - whether final public build bundles model or fetches it from same-origin storage
 - project license before publication
