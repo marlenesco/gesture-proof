@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Compare fixed, filtered, and locally calibrated pinch and fist gesture evidence."
+    />
+    <title>Gesture Calibration Bench — Gesture Proof</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="wordmark" href="%BASE_URL%" aria-label="Gesture Proof home">
+        <span>GP</span><span class="wordmark-index">/ 003</span>
+      </a>
+      <p class="privacy-mark">
+        <i aria-hidden="true"></i> Ephemeral calibration / on-device
+      </p>
+      <a href="%BASE_URL%experiments/002-intent-gate/">← Experiment 002</a>
+    </header>
+
+    <main>
+      <section
+        class="bench"
+        id="calibration-bench"
+        data-active="false"
+        data-calibration="empty"
+        aria-labelledby="bench-title"
+      >
+        <div class="visual-plane">
+          <canvas
+            id="bench-landmarks"
+            aria-label="Hand landmarks behind calibration comparison traces"
+          ></canvas>
+          <canvas id="bench-traces" aria-hidden="true"></canvas>
+          <video id="bench-video" playsinline muted hidden></video>
+
+          <p class="axis axis--x" aria-hidden="true">EVIDENCE / TIME →</p>
+          <p class="axis axis--y" aria-hidden="true">LOWER = ACTIVE</p>
+
+          <div class="hero-copy">
+            <p class="eyebrow">Experiment 003 / Compare the proof</p>
+            <h1 id="bench-title"><span>Calibration</span><span>Bench</span></h1>
+            <p class="lede">
+              One hand. Three pipelines. See whether filtering and a private
+              session profile make pinch and fist evidence more truthful.
+            </p>
+            <div class="hero-actions">
+              <button
+                class="primary-action"
+                id="bench-start-camera"
+                type="button"
+              >
+                <span>Start camera</span><span aria-hidden="true">↗</span>
+              </button>
+              <button
+                class="text-action"
+                id="bench-start-fixture"
+                type="button"
+              >
+                Run calibrated fixture
+              </button>
+            </div>
+            <p class="permission-copy">
+              Camera permission appears only after click. Calibration keeps
+              scalar geometry in memory and discards it on reset.
+            </p>
+          </div>
+
+          <div class="controls" aria-label="Calibration bench controls">
+            <div class="mode-switch" role="group" aria-label="Input source">
+              <button type="button" data-bench-input="camera">Camera</button>
+              <button type="button" data-bench-input="fixture">Fixture</button>
+            </div>
+            <label class="select-control" for="bench-gesture"
+              ><span>Gesture</span>
+              <select id="bench-gesture">
+                <option value="pinch">Pinch</option>
+                <option value="fist">Fist</option>
+              </select>
+            </label>
+            <label class="select-control" for="bench-scenario"
+              ><span>Evidence</span>
+              <select id="bench-scenario">
+                <option value="standard-range">Standard range</option>
+                <option value="personal-range">Personal range</option>
+                <option value="threshold-jitter">Threshold jitter</option>
+                <option value="short-hold">Short holds</option>
+                <option value="dropout">Dropout</option>
+                <option value="left-mirrored">Left + mirrored</option>
+              </select>
+            </label>
+            <div class="toggles">
+              <label
+                ><input id="bench-overlay" type="checkbox" checked />
+                Skeleton</label
+              >
+              <label
+                ><input id="bench-mirror" type="checkbox" checked />
+                Mirror</label
+              >
+            </div>
+          </div>
+
+          <div class="calibration-callout" aria-live="polite">
+            <p class="section-kicker">Calibration sequence</p>
+            <strong id="bench-calibration-prompt">Not started</strong>
+            <span id="bench-calibration-detail"
+              >Open → pinch → fist. 700 ms evidence each.</span
+            >
+            <button id="bench-calibrate" type="button">
+              Start calibration
+            </button>
+          </div>
+
+          <section class="comparison" aria-labelledby="comparison-title">
+            <header>
+              <p class="section-kicker">Same observation stream</p>
+              <h2 id="comparison-title">Three claims</h2>
+            </header>
+            <div class="lane" data-lane="fixed">
+              <span class="lane-number">01</span>
+              <h3>Fixed</h3>
+              <b id="bench-fixed-phase">UNKNOWN</b>
+              <dl>
+                <div>
+                  <dt>Metric</dt>
+                  <dd id="bench-fixed-value">—</dd>
+                </div>
+                <div>
+                  <dt>Gate</dt>
+                  <dd id="bench-fixed-threshold">—</dd>
+                </div>
+                <div>
+                  <dt>Errors</dt>
+                  <dd id="bench-fixed-errors">—</dd>
+                </div>
+                <div>
+                  <dt>Latency</dt>
+                  <dd id="bench-fixed-latency">—</dd>
+                </div>
+              </dl>
+            </div>
+            <div class="lane" data-lane="filtered">
+              <span class="lane-number">02</span>
+              <h3>Filtered</h3>
+              <b id="bench-filtered-phase">UNKNOWN</b>
+              <dl>
+                <div>
+                  <dt>Metric</dt>
+                  <dd id="bench-filtered-value">—</dd>
+                </div>
+                <div>
+                  <dt>Gate</dt>
+                  <dd id="bench-filtered-threshold">—</dd>
+                </div>
+                <div>
+                  <dt>Errors</dt>
+                  <dd id="bench-filtered-errors">—</dd>
+                </div>
+                <div>
+                  <dt>Latency</dt>
+                  <dd id="bench-filtered-latency">—</dd>
+                </div>
+              </dl>
+            </div>
+            <div class="lane" data-lane="calibrated">
+              <span class="lane-number">03</span>
+              <h3>Calibrated</h3>
+              <b id="bench-calibrated-phase">UNKNOWN</b>
+              <dl>
+                <div>
+                  <dt>Metric</dt>
+                  <dd id="bench-calibrated-value">—</dd>
+                </div>
+                <div>
+                  <dt>Gate</dt>
+                  <dd id="bench-calibrated-threshold">—</dd>
+                </div>
+                <div>
+                  <dt>Errors</dt>
+                  <dd id="bench-calibrated-errors">—</dd>
+                </div>
+                <div>
+                  <dt>Latency</dt>
+                  <dd id="bench-calibrated-latency">—</dd>
+                </div>
+              </dl>
+            </div>
+          </section>
+
+          <div class="status-line" data-state="idle">
+            <i aria-hidden="true"></i>
+            <p id="bench-status" role="status" aria-live="polite">
+              Ready. Camera permission has not been requested.
+            </p>
+          </div>
+          <button class="reset-action" id="bench-reset" type="button">
+            Reset experiment
+          </button>
+        </div>
+      </section>
+
+      <section class="notes" id="notes" aria-labelledby="notes-title">
+        <p class="section-kicker">Experiment record / 003</p>
+        <h2 id="notes-title">Same hand.<br />Different truth.</h2>
+        <div class="findings">
+          <article>
+            <span>01</span>
+            <h3>Fixed</h3>
+            <p>
+              Fast baseline. Same thresholds for every hand and camera
+              perspective.
+            </p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>Filtered</h3>
+            <p>
+              One Euro smoothing spends stability only where motion permits it.
+            </p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>Calibrated</h3>
+            <p>
+              Session medians move gates only when open, pinch, and fist
+              references separate.
+            </p>
+          </article>
+        </div>
+        <a href="#calibration-bench">Return to experiment ↑</a>
+      </section>
+    </main>
+    <script type="module" src="/src/calibration-bench-main.ts"></script>
+  </body>
+</html>

@@ -23,6 +23,10 @@ export default defineConfig({
           import.meta.dirname,
           'experiments/002-intent-gate/index.html',
         ),
+        calibrationBench: resolve(
+          import.meta.dirname,
+          'experiments/003-gesture-calibration-bench/index.html',
+        ),
       },
     },
   },
