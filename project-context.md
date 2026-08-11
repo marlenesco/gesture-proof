@@ -13,9 +13,9 @@ while keeping capture local and user-controlled.
 
 ## Current stage
 
-Tracking foundation plus the first temporal gesture experiment. Product concept
-remains intentionally unresolved; isolated studies still decide which signals
-deserve expressive effects.
+Tracking foundation plus temporal gesture and calibration experiments. The
+Research Spine now presents isolated studies as a curated collection while the
+studies still decide which signals deserve expressive effects.
 
 ## Why this exists
 
@@ -38,8 +38,10 @@ A gesture is not a button replacement. Best interactions use qualities unique to
 hands: spatial extent, direction, speed, tension, symmetry, rhythm, and relation
 between two hands.
 
-The eventual experience may become a collection rather than one tool. Each study
-should remain independently linkable and narratively useful.
+The experience is a curated collection rather than one tool. Each study remains
+independently linkable, occupies a clear research phase, and records evidence and
+its keep/revise/discard decision. See
+`docs/decisions/0004-research-spine-collection-and-records.md`.
 
 ## Audience
 
@@ -126,10 +128,21 @@ only the gesture signal.
 
 See `docs/experiments/002-intent-gate.md`.
 
+**003 — Gesture Calibration Bench**
+
+Question: does a short, on-device calibration improve activation accuracy for
+pinch and fist compared with fixed thresholds without excessive latency?
+
+Deliverable: the same observation stream feeds fixed, One Euro filtered, and
+locally calibrated pipelines with visible metrics, thresholds, state, errors,
+and latency. Calibration can explicitly return `inconclusive`.
+
+See `docs/experiments/003-gesture-calibration-bench.md`.
+
 ## Candidate follow-ups
 
-1. Gesture State Matrix — compare the proven pinch contract with open palm,
-   pointing, and two-hand span.
+1. Gesture State Matrix — compare the calibrated pinch/fist contracts with open
+   palm, pointing, and two-hand span.
 2. Motion Field — hand velocity creates a persistent displacement or particle
    field.
 3. Photo Conductor — gestures modulate a still image without touching controls.
@@ -171,7 +184,6 @@ Foundation succeeds when:
 
 ## Open decisions
 
-- single flagship experience versus curated experiment collection
 - first expressive effect after Landmark Explorer
 - whether final public build bundles model or fetches it from same-origin storage
 - project license before publication

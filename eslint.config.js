@@ -3,7 +3,12 @@ import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
   {
-    ignores: ['dist/**', 'coverage/**', 'public/models/*.task'],
+    ignores: [
+      '.agents/skills/**',
+      'dist/**',
+      'coverage/**',
+      'public/models/*.task',
+    ],
   },
   eslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked.map((config) => ({

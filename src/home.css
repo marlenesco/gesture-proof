@@ -46,13 +46,6 @@ a {
   letter-spacing: 0.09em;
   text-transform: uppercase;
 }
-.lab-header .wordmark {
-  font-weight: 800;
-  text-decoration: none;
-}
-.lab-header .wordmark span {
-  color: var(--accent);
-}
 .lab-header p {
   display: flex;
   margin: 0;
@@ -121,18 +114,38 @@ h1 span:last-child {
   font-size: clamp(1rem, 1.45vw, 1.24rem);
   line-height: 1.55;
 }
-.hero-action {
-  display: flex;
-  width: min(21rem, 100%);
-  min-height: 3.5rem;
+.current-study {
+  display: grid;
+  width: min(39rem, 100%);
+  min-height: 4.5rem;
   margin-top: 2rem;
-  padding: 0 1.1rem;
-  background: var(--accent);
-  color: #160806;
-  font-weight: 760;
-  text-decoration: none;
+  padding: 0.75rem 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  grid-template-columns: 8rem 1fr auto;
+  gap: 1rem;
   align-items: center;
-  justify-content: space-between;
+  text-decoration: none;
+}
+.current-study span {
+  color: var(--accent);
+  font: 650 0.68rem/1.2 var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.current-study strong {
+  font-size: clamp(0.95rem, 1.4vw, 1.15rem);
+  font-weight: 560;
+}
+.current-study i {
+  color: var(--accent);
+  font-size: 1.4rem;
+  font-style: normal;
+  transition: transform 180ms ease;
+}
+.current-study:hover i,
+.current-study:focus-visible i {
+  transform: translate(0.25rem, -0.25rem);
 }
 .hero-index {
   position: absolute;
@@ -183,6 +196,56 @@ h1 span:last-child {
   grid-template-columns: 1fr 2fr;
   margin-bottom: clamp(4rem, 8vw, 8rem);
 }
+.spine-sequence {
+  position: relative;
+}
+.spine-sequence::before {
+  position: absolute;
+  top: 1.45rem;
+  bottom: 1.45rem;
+  left: 0.25rem;
+  width: 1px;
+  background: var(--line);
+  content: '';
+}
+.research-phase {
+  display: grid;
+  grid-template-columns: minmax(12rem, 0.42fr) minmax(0, 1.58fr);
+  gap: 2rem 4rem;
+}
+.research-phase + .research-phase {
+  margin-top: clamp(4rem, 8vw, 7rem);
+}
+.phase-marker {
+  position: relative;
+  padding-left: 2rem;
+  align-self: start;
+}
+.phase-marker::before {
+  position: absolute;
+  top: 0.3rem;
+  left: 0;
+  width: 0.55rem;
+  height: 0.55rem;
+  border: 1px solid var(--accent);
+  border-radius: 50%;
+  background: #080a0b;
+  content: '';
+}
+.phase-marker span {
+  color: var(--accent);
+  font: 650 0.68rem/1 var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.phase-marker h3 {
+  max-width: 12ch;
+  margin: 0.75rem 0 0;
+  font-size: clamp(1.35rem, 2.1vw, 2.1rem);
+  font-weight: 560;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+}
 .experiment-list h2 {
   margin: 0;
   font-size: clamp(3rem, 7vw, 7rem);
@@ -202,19 +265,31 @@ h1 span:last-child {
   border-bottom: 1px solid var(--line);
 }
 .experiment-list a {
+  position: relative;
   display: grid;
   min-height: 9rem;
   grid-template-columns: 0.45fr 1.6fr 1.4fr 0.7fr auto;
   gap: 1.5rem;
   align-items: center;
   text-decoration: none;
-  transition:
-    color 180ms ease,
-    transform 180ms ease;
+  transition: color 180ms ease;
 }
 .experiment-list a:hover {
   color: var(--accent);
-  transform: translateX(0.4rem);
+}
+.experiment-list a::before {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--accent);
+  content: '';
+  transition: width 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.experiment-list a:hover::before,
+.experiment-list a:focus-visible::before {
+  width: 100%;
 }
 .number,
 .state {
@@ -255,6 +330,24 @@ h1 span:last-child {
   .experiment-list h2 {
     margin-top: 2rem;
   }
+  .current-study {
+    grid-template-columns: 1fr auto;
+  }
+  .current-study span {
+    grid-column: 1 / -1;
+  }
+  .spine-sequence::before {
+    left: 0.25rem;
+  }
+  .research-phase {
+    display: block;
+  }
+  .phase-marker {
+    margin-bottom: 1.75rem;
+  }
+  .research-phase ol {
+    padding-left: 2rem;
+  }
   .experiment-list a {
     min-height: 11rem;
     grid-template-columns: 0.4fr 1.6fr auto;
@@ -284,5 +377,20 @@ h1 span:last-child {
     to {
       transform: rotate(1turn);
     }
+  }
+
+  .current-study i {
+    transition: transform 180ms ease;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .current-study i,
+  .experiment-list a::before {
+    transition: none;
   }
 }

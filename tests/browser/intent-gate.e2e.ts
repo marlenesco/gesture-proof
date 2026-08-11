@@ -27,21 +27,28 @@ async function installNoopTracker(page: Page): Promise<void> {
   });
 }
 
-test('index keeps both experiments separate and reachable', async ({
-  page,
-}) => {
+test('index keeps all experiments separate and reachable', async ({ page }) => {
   await page.goto('/');
+  const index = page.locator('#experiments');
 
   await expect(
     page.getByRole('heading', { name: 'Gesture Proof' }),
   ).toBeVisible();
   await expect(
-    page.getByRole('link', { name: /Landmark Explorer/ }),
+    index.getByRole('heading', { name: 'Observe the signal' }),
+  ).toBeVisible();
+  await expect(
+    index.getByRole('heading', { name: 'Name intent' }),
+  ).toBeVisible();
+  await expect(
+    index.getByRole('link', { name: /Landmark Explorer/ }),
   ).toHaveAttribute('href', '/experiments/001-landmark-explorer/');
-  await expect(page.getByRole('link', { name: /Intent Gate/ })).toHaveAttribute(
-    'href',
-    EXPERIMENT_PATH,
-  );
+  await expect(
+    index.getByRole('link', { name: /Intent Gate/ }),
+  ).toHaveAttribute('href', EXPERIMENT_PATH);
+  await expect(
+    index.getByRole('link', { name: /Gesture Calibration Bench/ }),
+  ).toHaveAttribute('href', '/experiments/003-gesture-calibration-bench/');
 });
 
 test('initial gate does not request camera permission', async ({ page }) => {
@@ -64,6 +71,27 @@ test('initial gate does not request camera permission', async ({ page }) => {
   await expect(
     page.getByRole('heading', { name: 'Intent Gate' }),
   ).toBeVisible();
+  await expect(page.locator('.research-spine')).toHaveCount(0);
+  await expect(page.locator('.wordmark-copy strong')).toHaveText(
+    'Gesture Proof',
+  );
+  await expect(page.locator('.wordmark-copy small')).toHaveText(
+    'Read the movement',
+  );
+  const menuToggle = page.getByRole('button', { name: 'Studies' });
+  await expect(menuToggle).toHaveAttribute('aria-expanded', 'false');
+  await menuToggle.click();
+  const experimentIndex = page.getByRole('navigation', {
+    name: 'Experiment index',
+  });
+  await expect(experimentIndex).toBeVisible();
+  await expect(
+    experimentIndex.getByRole('link', { name: /002 Intent Gate/ }),
+  ).toHaveAttribute('aria-current', 'page');
+  await expect(menuToggle).toHaveAttribute('aria-expanded', 'true');
+  await page.keyboard.press('Escape');
+  await expect(menuToggle).toHaveAttribute('aria-expanded', 'false');
+  await expect(menuToggle).toBeFocused();
   await expect(page.getByRole('status')).toContainText(
     'Camera permission has not been requested',
   );

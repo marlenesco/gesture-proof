@@ -1,4 +1,6 @@
 import './styles.css';
+import './research-spine.css';
+import './research-navigation';
 
 import type { HandTracker } from './engine/contracts';
 import { LandmarkExplorer } from './experience/landmark-explorer';

@@ -62,7 +62,7 @@ function ratioForScenario(
   }
 }
 
-function shapePinch(
+export function shapePinch(
   hand: HandObservation,
   targetRatio: number,
   timestampMs: number,
