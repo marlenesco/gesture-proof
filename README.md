@@ -68,11 +68,10 @@ pnpm format       # format repository files
 
 1. [`project-context.md`](./project-context.md)
 2. [`AGENTS.md`](./AGENTS.md)
-3. [`KICKOFF_PROMPT.md`](./KICKOFF_PROMPT.md)
-4. [`docs/experiments/001-landmark-explorer.md`](./docs/experiments/001-landmark-explorer.md)
-5. [`docs/experiments/002-intent-gate.md`](./docs/experiments/002-intent-gate.md)
-6. [`docs/experiments/003-gesture-calibration-bench.md`](./docs/experiments/003-gesture-calibration-bench.md)
-7. [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md)
+3. [`docs/experiments/001-landmark-explorer.md`](./docs/experiments/001-landmark-explorer.md)
+4. [`docs/experiments/002-intent-gate.md`](./docs/experiments/002-intent-gate.md)
+5. [`docs/experiments/003-gesture-calibration-bench.md`](./docs/experiments/003-gesture-calibration-bench.md)
+6. [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md)
 
 ## Repository map
 

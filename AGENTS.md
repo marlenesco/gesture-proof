@@ -17,7 +17,6 @@ Read these files before changing code:
 2. `project-context.md`
 3. relevant brief under `docs/experiments/`
 4. accepted ADRs under `docs/decisions/`
-5. `KICKOFF_PROMPT.md` when starting Experiment 001
 
 If documents conflict, stop and report the conflict. Do not silently invent a
 new product direction.
