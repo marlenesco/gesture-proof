@@ -151,13 +151,22 @@ and `unknown` for ambiguous or missing evidence.
 
 See `docs/experiments/004-gesture-state-matrix.md`.
 
+**005 — Motion Field**
+
+Question: can timestamp-derived palm motion drive a persistent effect through a
+clean signal boundary that never exposes raw tracker landmarks to the renderer?
+
+Deliverable: a stable-owner velocity signal with smoothing, jump and gap
+rejection, dropout behavior, confirmed gesture force laws, deterministic motion
+fixtures, and a fixed-size particle buffer.
+
+See `docs/experiments/005-motion-field.md`.
+
 ## Candidate follow-ups
 
-1. Motion Field — hand velocity creates a persistent displacement or particle
-   field.
-2. Photo Conductor — gestures modulate a still image without touching controls.
-3. Temporal Sculpture — movement writes into layered video history.
-4. Intent Lens — a user-defined spatial region becomes a private processing
+1. Photo Conductor — gestures modulate a still image without touching controls.
+2. Temporal Sculpture — movement writes into layered video history.
+3. Intent Lens — a user-defined spatial region becomes a private processing
    boundary for color, text, or visual transformations.
 
 ## Non-goals
