@@ -1,4 +1,6 @@
 import './intent-gate.css';
+import './research-spine.css';
+import './research-navigation';
 
 import type { HandTracker } from './engine/contracts';
 import { IntentGate } from './experience/intent-gate';

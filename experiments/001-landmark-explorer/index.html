@@ -9,19 +9,72 @@
     />
     <title>Landmark Explorer — Gesture Proof</title>
   </head>
-  <body>
+  <body data-current-study="001">
     <header class="site-header">
       <a class="wordmark" href="%BASE_URL%" aria-label="Gesture Proof home">
-        <span>GP</span>
-        <span class="wordmark-index">/ 001</span>
+        <svg
+          class="brand-logo"
+          viewBox="-5 69 1010 1010"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <g fill="#adadad">
+            <rect
+              x="228.34"
+              y="83.96"
+              width="100.07"
+              height="380.69"
+              transform="translate(275.5 -116.5) rotate(45)"
+            />
+            <rect
+              x="348.05"
+              y="150.24"
+              width="100.07"
+              height="424.96"
+              transform="translate(373.07 -175.25) rotate(45)"
+            />
+            <rect
+              x="458.37"
+              y="239.18"
+              width="100.07"
+              height="442.67"
+              transform="translate(474.54 -224.61) rotate(45)"
+            />
+            <rect
+              x="448.54"
+              y="653.15"
+              width="50.62"
+              height="100.07"
+              transform="translate(-358.44 541.02) rotate(-45)"
+            />
+            <polygon
+              points="560.43 545.84 489.67 616.6 593.73 720.66 492.17 822.23 75.93 405.99 5.17 476.75 492.17 963.75 735.25 720.66 560.43 545.84"
+            />
+            <path
+              d="M835.98 341.89c-12.78-12.78-22.07-27.76-27.87-43.72L593.73 512.55l70.76 70.76 213.99-213.99c-15.51-5.83-30.04-14.97-42.5-27.43Z"
+            />
+          </g>
+          <circle cx="920.9" cy="256.97" r="72.99" fill="#d83b20" />
+        </svg>
+        <span class="wordmark-copy">
+          <strong>Gesture Proof</strong>
+          <small>Read the movement</small>
+        </span>
       </a>
       <p class="privacy-mark">
         <span class="privacy-dot" aria-hidden="true"></span>
-        On-device / no capture leaves browser
+        Foundation / revise · local
       </p>
-      <a class="notes-link" href="%BASE_URL%experiments/002-intent-gate/"
-        >Next experiment →</a
+      <button
+        class="research-menu-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="research-menu"
+        aria-haspopup="dialog"
       >
+        <span>Studies</span>
+        <span class="burger-mark" aria-hidden="true"><i></i><i></i></span>
+      </button>
     </header>
 
     <main>
@@ -186,49 +239,139 @@
 
           <div class="final-actions">
             <button id="reset-experiment" type="button">Reset</button>
-            <a href="#notes">Read findings ↓</a>
+            <a href="#notes">Open record ↓</a>
           </div>
         </div>
       </section>
 
-      <section class="notes" id="notes" aria-labelledby="notes-title">
-        <header class="notes-intro">
+      <a class="record-handoff" href="#notes">
+        <span>Continue research spine</span>
+        <b>Experiment record / 001</b>
+        <span aria-hidden="true">↓</span>
+      </a>
+
+      <section
+        class="notes research-record"
+        id="notes"
+        aria-labelledby="notes-title"
+      >
+        <header class="record-header">
           <p class="section-kicker">Experiment record / 001</p>
           <h2 id="notes-title">Signal before effect.</h2>
-          <p>
-            This study exposes tracking mechanics. Use fixture sequences to
-            inspect failure behavior without granting camera access.
-          </p>
+          <dl class="record-meta">
+            <div>
+              <dt>Phase</dt>
+              <dd>Observe the signal</dd>
+            </div>
+            <div>
+              <dt>Study status</dt>
+              <dd>Physical validation pending</dd>
+            </div>
+            <div>
+              <dt>Decision</dt>
+              <dd class="record-decision-value">Revise</dd>
+            </div>
+          </dl>
         </header>
 
-        <div class="notes-grid">
-          <article>
-            <span>01</span>
-            <h3>Coordinates stay explicit</h3>
-            <p>
-              Tracker values remain normalized. Mirroring happens only when
-              source and landmarks reach display space.
-            </p>
+        <div class="record-flow">
+          <article class="record-entry">
+            <header>
+              <span class="record-index">01</span>
+              <p class="record-label">Question</p>
+            </header>
+            <div><h3>What does the tracker actually see?</h3></div>
           </article>
-          <article>
-            <span>02</span>
-            <h3>Uncertainty remains visible</h3>
-            <p>
-              Line weight follows confidence. Dropout, jitter, crossing, and
-              rapid motion fixtures remain inspectable and repeatable.
-            </p>
+          <article class="record-entry">
+            <header>
+              <span class="record-index">02</span>
+              <p class="record-label">Hypothesis</p>
+            </header>
+            <div>
+              <p>
+                Exposing normalized coordinates, confidence, timing, and palm
+                scale before any effect will make tracking limits legible.
+              </p>
+            </div>
           </article>
-          <article>
-            <span>03</span>
-            <h3>Capture stays temporary</h3>
-            <p>
-              No backend, storage, or telemetry. Camera tracks and temporary
-              image URLs are disposed during mode changes and teardown.
-            </p>
+          <article class="record-entry">
+            <header>
+              <span class="record-index">03</span>
+              <p class="record-label">Observed</p>
+            </header>
+            <div>
+              <ul>
+                <li>Tracker coordinates remain normalized until display.</li>
+                <li>Confidence visibly changes line weight.</li>
+                <li>
+                  Deterministic jitter, dropout, crossing, and motion remain
+                  repeatable.
+                </li>
+                <li>
+                  Camera tracks and temporary image URLs are disposed on
+                  teardown.
+                </li>
+              </ul>
+            </div>
+          </article>
+          <article class="record-entry">
+            <header>
+              <span class="record-index">04</span>
+              <p class="record-label">Measured</p>
+            </header>
+            <div>
+              <dl class="record-values">
+                <div>
+                  <dt>Fixture input</dt>
+                  <dd>1280 × 720</dd>
+                </div>
+                <div>
+                  <dt>Display observed</dt>
+                  <dd>120 Hz</dd>
+                </div>
+                <div>
+                  <dt>Blank-image inference</dt>
+                  <dd>65.9 ms</dd>
+                </div>
+              </dl>
+              <p class="record-caveat">
+                Single-machine reference only; not a sustained camera claim.
+              </p>
+            </div>
+          </article>
+          <article class="record-entry">
+            <header>
+              <span class="record-index">05</span>
+              <p class="record-label">Not yet proven</p>
+            </header>
+            <div>
+              <p>
+                Physical camera performance, hand identity through crossings,
+                varied lighting, and real-device behavior still require study.
+              </p>
+            </div>
+          </article>
+          <article class="record-entry record-entry--decision">
+            <header>
+              <span class="record-index">06</span>
+              <p class="record-label">Decision / revise</p>
+            </header>
+            <div>
+              <h3>Keep the signal architecture. Expand physical evidence.</h3>
+              <p>
+                The explorer explains uncertainty without narration. Retain the
+                fixture library and normalized geometry; do not treat current
+                measurements as device coverage.
+              </p>
+            </div>
           </article>
         </div>
 
-        <a class="return-action" href="#experiment">Return to experiment ↑</a>
+        <nav class="record-pagination" aria-label="Experiment sequence">
+          <a href="#experiment">Workspace ↑</a>
+          <a href="%BASE_URL%#experiments">All studies</a>
+          <a href="%BASE_URL%experiments/002-intent-gate/">Next / 002 →</a>
+        </nav>
       </section>
     </main>
 

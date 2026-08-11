@@ -1,4 +1,6 @@
 import './calibration-bench.css';
+import './research-spine.css';
+import './research-navigation';
 
 import type { HandTracker } from './engine/contracts';
 import { GestureCalibrationBench } from './experience/calibration-bench';

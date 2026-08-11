@@ -9,14 +9,71 @@
     />
     <title>Gesture Proof</title>
     <link rel="stylesheet" href="/src/home.css" />
+    <link rel="stylesheet" href="/src/research-spine.css" />
   </head>
-  <body>
+  <body data-current-study="index">
     <header class="lab-header">
       <a class="wordmark" href="%BASE_URL%" aria-label="Gesture Proof home">
-        GP <span>/ INDEX</span>
+        <svg
+          class="brand-logo"
+          viewBox="-5 69 1010 1010"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <g fill="#adadad">
+            <rect
+              x="228.34"
+              y="83.96"
+              width="100.07"
+              height="380.69"
+              transform="translate(275.5 -116.5) rotate(45)"
+            />
+            <rect
+              x="348.05"
+              y="150.24"
+              width="100.07"
+              height="424.96"
+              transform="translate(373.07 -175.25) rotate(45)"
+            />
+            <rect
+              x="458.37"
+              y="239.18"
+              width="100.07"
+              height="442.67"
+              transform="translate(474.54 -224.61) rotate(45)"
+            />
+            <rect
+              x="448.54"
+              y="653.15"
+              width="50.62"
+              height="100.07"
+              transform="translate(-358.44 541.02) rotate(-45)"
+            />
+            <polygon
+              points="560.43 545.84 489.67 616.6 593.73 720.66 492.17 822.23 75.93 405.99 5.17 476.75 492.17 963.75 735.25 720.66 560.43 545.84"
+            />
+            <path
+              d="M835.98 341.89c-12.78-12.78-22.07-27.76-27.87-43.72L593.73 512.55l70.76 70.76 213.99-213.99c-15.51-5.83-30.04-14.97-42.5-27.43Z"
+            />
+          </g>
+          <circle cx="920.9" cy="256.97" r="72.99" fill="#d83b20" />
+        </svg>
+        <span class="wordmark-copy">
+          <strong>Gesture Proof</strong>
+          <small>Read the movement</small>
+        </span>
       </a>
       <p><i aria-hidden="true"></i> On-device laboratory</p>
-      <a href="#experiments">Experiments ↓</a>
+      <button
+        class="research-menu-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="research-menu"
+        aria-haspopup="dialog"
+      >
+        <span>Studies</span>
+        <span class="burger-mark" aria-hidden="true"><i></i><i></i></span>
+      </button>
     </header>
 
     <main>
@@ -36,12 +93,16 @@
           spectacle.
         </p>
         <a
-          class="hero-action"
+          class="current-study"
           href="%BASE_URL%experiments/003-gesture-calibration-bench/"
         >
-          Run current experiment <span aria-hidden="true">↗</span>
+          <span>Current study</span>
+          <strong>003 / Gesture Calibration Bench</strong>
+          <i aria-hidden="true">↗</i>
         </a>
-        <p class="hero-index">03 experiments / 01 active question</p>
+        <p class="hero-index">
+          03 studies / 02 revisions / 01 active validation
+        </p>
       </section>
 
       <section
@@ -54,38 +115,58 @@
           <h2 id="list-title">From observation<br />to intent.</h2>
         </header>
 
-        <ol>
-          <li>
-            <a href="%BASE_URL%experiments/001-landmark-explorer/">
-              <span class="number">001</span>
-              <span class="experiment-name">Landmark Explorer</span>
-              <span class="question">What does the tracker actually see?</span>
-              <span class="state">Foundation / live</span>
-              <span class="arrow" aria-hidden="true">↗</span>
-            </a>
-          </li>
-          <li>
-            <a href="%BASE_URL%experiments/002-intent-gate/">
-              <span class="number">002</span>
-              <span class="experiment-name">Intent Gate</span>
-              <span class="question">When does a pinch become intent?</span>
-              <span class="state">Study / live</span>
-              <span class="arrow" aria-hidden="true">↗</span>
-            </a>
-          </li>
-          <li>
-            <a href="%BASE_URL%experiments/003-gesture-calibration-bench/">
-              <span class="number">003</span>
-              <span class="experiment-name">Gesture Calibration Bench</span>
-              <span class="question"
-                >Can local calibration improve two gesture families?</span
-              >
-              <span class="state">Current / live</span>
-              <span class="arrow" aria-hidden="true">↗</span>
-            </a>
-          </li>
-        </ol>
+        <div class="spine-sequence">
+          <section class="research-phase" aria-labelledby="phase-observe">
+            <header class="phase-marker">
+              <span>Phase 01</span>
+              <h3 id="phase-observe">Observe the signal</h3>
+            </header>
+            <ol start="1">
+              <li>
+                <a href="%BASE_URL%experiments/001-landmark-explorer/">
+                  <span class="number">001</span>
+                  <span class="experiment-name">Landmark Explorer</span>
+                  <span class="question"
+                    >What does the tracker actually see?</span
+                  >
+                  <span class="state">Decision / revise</span>
+                  <span class="arrow" aria-hidden="true">↗</span>
+                </a>
+              </li>
+            </ol>
+          </section>
+
+          <section class="research-phase" aria-labelledby="phase-intent">
+            <header class="phase-marker">
+              <span>Phase 02</span>
+              <h3 id="phase-intent">Name intent</h3>
+            </header>
+            <ol start="2">
+              <li>
+                <a href="%BASE_URL%experiments/002-intent-gate/">
+                  <span class="number">002</span>
+                  <span class="experiment-name">Intent Gate</span>
+                  <span class="question">When does a pinch become intent?</span>
+                  <span class="state">Decision / revise</span>
+                  <span class="arrow" aria-hidden="true">↗</span>
+                </a>
+              </li>
+              <li>
+                <a href="%BASE_URL%experiments/003-gesture-calibration-bench/">
+                  <span class="number">003</span>
+                  <span class="experiment-name">Gesture Calibration Bench</span>
+                  <span class="question"
+                    >Can local calibration improve two gesture families?</span
+                  >
+                  <span class="state">Validation / active</span>
+                  <span class="arrow" aria-hidden="true">↗</span>
+                </a>
+              </li>
+            </ol>
+          </section>
+        </div>
       </section>
     </main>
+    <script type="module" src="/src/research-navigation.ts"></script>
   </body>
 </html>

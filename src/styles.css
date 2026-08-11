@@ -87,19 +87,6 @@ a {
   text-transform: uppercase;
 }
 
-.wordmark {
-  display: inline-flex;
-  width: max-content;
-  gap: 0.55rem;
-  align-items: baseline;
-  font-weight: 760;
-  text-decoration: none;
-}
-
-.wordmark-index {
-  color: var(--accent);
-}
-
 .privacy-mark {
   display: flex;
   margin: 0;
@@ -641,97 +628,6 @@ h1 span:last-child {
   text-decoration: none;
 }
 
-.notes {
-  min-height: 100svh;
-  padding: clamp(5rem, 10vw, 10rem) clamp(1.5rem, 7vw, 7.5rem) 4rem;
-  background: #e9e3d8;
-  color: #151718;
-}
-
-.notes .section-kicker {
-  color: #d83b20;
-}
-
-.notes-intro {
-  display: grid;
-  grid-template-columns: minmax(12rem, 0.6fr) minmax(20rem, 1fr);
-  align-items: end;
-  gap: 1rem 4rem;
-}
-
-.notes-intro .section-kicker {
-  grid-column: 1 / -1;
-}
-
-.notes-intro h2 {
-  max-width: 7ch;
-  margin: 0;
-  font-size: clamp(3.5rem, 7.5vw, 8rem);
-  font-weight: 580;
-  letter-spacing: -0.075em;
-  line-height: 0.84;
-}
-
-.notes-intro > p:last-child {
-  max-width: 38rem;
-  margin: 0 0 0.5rem;
-  color: #5e5c57;
-  font-size: clamp(1rem, 1.55vw, 1.3rem);
-  line-height: 1.5;
-}
-
-.notes-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  margin-top: clamp(5rem, 9vw, 9rem);
-  border-top: 1px solid rgba(21, 23, 24, 0.3);
-}
-
-.notes-grid article {
-  min-height: 19rem;
-  padding: 1.5rem 2.5rem 2rem 0;
-  border-right: 1px solid rgba(21, 23, 24, 0.2);
-}
-
-.notes-grid article + article {
-  padding-left: 2.5rem;
-}
-
-.notes-grid article:last-child {
-  border-right: 0;
-}
-
-.notes-grid span {
-  font-family: var(--mono);
-  font-size: 0.68rem;
-}
-
-.notes-grid h3 {
-  max-width: 12ch;
-  margin: 4rem 0 1rem;
-  font-size: clamp(1.4rem, 2vw, 2rem);
-  font-weight: 600;
-  letter-spacing: -0.04em;
-}
-
-.notes-grid p {
-  max-width: 30rem;
-  margin: 0;
-  color: #65615b;
-  line-height: 1.55;
-}
-
-.return-action {
-  display: block;
-  width: max-content;
-  margin-top: 3rem;
-  border-bottom: 1px solid rgba(21, 23, 24, 0.4);
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  text-decoration: none;
-  text-transform: uppercase;
-}
-
 @keyframes privacy-pulse {
   60%,
   100% {
@@ -884,39 +780,6 @@ h1 span:last-child {
 
   .axis-label {
     display: none;
-  }
-
-  .notes {
-    padding: 5rem 1.25rem 3rem;
-  }
-
-  .notes-intro {
-    display: block;
-  }
-
-  .notes-intro h2 {
-    font-size: clamp(4rem, 20vw, 6rem);
-  }
-
-  .notes-intro > p:last-child {
-    margin-top: 2rem;
-  }
-
-  .notes-grid {
-    grid-template-columns: 1fr;
-    margin-top: 4rem;
-  }
-
-  .notes-grid article,
-  .notes-grid article + article {
-    min-height: 0;
-    padding: 1.5rem 0 3rem;
-    border-right: 0;
-    border-bottom: 1px solid rgba(21, 23, 24, 0.2);
-  }
-
-  .notes-grid h3 {
-    margin-top: 2.5rem;
   }
 }
 
