@@ -1,5 +1,5 @@
 type Study = {
-  readonly number: '001' | '002' | '003' | '004';
+  readonly number: '001' | '002' | '003' | '004' | '005';
   readonly title: string;
   readonly question: string;
   readonly state: string;
@@ -35,7 +35,14 @@ const studies = [
     state: 'Active validation',
     path: 'experiments/004-gesture-state-matrix/',
   },
-] satisfies readonly [Study, Study, Study, Study];
+  {
+    number: '005',
+    title: 'Motion Field',
+    question: 'Can palm velocity drive an effect through a clean boundary?',
+    state: 'Active validation',
+    path: 'experiments/005-motion-field/',
+  },
+] satisfies readonly [Study, Study, Study, Study, Study];
 
 function linkFor(path: string): string {
   const base = import.meta.env.BASE_URL.endsWith('/')
@@ -97,9 +104,11 @@ function initResearchNavigation(): void {
         </ol>
         <p class="research-menu-phase"><span>Phase 03</span> Compose vocabulary</p>
         <ol start="4">${studyMarkup(studies[3], currentStudy)}</ol>
+        <p class="research-menu-phase"><span>Phase 04</span> Make movement material</p>
+        <ol start="5">${studyMarkup(studies[4], currentStudy)}</ol>
       </nav>
       <footer>
-        <span>04 studies</span><span>On-device / no capture leaves browser</span>
+        <span>05 studies</span><span>On-device / no capture leaves browser</span>
       </footer>
     </div>`;
 

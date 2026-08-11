@@ -1,7 +1,7 @@
 # Roadmap
 
-Current position: Experiments 001–004 are implemented. Experiment 004 compares
-five gesture families through one temporal winner-margin contract.
+Current position: Experiments 001–005 are implemented. Experiment 005 turns a
+stable, timestamp-derived palm motion signal into a fixed-buffer particle field.
 Physical-camera, lighting, occlusion, diversity, and device measurements remain
 required before the studies can be concluded.
 
@@ -38,7 +38,9 @@ Exit: choose two signals that feel controllable across diverse conditions.
 
 ## Phase 3 — Make movement material
 
-- three small effects, each proving a different signal quality
+- Experiment 005: Motion Field — normalized palm velocity and confirmed gesture
+  modes drive a persistent fixed-buffer field
+- two further small effects, each proving a different signal quality
 - still-image and live-video paths
 - effect performance comparison
 

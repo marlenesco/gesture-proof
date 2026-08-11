@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Turn timestamp-derived palm velocity and confirmed gestures into an inspectable local particle field."
+    />
+    <title>Motion Field — Gesture Proof</title>
+  </head>
+  <body data-current-study="005">
+    <header class="site-header">
+      <a class="wordmark" href="%BASE_URL%" aria-label="Gesture Proof home">
+        <svg
+          class="brand-logo"
+          viewBox="0 0 48 48"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path
+            fill="currentColor"
+            d="M7 28 24 11l4 4-9 9 4 4 12-12 4 4-16 16-8-8-4 4 13 13-4 4L7 36a6 6 0 0 1 0-8Z"
+          />
+          <circle cx="39" cy="8" r="4" fill="#b9ff35" />
+        </svg>
+        <span class="wordmark-copy">
+          <strong>Gesture Proof</strong>
+          <small>Read the movement</small>
+        </span>
+      </a>
+      <p class="privacy-mark">
+        <i aria-hidden="true"></i> Material / active · local
+      </p>
+      <button
+        class="research-menu-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="research-menu"
+        aria-haspopup="dialog"
+      >
+        <span>Studies</span>
+        <span class="burger-mark" aria-hidden="true"><i></i><i></i></span>
+      </button>
+    </header>
+
+    <main>
+      <section
+        class="matrix motion-field"
+        id="motion-field"
+        data-active="false"
+        data-motion-phase="unknown"
+        aria-labelledby="motion-title"
+      >
+        <div class="visual-plane">
+          <canvas
+            id="motion-landmarks"
+            aria-label="Hand landmarks behind a persistent velocity field"
+          ></canvas>
+          <canvas id="motion-effect" aria-hidden="true"></canvas>
+          <video id="motion-video" playsinline muted hidden></video>
+
+          <p class="axis axis--score" aria-hidden="true">
+            VELOCITY / ELAPSED TIME
+          </p>
+          <p class="axis axis--margin" aria-hidden="true">
+            FIXED BUFFER / 320 PARTICLES
+          </p>
+
+          <div class="hero-copy">
+            <p class="eyebrow">Experiment 005 / Make movement material</p>
+            <h1 id="motion-title"><span>Motion</span><span>Field</span></h1>
+            <p class="lede">
+              Direction leaves a wake. Confirmed gestures change the force law,
+              never the privacy boundary.
+            </p>
+            <div class="hero-actions">
+              <button
+                class="primary-action"
+                id="motion-start-camera"
+                type="button"
+              >
+                <span>Start camera</span><span aria-hidden="true">↗</span>
+              </button>
+              <button
+                class="text-action"
+                id="motion-start-fixture"
+                type="button"
+              >
+                Run horizontal sweep
+              </button>
+            </div>
+            <p class="permission-copy">
+              Camera starts only after click. Frames, landmarks, signals, and
+              particles stay inside this browser.
+            </p>
+          </div>
+
+          <div class="controls" aria-label="Motion Field controls">
+            <div class="mode-switch" role="group" aria-label="Input source">
+              <button type="button" data-motion-input="camera">Camera</button>
+              <button type="button" data-motion-input="fixture">Fixture</button>
+            </div>
+            <label class="select-control" for="motion-scenario">
+              <span>Motion</span>
+              <select id="motion-scenario">
+                <option value="horizontal-sweep">Horizontal sweep</option>
+                <option value="speed-steps">Speed steps</option>
+                <option value="direction-change">Direction change</option>
+                <option value="stillness">Sub-threshold stillness</option>
+                <option value="dropout">Short + long dropout</option>
+                <option value="two-hand-owner">Two-hand owner</option>
+                <option value="left-mirrored">Left + mirrored</option>
+              </select>
+            </label>
+            <div class="toggles">
+              <label
+                ><input id="motion-overlay" type="checkbox" checked />
+                Skeleton</label
+              >
+              <label
+                ><input id="motion-mirror" type="checkbox" checked />
+                Mirror</label
+              >
+            </div>
+          </div>
+
+          <section class="score-panel" aria-labelledby="field-title">
+            <header>
+              <p class="section-kicker">Material response</p>
+              <h2 id="field-title">Live field</h2>
+            </header>
+            <dl class="field-vitals">
+              <div>
+                <dt>Force law</dt>
+                <dd id="motion-field-mode">TRACE</dd>
+              </div>
+              <div>
+                <dt>Confirmed gesture</dt>
+                <dd id="motion-gesture">—</dd>
+              </div>
+              <div>
+                <dt>Particles</dt>
+                <dd id="motion-particles">0</dd>
+              </div>
+              <div>
+                <dt>Display / inference</dt>
+                <dd id="motion-performance">0 / 0 fps</dd>
+              </div>
+            </dl>
+          </section>
+
+          <section class="decision-panel" aria-labelledby="signal-title">
+            <p class="section-kicker">Signal boundary</p>
+            <h2 id="signal-title">Palm motion</h2>
+            <dl>
+              <div>
+                <dt>Phase</dt>
+                <dd id="motion-phase">UNKNOWN</dd>
+              </div>
+              <div>
+                <dt>Speed</dt>
+                <dd><span id="motion-speed">0.000</span> frame/s</dd>
+              </div>
+              <div>
+                <dt>Palm speed</dt>
+                <dd><span id="motion-palm-speed">0.00</span> palm/s</dd>
+              </div>
+              <div>
+                <dt>Vector</dt>
+                <dd id="motion-vector">0.00, 0.00</dd>
+              </div>
+              <div>
+                <dt>Owner</dt>
+                <dd id="motion-owner">—</dd>
+              </div>
+              <div>
+                <dt>Reason</dt>
+                <dd id="motion-reason">evidence missing</dd>
+              </div>
+            </dl>
+            <p id="motion-fixture-label">No motion selected</p>
+          </section>
+
+          <section
+            class="timeline-panel field-contract"
+            aria-label="Field contract"
+          >
+            <p class="section-kicker">Effect boundary</p>
+            <p>
+              Motion signal + confirmed gesture → fixed particle buffer. Raw
+              landmarks stop before the renderer.
+            </p>
+          </section>
+
+          <div class="status-line" data-state="idle">
+            <i aria-hidden="true"></i>
+            <p id="motion-status" role="status" aria-live="polite">
+              Ready. Camera permission has not been requested.
+            </p>
+          </div>
+          <button class="reset-action" id="motion-reset" type="button">
+            Reset experiment
+          </button>
+        </div>
+      </section>
+
+      <a class="record-handoff" href="#notes">
+        <span>Continue research spine</span>
+        <b>Experiment record / 005</b>
+        <span aria-hidden="true">↓</span>
+      </a>
+
+      <section class="research-record" id="notes" aria-labelledby="notes-title">
+        <header class="record-header">
+          <p class="section-kicker">Experiment record / 005</p>
+          <h2 id="notes-title">Direction becomes material.</h2>
+          <dl class="record-meta">
+            <div>
+              <dt>Phase</dt>
+              <dd>Make movement material</dd>
+            </div>
+            <div>
+              <dt>Study status</dt>
+              <dd>Physical validation pending</dd>
+            </div>
+            <div>
+              <dt>Decision</dt>
+              <dd class="record-decision-value">Revise</dd>
+            </div>
+          </dl>
+        </header>
+        <div class="record-flow">
+          <article class="record-entry">
+            <header>
+              <span class="record-index">01</span>
+              <p class="record-label">Question</p>
+            </header>
+            <div>
+              <h3>
+                Can palm velocity drive an effect through a clean signal
+                boundary?
+              </h3>
+            </div>
+          </article>
+          <article class="record-entry">
+            <header>
+              <span class="record-index">02</span>
+              <p class="record-label">Hypothesis</p>
+            </header>
+            <div>
+              <p>
+                Stable ownership, elapsed-time velocity, smoothing, jump
+                rejection, and confirmed gesture modes should create a field
+                that is expressive without exposing tracker internals.
+              </p>
+            </div>
+          </article>
+          <article class="record-entry">
+            <header>
+              <span class="record-index">03</span>
+              <p class="record-label">Deterministic evidence</p>
+            </header>
+            <div>
+              <ul>
+                <li>Direction reverses without a frame-count dependency.</li>
+                <li>Stillness remains below motion hysteresis.</li>
+                <li>Long gaps and impossible jumps restart acquisition.</li>
+                <li>Short dropout freezes velocity; long dropout expires.</li>
+                <li>One owner remains stable when a second hand appears.</li>
+              </ul>
+            </div>
+          </article>
+          <article class="record-entry">
+            <header>
+              <span class="record-index">04</span>
+              <p class="record-label">Renderer contract</p>
+            </header>
+            <div>
+              <dl class="record-values">
+                <div>
+                  <dt>Capacity</dt>
+                  <dd>320</dd>
+                </div>
+                <div>
+                  <dt>Gap limit</dt>
+                  <dd>160 ms</dd>
+                </div>
+                <div>
+                  <dt>Dropout grace</dt>
+                  <dd>120 ms</dd>
+                </div>
+              </dl>
+            </div>
+          </article>
+          <article class="record-entry">
+            <header>
+              <span class="record-index">05</span>
+              <p class="record-label">Not yet proven</p>
+            </header>
+            <div>
+              <p>
+                Physical direction error, camera-rate stability, blur,
+                occlusion, lighting, varied devices, and the five gesture force
+                laws still require real-hand measurement.
+              </p>
+            </div>
+          </article>
+          <article class="record-entry record-entry--decision">
+            <header>
+              <span class="record-index">06</span>
+              <p class="record-label">Decision / revise</p>
+            </header>
+            <div>
+              <h3>
+                Keep the signal boundary. Tune force laws with physical
+                evidence.
+              </h3>
+              <p>
+                Deterministic motion proves the architecture and failure
+                behavior, not the expressive quality of real tracking yet.
+              </p>
+            </div>
+          </article>
+        </div>
+        <nav class="record-pagination" aria-label="Experiment sequence">
+          <a href="%BASE_URL%experiments/004-gesture-state-matrix/"
+            >← Prev / 004</a
+          >
+          <a href="%BASE_URL%#experiments">All studies</a>
+          <a href="#motion-field">Workspace ↑</a>
+        </nav>
+      </section>
+    </main>
+    <script type="module" src="/src/motion-field-main.ts"></script>
+  </body>
+</html>
