@@ -31,6 +31,10 @@ export default defineConfig({
           import.meta.dirname,
           'experiments/004-gesture-state-matrix/index.html',
         ),
+        motionField: resolve(
+          import.meta.dirname,
+          'experiments/005-motion-field/index.html',
+        ),
       },
     },
   },
