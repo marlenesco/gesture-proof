@@ -47,6 +47,18 @@ test('initial state never requests camera permission', async ({ page }) => {
   await expect(
     page.getByRole('heading', { name: 'Landmark Explorer' }),
   ).toBeVisible();
+  const menuToggle = page.getByRole('button', { name: 'Studies' });
+  await expect(menuToggle).toHaveAttribute('aria-expanded', 'false');
+  await menuToggle.click();
+  const experimentIndex = page.getByRole('navigation', {
+    name: 'Experiment index',
+  });
+  await expect(experimentIndex).toBeVisible();
+  await expect(
+    experimentIndex.getByRole('link', { name: /001 Landmark Explorer/ }),
+  ).toHaveAttribute('aria-current', 'page');
+  await page.keyboard.press('Escape');
+  await expect(menuToggle).toBeFocused();
   await expect(
     page.getByRole('button', { name: 'Start camera' }),
   ).toBeVisible();
@@ -63,7 +75,7 @@ test('fixture path works without camera or model', async ({ page }) => {
   await page.getByRole('button', { name: 'Use no-camera fixture' }).click();
 
   await expect(page.getByRole('status')).toContainText('Fixture playing');
-  await expect(page.getByLabel('Sequence')).toBeVisible();
+  await expect(page.locator('#fixture-scenario')).toBeVisible();
   await expect(page.getByLabel('Hand', { exact: true })).toHaveValue(
     'fixture-right',
   );
@@ -76,7 +88,7 @@ test('fixtures expose one hand, two hands, dropout, and recovery', async ({
   await page.goto(EXPERIMENT_PATH);
   await page.getByRole('button', { name: 'Use no-camera fixture' }).click();
   const hand = page.getByLabel('Hand', { exact: true });
-  const scenario = page.getByLabel('Sequence');
+  const scenario = page.locator('#fixture-scenario');
 
   await expect(hand).toHaveValue('fixture-right');
   await scenario.selectOption('crossing');

@@ -49,6 +49,14 @@ test('initial bench remains camera-free and exposes both gestures', async ({
   await expect(
     page.getByRole('heading', { name: 'Calibration Bench' }),
   ).toBeVisible();
+  const menuToggle = page.getByRole('button', { name: 'Studies' });
+  await menuToggle.click();
+  await expect(
+    page
+      .getByRole('navigation', { name: 'Experiment index' })
+      .getByRole('link', { name: /003 Gesture Calibration Bench/ }),
+  ).toHaveAttribute('aria-current', 'page');
+  await page.keyboard.press('Escape');
   await expect(page.locator('#bench-gesture')).toHaveValue('pinch');
   await expect(page.locator('#bench-gesture option')).toHaveText([
     'Pinch',
