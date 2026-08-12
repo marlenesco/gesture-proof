@@ -182,6 +182,10 @@ fixtures, privacy lifecycle, and inspection UI are ready to keep. Do not select
 gesture thresholds or expressive effects until the physical-camera matrix names
 at least three reliable and three unreliable signals.
 
+Method view exposes the local landmark path, coordinate boundary, rejection
+rules, and implementation map through the shareable `#method` hash. It never
+starts camera capture.
+
 Unresolved questions:
 
 - whether main-thread inference stays inside latency budget during sustained

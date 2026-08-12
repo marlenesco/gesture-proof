@@ -121,11 +121,20 @@
                 <span>Start camera</span><span aria-hidden="true">↗</span>
               </button>
               <button
-                class="text-action"
+                class="fixture-action"
                 id="matrix-start-fixture"
                 type="button"
               >
                 Run gesture sequence
+              </button>
+              <button
+                class="method-action"
+                type="button"
+                data-method-open
+                aria-controls="matrix-method"
+                aria-expanded="false"
+              >
+                Method ↗
               </button>
             </div>
             <p class="permission-copy">
@@ -373,6 +382,139 @@
         </nav>
       </section>
     </main>
+    <dialog
+      class="method-panel"
+      id="matrix-method"
+      data-method-panel
+      aria-labelledby="matrix-method-title"
+    >
+      <article class="method-panel__content">
+        <header class="method-panel__header">
+          <div>
+            <p>Method / 004</p>
+            <h2 id="matrix-method-title">Evidence earns intent.</h2>
+          </div>
+          <button class="method-panel__close" type="button" data-method-close>
+            Close ×
+          </button>
+        </header>
+        <div class="method-panel__body">
+          <p class="method-intro">
+            The detector does not name a pose from one frame. It measures five
+            competing, palm-normalized signals, rejects overlap, then confirms
+            one owner over elapsed time.
+          </p>
+          <section class="method-block" aria-labelledby="matrix-method-flow">
+            <header class="method-block__heading">
+              <span>01</span>
+              <h3 id="matrix-method-flow">Signal path</h3>
+            </header>
+            <div
+              class="method-figure method-flow"
+              aria-label="Landmarks become normalized evidence, then a temporal state decision."
+            >
+              <span class="method-flow__node"
+                >Landmarks<small>up to two hands</small></span
+              >
+              <i class="method-flow__arrow"></i>
+              <span class="method-flow__node"
+                >Five scores<small>pose + span ratios</small></span
+              >
+              <i class="method-flow__arrow"></i>
+              <span class="method-flow__node"
+                >State gate<small>hold, release, cooldown</small></span
+              >
+              <i class="method-flow__pulse"></i>
+            </div>
+            <p>
+              Palm scale makes pinch distance and two-hand span comparable
+              across hand sizes. The strongest score still loses when runner-up
+              evidence is too close.
+            </p>
+          </section>
+          <section class="method-block" aria-labelledby="matrix-method-score">
+            <header class="method-block__heading">
+              <span>02</span>
+              <h3 id="matrix-method-score">Competition before certainty</h3>
+            </header>
+            <div
+              class="method-figure method-score-map"
+              aria-label="Illustration of five competing gesture scores and required winner margin."
+            >
+              <div>
+                <span>Pinch</span><i style="--score: 0.28"></i><b>0.28</b>
+              </div>
+              <div>
+                <span>Fist</span><i style="--score: 0.14"></i><b>0.14</b>
+              </div>
+              <div>
+                <span>Open palm</span><i style="--score: 0.61"></i><b>0.61</b>
+              </div>
+              <div>
+                <span>Two-hand span</span><i style="--score: 0.83"></i
+                ><b>0.83</b>
+              </div>
+            </div>
+            <pre
+              class="method-code"
+            ><code>const [winner, runnerUp] = rank(scores);
+const margin = scores[winner] - scores[runnerUp];
+const eligible = scores[winner] >= 0.78 &amp;&amp; margin >= 0.16;</code></pre>
+            <p>
+              Activation needs score ≥ 0.78 and margin ≥ 0.16 for 140 ms.
+              Continuation is easier, but direct handoff still requires release
+              and cooldown.
+            </p>
+          </section>
+          <section class="method-block" aria-labelledby="matrix-method-guard">
+            <header class="method-block__heading">
+              <span>03</span>
+              <h3 id="matrix-method-guard">What gets rejected</h3>
+            </header>
+            <ul>
+              <li>
+                Missing landmarks, impossible geometry, or palm scale below
+                0.02.
+              </li>
+              <li>
+                Competitive evidence: strong winner, insufficient margin →
+                <code>unknown</code>.
+              </li>
+              <li>
+                Identity change, evidence gap, or short hold restart temporal
+                confirmation.
+              </li>
+            </ul>
+          </section>
+          <section class="method-block" aria-labelledby="matrix-method-map">
+            <header class="method-block__heading">
+              <span>04</span>
+              <h3 id="matrix-method-map">Implementation map</h3>
+            </header>
+            <div class="method-map">
+              <div>
+                <code>src/gesture/gesture-state-matrix.ts</code>
+                <p>
+                  Measures normalized scores, ranks evidence, runs temporal
+                  state machine.
+                </p>
+              </div>
+              <div>
+                <code>src/engine/state-matrix-fixtures.ts</code>
+                <p>
+                  Produces deterministic ambiguity, handoff, crossing, and span
+                  evidence.
+                </p>
+              </div>
+              <div>
+                <code>src/effects/gesture-matrix-effect.ts</code>
+                <p>Consumes confirmed signal only; never tracker internals.</p>
+              </div>
+            </div>
+          </section>
+        </div>
+      </article>
+    </dialog>
     <script type="module" src="/src/gesture-state-matrix-main.ts"></script>
   </body>
 </html>

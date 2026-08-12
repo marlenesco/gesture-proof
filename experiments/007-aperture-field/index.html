@@ -82,11 +82,20 @@
                 <span>Start camera</span><span aria-hidden="true">↗</span>
               </button>
               <button
-                class="text-action"
+                class="fixture-action"
                 id="aperture-start-fixture"
                 type="button"
               >
                 Run aperture fixture
+              </button>
+              <button
+                class="method-action"
+                type="button"
+                data-method-open
+                aria-controls="aperture-method"
+                aria-expanded="false"
+              >
+                Method ↗
               </button>
             </div>
             <p class="permission-copy">
@@ -311,6 +320,140 @@
         </nav>
       </section>
     </main>
+    <dialog
+      class="method-panel"
+      id="aperture-method"
+      data-method-panel
+      aria-labelledby="aperture-method-title"
+    >
+      <article class="method-panel__content">
+        <header class="method-panel__header">
+          <div>
+            <p>Method / 007</p>
+            <h2 id="aperture-method-title">A field keeps its anatomy.</h2>
+          </div>
+          <button class="method-panel__close" type="button" data-method-close>
+            Close ×
+          </button>
+        </header>
+        <div class="method-panel__body">
+          <p class="method-intro">
+            Aperture Field derives a local optical boundary from two index-thumb
+            pairs. Geometry is measured before Canvas receives a field; invalid
+            evidence remains inactive.
+          </p>
+          <section class="method-block" aria-labelledby="aperture-method-flow">
+            <header class="method-block__heading">
+              <span>01</span>
+              <h3 id="aperture-method-flow">Anatomical corner order</h3>
+            </header>
+            <div
+              class="method-figure method-topology"
+              aria-label="Four anatomical hand corners form a crossed aperture boundary."
+            >
+              <svg viewBox="0 0 420 180" aria-hidden="true">
+                <path d="M72 42 L330 44 L288 138 L122 137 Z"></path>
+                <circle cx="72" cy="42" r="7"></circle>
+                <circle cx="330" cy="44" r="7"></circle>
+                <circle cx="288" cy="138" r="7"></circle>
+                <circle cx="122" cy="137" r="7"></circle>
+                <text x="42" y="26">LEFT INDEX</text>
+                <text x="300" y="28">RIGHT INDEX</text>
+                <text x="265" y="164">RIGHT THUMB</text>
+                <text x="92" y="164">LEFT THUMB</text>
+              </svg>
+            </div>
+            <p>
+              Corners retain hand anatomy: left index, right index, right thumb,
+              left thumb. Crossing is not repaired into a false rectangle;
+              Canvas clips the bow-tie as two triangles.
+            </p>
+          </section>
+          <section
+            class="method-block"
+            aria-labelledby="aperture-method-contact"
+          >
+            <header class="method-block__heading">
+              <span>02</span>
+              <h3 id="aperture-method-contact">Contact without snap</h3>
+            </header>
+            <pre class="method-code"><code>const corners = [
+  firstContact ?? first.index,
+  secondContact ?? second.index,
+  secondContact ?? second.thumb,
+  firstContact ?? first.thumb,
+];</code></pre>
+            <p>
+              A thumb-index contact duplicates its midpoint into existing slots.
+              Signal stays four-slot; rendering sees a triangle. Activation uses
+              contact ≤ 0.075 palm scale, continuation ≤ 0.12.
+            </p>
+          </section>
+          <section class="method-block" aria-labelledby="aperture-method-gate">
+            <header class="method-block__heading">
+              <span>03</span>
+              <h3 id="aperture-method-gate">Area, time, then optics</h3>
+            </header>
+            <div
+              class="method-figure method-flow"
+              aria-label="Two hands become a normalized area measurement, temporal aperture state, then a local Canvas optic."
+            >
+              <span class="method-flow__node"
+                >Two hands<small>index stays open</small></span
+              >
+              <i class="method-flow__arrow"></i>
+              <span class="method-flow__node"
+                >Area gate<small>palm-normalized</small></span
+              >
+              <i class="method-flow__arrow"></i>
+              <span class="method-flow__node"
+                >Local optic<small>Canvas 2D only</small></span
+              >
+              <i class="method-flow__pulse"></i>
+            </div>
+            <ul>
+              <li>Four corners need area ≥ 1.25 palm-scale² for 180 ms.</li>
+              <li>
+                Triangle gets 68% equivalent-area threshold; continuation allows
+                0.85.
+              </li>
+              <li>
+                Release 120 ms and cooldown 220 ms prevent a flickering field.
+              </li>
+            </ul>
+          </section>
+          <section class="method-block" aria-labelledby="aperture-method-map">
+            <header class="method-block__heading">
+              <span>04</span>
+              <h3 id="aperture-method-map">Implementation map</h3>
+            </header>
+            <div class="method-map">
+              <div>
+                <code>src/gesture/aperture-field.ts</code>
+                <p>
+                  Validates hand evidence, corner topology, normalized area,
+                  hold and release.
+                </p>
+              </div>
+              <div>
+                <code>src/effects/aperture-field-effect.ts</code>
+                <p>
+                  Clips the approved boundary, then draws refraction,
+                  pixelation, or blur locally.
+                </p>
+              </div>
+              <div>
+                <code>src/engine/aperture-fixtures.ts</code>
+                <p>
+                  Exercises steady, small, crossed, jitter, dropout, and
+                  contact-triangle evidence.
+                </p>
+              </div>
+            </div>
+          </section>
+        </div>
+      </article>
+    </dialog>
     <script type="module" src="/src/aperture-field-main.ts"></script>
   </body>
 </html>

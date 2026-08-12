@@ -176,3 +176,6 @@ preserves current values, thresholds, phases, and comparison evidence.
   inactivity, error, and teardown.
 - Physical-camera validation remains pending; no reliability claim is made for
   blur, low light, occlusion, appearance diversity, or real devices yet.
+- Method view exposes the three pipeline comparison, session median thresholds,
+  rejection rules, and implementation map through the shareable `#method` hash.
+  It never starts camera capture.

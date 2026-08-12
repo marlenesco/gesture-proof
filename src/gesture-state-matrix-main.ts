@@ -1,6 +1,8 @@
 import './gesture-state-matrix.css';
+import './method-panel.css';
 import './research-spine.css';
 import './research-navigation';
+import { initMethodPanel } from './method-panel';
 
 import type { HandTracker } from './engine/contracts';
 import { GestureStateMatrixExperience } from './experience/gesture-state-matrix';
@@ -21,3 +23,4 @@ const testTrackerFactory = import.meta.env.DEV
 new GestureStateMatrixExperience(
   testTrackerFactory ? testTrackerFactory() : createMediaPipeHandTracker(),
 );
+initMethodPanel();
