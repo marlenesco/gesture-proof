@@ -1,6 +1,6 @@
 import type { HandObservation, ObservationFrame } from './contracts';
 import { shapeFist } from './calibration-fixtures';
-import { fixtureFrameAt } from './fixtures';
+import { fixtureElapsedAt, fixtureFrameAt } from './fixtures';
 import { shapePinch } from './pinch-fixtures';
 import type { MatrixGesture } from '../gesture/gesture-state-matrix';
 
@@ -235,6 +235,9 @@ export class StateMatrixFixturePlayer {
   }
 
   frame(timestampMs: number): StateMatrixFixtureState {
-    return stateMatrixFixtureAt(this.scenario, timestampMs - this.startedAtMs);
+    return stateMatrixFixtureAt(
+      this.scenario,
+      fixtureElapsedAt(this.startedAtMs, timestampMs),
+    );
   }
 }

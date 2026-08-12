@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
 
-import { FixturePlayer, fixtureFrameAt } from './fixtures';
+import {
+  FIXTURE_PLAYBACK_RATE,
+  FixturePlayer,
+  fixtureElapsedAt,
+  fixtureFrameAt,
+} from './fixtures';
 
 describe('deterministic fixtures', () => {
   it('returns identical observations inside a fixture time step', () => {
@@ -37,5 +42,10 @@ describe('deterministic fixtures', () => {
     player.select('rapid-motion', 9000);
 
     expect(player.frame(9000)).toEqual(first);
+  });
+
+  it('plays public fixture evidence slowly without changing fixture timestamps', () => {
+    expect(fixtureElapsedAt(1000, 2000)).toBe(1000 * FIXTURE_PLAYBACK_RATE);
+    expect(fixtureFrameAt('rapid-motion', 1000).timestampMs).toBe(1000);
   });
 });

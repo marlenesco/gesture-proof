@@ -1,6 +1,6 @@
 import type { HandObservation, ObservationFrame } from './contracts';
 import { shapeFist } from './calibration-fixtures';
-import { fixtureFrameAt } from './fixtures';
+import { fixtureElapsedAt, fixtureFrameAt } from './fixtures';
 import { shapePinch } from './pinch-fixtures';
 
 export const OBJECT_BENCH_FIXTURE_SCENARIOS = [
@@ -206,6 +206,9 @@ export class ObjectBenchFixturePlayer {
   }
 
   frame(timestampMs: number): ObjectBenchFixtureState {
-    return objectBenchFixtureAt(this.scenario, timestampMs - this.startedAtMs);
+    return objectBenchFixtureAt(
+      this.scenario,
+      fixtureElapsedAt(this.startedAtMs, timestampMs),
+    );
   }
 }

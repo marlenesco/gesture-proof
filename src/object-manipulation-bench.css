@@ -182,8 +182,8 @@
   pointer-events: none;
   transform: translateY(0.75rem);
   transition:
-    opacity 180ms ease,
-    transform 220ms ease-out;
+    opacity 260ms ease,
+    transform 320ms ease-out;
   place-items: center;
 }
 

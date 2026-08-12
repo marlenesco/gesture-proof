@@ -111,7 +111,7 @@ a {
     linear-gradient(90deg, rgba(7, 9, 10, 0.84), rgba(7, 9, 10, 0.12) 70%),
     linear-gradient(0deg, rgba(7, 9, 10, 0.45), transparent 42%);
   content: '';
-  transition: opacity 360ms ease;
+  transition: opacity 520ms ease;
 }
 .bench[data-active='true'] .visual-plane::after {
   opacity: 0.52;
@@ -143,9 +143,9 @@ a {
   width: min(58rem, calc(100% - 3rem));
   transform: translateY(-53%);
   transition:
-    top 480ms cubic-bezier(0.22, 1, 0.36, 1),
-    transform 480ms cubic-bezier(0.22, 1, 0.36, 1),
-    width 480ms cubic-bezier(0.22, 1, 0.36, 1);
+    top 680ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 680ms cubic-bezier(0.22, 1, 0.36, 1),
+    width 680ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 .eyebrow,
 .section-kicker {
@@ -212,8 +212,8 @@ h1 span:last-child {
   opacity: 0;
   pointer-events: none;
   transition:
-    opacity 260ms ease,
-    transform 400ms cubic-bezier(0.22, 1, 0.36, 1);
+    opacity 360ms ease,
+    transform 560ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 .bench[data-active='true']
   :is(.controls, .calibration-callout, .comparison, .reset-action) {

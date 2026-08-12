@@ -20,6 +20,18 @@ const FRAME_INTERVAL_MS = 100;
 const SOURCE_WIDTH = 1280;
 const SOURCE_HEIGHT = 720;
 
+// Playback is intentionally slower than fixture time. Recognizers still receive
+// their original timestamp-driven contract; the public demo has room to show
+// acquisition, release, and the change between poses.
+export const FIXTURE_PLAYBACK_RATE = 0.65;
+
+export function fixtureElapsedAt(
+  startedAtMs: number,
+  timestampMs: number,
+): number {
+  return Math.max(0, timestampMs - startedAtMs) * FIXTURE_PLAYBACK_RATE;
+}
+
 const BASE_HAND: readonly NormalizedPoint[] = [
   { x: 0, y: 0.26, z: 0 },
   { x: -0.12, y: 0.17, z: -0.01 },
@@ -240,6 +252,9 @@ export class FixturePlayer {
   }
 
   frame(timestampMs: number): ObservationFrame {
-    return fixtureFrameAt(this.scenario, timestampMs - this.startedAtMs);
+    return fixtureFrameAt(
+      this.scenario,
+      fixtureElapsedAt(this.startedAtMs, timestampMs),
+    );
   }
 }

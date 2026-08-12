@@ -113,7 +113,7 @@ a {
     rgba(7, 9, 10, 0.42) 100%
   );
   content: '';
-  transition: opacity 350ms ease;
+  transition: opacity 500ms ease;
 }
 .gate[data-active='true'] .visual-plane::after {
   opacity: 0.56;
@@ -144,9 +144,9 @@ a {
   width: min(46rem, calc(100% - 3rem));
   transform: translateY(-52%);
   transition:
-    top 480ms cubic-bezier(0.22, 1, 0.36, 1),
-    transform 480ms cubic-bezier(0.22, 1, 0.36, 1),
-    width 480ms cubic-bezier(0.22, 1, 0.36, 1);
+    top 680ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 680ms cubic-bezier(0.22, 1, 0.36, 1),
+    width 680ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 .eyebrow,
 .section-kicker {
@@ -213,8 +213,8 @@ h1 span:last-child {
   opacity: 0;
   pointer-events: none;
   transition:
-    opacity 260ms ease,
-    transform 400ms cubic-bezier(0.22, 1, 0.36, 1);
+    opacity 360ms ease,
+    transform 560ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 .gate[data-active='true'] :is(.controls, .signal, .timeline, .reset-action) {
   visibility: visible;

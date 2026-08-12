@@ -75,7 +75,7 @@ test('deterministic sequence confirms one-hand and two-hand gestures', async ({
   await expect(page.locator('#matrix-winner')).toHaveText('PINCH');
   await expect(page.locator('#matrix-owner')).not.toContainText('+');
   await expect(page.locator('#matrix-winner')).toHaveText('TWO HAND SPAN', {
-    timeout: 5_500,
+    timeout: 7_500,
   });
   await expect(page.locator('#matrix-owner')).toContainText('+');
 });

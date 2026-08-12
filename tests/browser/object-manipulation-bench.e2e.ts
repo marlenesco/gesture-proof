@@ -84,10 +84,10 @@ for (const [scenario, selector, initial] of transformScenarios) {
     await startScenario(page, scenario);
     await expect(page.locator('#object-action')).toHaveText(
       scenario.toUpperCase(),
-      { timeout: 1_500 },
+      { timeout: 3_000 },
     );
     await expect(page.locator(selector)).not.toHaveText(initial, {
-      timeout: 1_500,
+      timeout: 3_000,
     });
   });
 }
