@@ -11,8 +11,15 @@ falls below configured thresholds.
 The web `detectForVideo()` call is synchronous and may block the main UI thread.
 Measure first; move inference to a worker if required and supported.
 
+The official Web guide specifies 21 normalized image landmarks per hand, plus
+world landmarks and handedness. This project keeps image-space coordinates at
+the tracking boundary, uses timestamps in `VIDEO` mode, and treats handedness
+as evidence rather than permanent identity. No gesture-score algorithm change
+is required by this documentation migration.
+
 Primary references:
 
+- https://developers.google.com/edge/mediapipe/solutions/guide
 - https://developers.google.com/edge/mediapipe/solutions/vision/hand_landmarker
 - https://developers.google.com/edge/mediapipe/solutions/vision/hand_landmarker/web_js
 - https://storage.googleapis.com/mediapipe-assets/Model%20Card%20Hand%20Tracking%20%28Lite_Full%29%20with%20Fairness%20Oct%202021.pdf
