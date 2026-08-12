@@ -66,7 +66,7 @@ test('homepage foregrounds Aperture Field while keeping it in the research index
 }) => {
   await page.goto('/');
   await expect(
-    page.getByRole('link', { name: /Explore Aperture Field/ }),
+    page.getByRole('link', { name: /Try Aperture Field/ }),
   ).toHaveAttribute('href', /experiments\/007-aperture-field\/$/);
   await expect(
     page

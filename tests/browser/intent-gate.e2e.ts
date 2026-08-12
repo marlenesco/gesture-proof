@@ -64,8 +64,16 @@ test('index keeps all experiments separate and reachable', async ({ page }) => {
     index.getByRole('link', { name: /Gesture Calibration Bench/ }),
   ).toHaveAttribute('href', '/experiments/003-gesture-calibration-bench/');
   await expect(
-    page.getByRole('link', { name: /Explore Aperture Field/ }),
+    page.getByRole('link', { name: /Try Aperture Field/ }),
   ).toHaveAttribute('href', '/experiments/007-aperture-field/');
+  await expect(
+    page.getByText(
+      'Open a study. Try its deterministic fixture or start your device camera.',
+    ),
+  ).toBeVisible();
+  await expect(
+    page.getByText('Camera starts only after your click.'),
+  ).toBeVisible();
   await expect(
     page.locator('.research-menu-toggle .burger-mark i'),
   ).toHaveCount(3);
