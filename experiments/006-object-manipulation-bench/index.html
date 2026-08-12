@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Manipulate a small local wireframe scene through explicit gesture, pointer, and keyboard contracts."
+    />
+    <title>Object Manipulation Bench — Gesture Proof</title>
+  </head>
+  <body data-current-study="006">
+    <header class="site-header">
+      <a class="wordmark" href="%BASE_URL%" aria-label="Gesture Proof home">
+        <svg
+          class="brand-logo"
+          viewBox="0 0 48 48"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path
+            fill="currentColor"
+            d="M7 28 24 11l4 4-9 9 4 4 12-12 4 4-16 16-8-8-4 4 13 13-4 4L7 36a6 6 0 0 1 0-8Z"
+          />
+          <circle cx="39" cy="8" r="4" fill="#78f4ff" />
+        </svg>
+        <span class="wordmark-copy">
+          <strong>Gesture Proof</strong>
+          <small>Read the movement</small>
+        </span>
+      </a>
+      <p class="privacy-mark">
+        <i aria-hidden="true"></i> Objects / active · local
+      </p>
+      <button
+        class="research-menu-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="research-menu"
+        aria-haspopup="dialog"
+      >
+        <span>Studies</span>
+        <span class="burger-mark" aria-hidden="true"><i></i><i></i></span>
+      </button>
+    </header>
+
+    <main>
+      <section
+        class="matrix object-bench"
+        id="object-bench"
+        data-active="false"
+        data-action="none"
+        aria-labelledby="object-title"
+      >
+        <div class="visual-plane">
+          <canvas
+            id="object-landmarks"
+            aria-label="Hand landmarks behind selected wireframe objects"
+          ></canvas>
+          <canvas
+            id="object-stage"
+            role="img"
+            tabindex="0"
+            aria-label="Interactive wireframe scene. Use gestures, pointer drag, or keyboard controls to move, rotate, and scale the selected cube."
+          ></canvas>
+          <video id="object-video" playsinline muted hidden></video>
+
+          <p class="axis axis--score" aria-hidden="true">
+            CANVAS 2D / 8 VERTICES / 12 EDGES
+          </p>
+          <p class="axis axis--margin" aria-hidden="true">
+            1 INITIAL / 3 DESKTOP / 2 MOBILE
+          </p>
+
+          <div class="hero-copy">
+            <p class="eyebrow">Experiment 006 / Shape intent in space</p>
+            <h1 id="object-title"><span>Object</span><span>Bench</span></h1>
+            <p class="lede">
+              Pinch and move to translate. Close fist, then move to rotate.
+              Spread two open palms to scale. Scene stays small and local.
+            </p>
+            <div class="hero-actions">
+              <button
+                class="primary-action"
+                id="object-start-camera"
+                type="button"
+              >
+                <span>Start camera</span><span aria-hidden="true">↗</span>
+              </button>
+              <button
+                class="text-action"
+                id="object-start-fixture"
+                type="button"
+              >
+                Run manipulation sequence
+              </button>
+            </div>
+            <p class="permission-copy">
+              Camera starts only after click. Scene, frames, landmarks, and
+              transforms stay inside this browser.
+            </p>
+          </div>
+
+          <div class="controls" aria-label="Object Manipulation Bench controls">
+            <div class="mode-switch" role="group" aria-label="Input source">
+              <button type="button" data-object-input="camera">Camera</button>
+              <button type="button" data-object-input="fixture">Fixture</button>
+            </div>
+            <label class="select-control" for="object-scenario">
+              <span>Sequence</span>
+              <select id="object-scenario">
+                <option value="full-sequence">
+                  Full manipulation sequence
+                </option>
+                <option value="translate">Pinch translation</option>
+                <option value="rotate">Fist rotation</option>
+                <option value="scale">Two-hand scale</option>
+                <option value="dropout">Transform dropout</option>
+                <option value="neutral">Neutral evidence</option>
+                <option value="left-mirrored">Left + mirrored</option>
+              </select>
+            </label>
+            <div class="toggles">
+              <label
+                ><input id="object-overlay" type="checkbox" checked />
+                Skeleton</label
+              >
+              <label
+                ><input id="object-mirror" type="checkbox" checked />
+                Mirror</label
+              >
+            </div>
+          </div>
+
+          <section class="decision-panel" aria-labelledby="signal-title">
+            <p class="section-kicker">Manipulation signal</p>
+            <h2 id="signal-title">Locked action</h2>
+            <dl>
+              <div>
+                <dt>Phase</dt>
+                <dd id="object-phase">UNKNOWN</dd>
+              </div>
+              <div>
+                <dt>Action</dt>
+                <dd id="object-action">—</dd>
+              </div>
+              <div>
+                <dt>Gesture</dt>
+                <dd id="object-gesture">—</dd>
+              </div>
+              <div>
+                <dt>Owner</dt>
+                <dd id="object-owner">—</dd>
+              </div>
+              <div>
+                <dt>Reason</dt>
+                <dd id="object-reason">evidence missing</dd>
+              </div>
+            </dl>
+            <p id="object-fixture-label">No manipulation selected</p>
+          </section>
+
+          <section
+            class="score-panel object-panel"
+            aria-labelledby="scene-title"
+          >
+            <header>
+              <p class="section-kicker">Ephemeral scene</p>
+              <h2 id="scene-title">Selected object</h2>
+            </header>
+            <div class="object-selection">
+              <button
+                id="object-previous"
+                type="button"
+                aria-label="Select previous object"
+              >
+                ←
+              </button>
+              <strong id="object-selected">CUBE-1</strong>
+              <button
+                id="object-next"
+                type="button"
+                aria-label="Select next object"
+              >
+                →
+              </button>
+            </div>
+            <dl class="object-transform">
+              <div>
+                <dt>Position</dt>
+                <dd id="object-position">0.50, 0.49</dd>
+              </div>
+              <div>
+                <dt>Rotation</dt>
+                <dd id="object-rotation">-0.32, 0.48</dd>
+              </div>
+              <div>
+                <dt>Scale</dt>
+                <dd id="object-scale">1.00</dd>
+              </div>
+              <div>
+                <dt>Scene</dt>
+                <dd>
+                  <span id="object-count">1</span> /
+                  <span id="object-capacity">3</span>
+                </dd>
+              </div>
+            </dl>
+            <button class="create-object" id="object-create" type="button">
+              Create cube
+            </button>
+          </section>
+
+          <section
+            class="timeline-panel tool-panel"
+            aria-labelledby="tools-title"
+          >
+            <p class="section-kicker">Pointer + keyboard fallback</p>
+            <h2 id="tools-title" class="sr-only">Manipulation tools</h2>
+            <div
+              class="tool-switch"
+              role="group"
+              aria-label="Pointer and keyboard transform"
+            >
+              <button
+                type="button"
+                data-object-tool="translate"
+                aria-pressed="true"
+              >
+                Move
+              </button>
+              <button
+                type="button"
+                data-object-tool="rotate"
+                aria-pressed="false"
+              >
+                Rotate
+              </button>
+              <button
+                type="button"
+                data-object-tool="scale"
+                aria-pressed="false"
+              >
+                Scale
+              </button>
+            </div>
+            <p>
+              Drag object or use arrows · C create · [ ] select · Delete discard
+              · U undo
+            </p>
+          </section>
+
+          <div
+            class="trash-zone"
+            id="object-trash"
+            data-visible="false"
+            data-armed="false"
+            style="--trash-progress: 0"
+            aria-hidden="true"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M4 7h16M9 3h6l1 4H8l1-4Zm-2 4 1 14h8l1-14M10 11v6m4-6v6"
+              />
+            </svg>
+            <span id="object-trash-label">Move here to discard</span>
+          </div>
+
+          <div
+            class="undo-toast"
+            id="object-undo-toast"
+            data-visible="false"
+            role="status"
+            aria-live="polite"
+            hidden
+          >
+            <span>Cube discarded</span>
+            <button id="object-undo" type="button">Undo</button>
+          </div>
+
+          <div class="status-line" data-state="idle">
+            <i aria-hidden="true"></i>
+            <p id="object-status" role="status" aria-live="polite">
+              Ready. Camera permission has not been requested.
+            </p>
+          </div>
+          <button class="reset-action" id="object-reset" type="button">
+            Reset experiment
+          </button>
+        </div>
+      </section>
+
+      <a class="record-handoff" href="#notes">
+        <span>Continue research spine</span>
+        <b>Experiment record / 006</b>
+        <span aria-hidden="true">↓</span>
+      </a>
+
+      <section class="research-record" id="notes" aria-labelledby="notes-title">
+        <header class="record-header">
+          <p class="section-kicker">Experiment record / 006</p>
+          <h2 id="notes-title">One object. One locked consequence.</h2>
+          <dl class="record-meta">
+            <div>
+              <dt>Phase</dt>
+              <dd>Make movement material</dd>
+            </div>
+            <div>
+              <dt>Study status</dt>
+              <dd>Deterministic pass</dd>
+            </div>
+            <div>
+              <dt>Decision</dt>
+              <dd class="record-decision-value">Keep / physical pending</dd>
+            </div>
+          </dl>
+        </header>
+        <div class="record-flow">
+          <article class="record-entry">
+            <header>
+              <span class="record-index">01</span>
+              <p class="record-label">Question</p>
+            </header>
+            <div>
+              <h3>
+                Can gestures manipulate a small wireframe scene without
+                transform jumps or clutter?
+              </h3>
+            </div>
+          </article>
+          <article class="record-entry">
+            <header>
+              <span class="record-index">02</span>
+              <p class="record-label">Hypothesis</p>
+            </header>
+            <div>
+              <p>
+                Locked actions, explicit release, baseline reacquisition, and
+                strict object caps should keep movement causal and recoverable.
+              </p>
+            </div>
+          </article>
+          <article class="record-entry">
+            <header>
+              <span class="record-index">03</span>
+              <p class="record-label">Mappings</p>
+            </header>
+            <div>
+              <ul>
+                <li>Pinch + palm displacement translates X/Y.</li>
+                <li>Fist + palm displacement rotates pitch/yaw.</li>
+                <li>Two-hand span ratio scales around selected center.</li>
+                <li>
+                  Open palm, point, ambiguity, and dropout transform nothing.
+                </li>
+              </ul>
+            </div>
+          </article>
+          <article class="record-entry">
+            <header>
+              <span class="record-index">04</span>
+              <p class="record-label">Scene restraint</p>
+            </header>
+            <div>
+              <dl class="record-values">
+                <div>
+                  <dt>Initial</dt>
+                  <dd>1 cube</dd>
+                </div>
+                <div>
+                  <dt>Desktop max</dt>
+                  <dd>3 cubes</dd>
+                </div>
+                <div>
+                  <dt>Mobile max</dt>
+                  <dd>2 cubes</dd>
+                </div>
+              </dl>
+            </div>
+          </article>
+          <article class="record-entry">
+            <header>
+              <span class="record-index">05</span>
+              <p class="record-label">Recovery</p>
+            </header>
+            <div>
+              <p>
+                Trash requires dwell plus release and keeps one exact undo.
+                Scene, deletion history, and transforms remain ephemeral.
+              </p>
+            </div>
+          </article>
+          <article class="record-entry record-entry--decision">
+            <header>
+              <span class="record-index">06</span>
+              <p class="record-label">Provisional keep</p>
+            </header>
+            <div>
+              <h3>
+                The compact scene is coherent enough for real-hand validation.
+              </h3>
+              <p>
+                Deterministic inputs, responsive density, trash recovery, and
+                fallback controls pass. Physical tracking conditions still
+                decide threshold tuning and final product direction.
+              </p>
+            </div>
+          </article>
+        </div>
+        <nav class="record-pagination" aria-label="Experiment sequence">
+          <a href="%BASE_URL%experiments/005-motion-field/">← Prev / 005</a>
+          <a href="%BASE_URL%#experiments">All studies</a>
+          <a href="#object-bench">Workspace ↑</a>
+        </nav>
+      </section>
+    </main>
+    <script type="module" src="/src/object-manipulation-bench-main.ts"></script>
+  </body>
+</html>
