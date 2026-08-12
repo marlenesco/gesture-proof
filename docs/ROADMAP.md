@@ -1,7 +1,7 @@
 # Roadmap
 
-Current position: Experiments 001–006 are implemented. Experiment 006 tests
-locked gesture actions against a deliberately small wireframe object scene.
+Current position: Experiments 001–007 are implemented. Experiment 007 tests a
+two-hand optical field against deterministic area, dropout, and geometry cases.
 Physical-camera, lighting, occlusion, diversity, and device measurements remain
 required before the studies can be concluded.
 
@@ -42,7 +42,8 @@ Exit: choose two signals that feel controllable across diverse conditions.
   modes drive a persistent fixed-buffer field
 - Experiment 006: Object Manipulation Bench — pinch, fist, and two-hand span
   translate, rotate, and scale a capped ephemeral scene
-- one further small effect proving a different signal quality
+- Experiment 007: Aperture Field — two open hands establish a temporal local
+  refraction, pixelate, or blur field
 - still-image and live-video paths
 - effect performance comparison
 

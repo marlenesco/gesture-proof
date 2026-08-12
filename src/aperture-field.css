@@ -1,0 +1,80 @@
+@import './gesture-state-matrix.css';
+
+:root {
+  --accent: #ff4fc3;
+}
+
+.aperture-field .visual-plane {
+  background:
+    radial-gradient(
+      circle at 56% 46%,
+      rgba(255, 79, 195, 0.13),
+      transparent 30%
+    ),
+    linear-gradient(140deg, #071115, #10141f 55%, #120b20);
+}
+
+.aperture-field .visual-plane::before {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    120deg,
+    transparent 42%,
+    rgba(255, 79, 195, 0.08),
+    transparent 58%
+  );
+  content: '';
+}
+
+#aperture-landmarks,
+#aperture-effect {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+#aperture-effect {
+  z-index: 2;
+  pointer-events: none;
+}
+
+.aperture-field[data-phase='active'] #aperture-phase,
+.aperture-field[data-phase='active'] #aperture-area,
+.aperture-field[data-phase='active'] #aperture-tension {
+  color: var(--accent);
+}
+
+#aperture-fixture-label {
+  margin: 1rem 0 0;
+  color: var(--muted);
+  font: 0.64rem/1.45 var(--mono);
+}
+
+.aperture-panel ul {
+  display: grid;
+  margin: 1rem 0 0;
+  padding: 0;
+  color: var(--muted);
+  font: 0.68rem/1.55 var(--mono);
+  gap: 0.65rem;
+  list-style: none;
+}
+.aperture-panel li {
+  padding-left: 1rem;
+  border-left: 1px solid rgba(255, 79, 195, 0.55);
+}
+.aperture-field .primary-action,
+.aperture-field .mode-switch button[data-selected='true'] {
+  color: #071115;
+}
+
+@media (max-width: 680px) {
+  .aperture-field[data-active='true'] .visual-plane {
+    min-height: 58rem;
+  }
+  .aperture-field .score-panel {
+    top: 28rem;
+  }
+}

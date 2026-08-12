@@ -39,6 +39,10 @@ export default defineConfig({
           import.meta.dirname,
           'experiments/006-object-manipulation-bench/index.html',
         ),
+        apertureField: resolve(
+          import.meta.dirname,
+          'experiments/007-aperture-field/index.html',
+        ),
       },
     },
   },

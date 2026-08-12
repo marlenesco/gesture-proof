@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="/src/assets/gesture-proof-logo.svg"
+    />
+    <meta
+      name="description"
+      content="A local two-hand aperture experiment for selective canvas refraction, pixelation, and blur."
+    />
+    <title>Aperture Field — Gesture Proof</title>
+  </head>
+  <body data-current-study="007">
+    <header class="site-header">
+      <a class="wordmark" href="%BASE_URL%" aria-label="Gesture Proof home">
+        <img
+          class="brand-logo"
+          src="/src/assets/gesture-proof-logo.svg"
+          alt=""
+        />
+        <span class="wordmark-copy"
+          ><strong>Gesture Proof</strong><small>Read the movement</small></span
+        >
+      </a>
+      <p class="privacy-mark">
+        <i aria-hidden="true"></i> Aperture / active · local
+      </p>
+      <button
+        class="research-menu-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="research-menu"
+        aria-haspopup="dialog"
+      >
+        <span>Studies</span
+        ><span class="burger-mark" aria-hidden="true"><i></i><i></i></span>
+      </button>
+    </header>
+    <main>
+      <section
+        class="matrix aperture-field"
+        id="aperture-field"
+        data-active="false"
+        data-phase="unknown"
+        aria-labelledby="aperture-title"
+      >
+        <div class="visual-plane">
+          <canvas
+            id="aperture-landmarks"
+            aria-label="Two-hand aperture landmarks"
+          ></canvas>
+          <canvas
+            id="aperture-effect"
+            role="img"
+            aria-label="Selected local visual effect inside confirmed hand aperture"
+          ></canvas>
+          <video id="aperture-video" playsinline muted hidden></video>
+          <p class="axis axis--score" aria-hidden="true">
+            LOCAL OPTICS / 2 HANDS / CANVAS 2D
+          </p>
+          <p class="axis axis--margin" aria-hidden="true">
+            HOLD 180 MS / RELEASE 120 MS
+          </p>
+          <div class="hero-copy">
+            <p class="eyebrow">Experiment 007 / Shape selective seeing</p>
+            <h1 id="aperture-title"><span>Aperture</span><span>Field</span></h1>
+            <p class="lede">
+              Two open hands establish an optical field. Keep geometry coherent,
+              then choose refraction, pixelation, or blur without sending a
+              frame anywhere.
+            </p>
+            <div class="hero-actions">
+              <button
+                class="primary-action"
+                id="aperture-start-camera"
+                type="button"
+              >
+                <span>Start camera</span><span aria-hidden="true">↗</span>
+              </button>
+              <button
+                class="text-action"
+                id="aperture-start-fixture"
+                type="button"
+              >
+                Run aperture fixture
+              </button>
+            </div>
+            <p class="permission-copy">
+              Camera starts only after click. Frames, landmarks, aperture
+              geometry, and effects stay inside this browser.
+            </p>
+          </div>
+          <div class="controls" aria-label="Aperture Field controls">
+            <div class="mode-switch" role="group" aria-label="Input source">
+              <button type="button" data-aperture-input="camera">Camera</button>
+              <button type="button" data-aperture-input="fixture">
+                Fixture
+              </button>
+            </div>
+            <label class="select-control" for="aperture-scenario"
+              ><span>Evidence</span>
+              <select id="aperture-scenario">
+                <option value="steady-aperture">
+                  Stable two-hand aperture
+                </option>
+                <option value="small-aperture">Too-small aperture</option>
+                <option value="jitter">Jitter resistance</option>
+                <option value="dropout">Short + long dropout</option>
+                <option value="crossing">Crossed L-pose</option>
+                <option value="pinch-corner">Pinch → triangle</option>
+                <option value="left-mirrored">Left + mirrored</option>
+              </select>
+            </label>
+            <label class="select-control" for="aperture-effect-select"
+              ><span>Optic</span>
+              <select id="aperture-effect-select">
+                <option value="refraction">Refraction</option>
+                <option value="pixelate">Pixelate</option>
+                <option value="blur">Blur</option>
+              </select>
+            </label>
+            <div class="toggles">
+              <label
+                ><input id="aperture-overlay" type="checkbox" checked />
+                Skeleton</label
+              >
+              <label
+                ><input id="aperture-mirror" type="checkbox" checked />
+                Mirror</label
+              >
+            </div>
+          </div>
+          <section
+            class="decision-panel"
+            aria-labelledby="aperture-signal-title"
+          >
+            <p class="section-kicker">Aperture signal</p>
+            <h2 id="aperture-signal-title">Coherent field</h2>
+            <dl>
+              <div>
+                <dt>Phase</dt>
+                <dd id="aperture-phase">UNKNOWN</dd>
+              </div>
+              <div>
+                <dt>Area</dt>
+                <dd id="aperture-area">0.00</dd>
+              </div>
+              <div>
+                <dt>Tension</dt>
+                <dd id="aperture-tension">0.00</dd>
+              </div>
+              <div>
+                <dt>Hands</dt>
+                <dd id="aperture-hands">—</dd>
+              </div>
+              <div>
+                <dt>Reason</dt>
+                <dd id="aperture-reason">evidence missing</dd>
+              </div>
+            </dl>
+            <p id="aperture-fixture-label">No aperture selected</p>
+          </section>
+          <section
+            class="score-panel aperture-panel"
+            aria-labelledby="aperture-contract-title"
+          >
+            <p class="section-kicker">Optic contract</p>
+            <h2 id="aperture-contract-title">Field before filter</h2>
+            <ul>
+              <li>Index stays extended; thumb shapes field corner.</li>
+              <li>Crossed corners stay ordered and render as two triangles.</li>
+              <li>Thumb-index contact collapses one corner into a triangle.</li>
+            </ul>
+          </section>
+          <div class="status-line" data-state="idle">
+            <i aria-hidden="true"></i>
+            <p id="aperture-status" role="status" aria-live="polite">
+              Ready. Camera permission has not been requested.
+            </p>
+          </div>
+          <button class="reset-action" id="aperture-reset" type="button">
+            Reset experiment
+          </button>
+        </div>
+      </section>
+      <a class="record-handoff" href="#notes"
+        ><span>Continue research spine</span><b>Experiment record / 007</b
+        ><span aria-hidden="true">↓</span></a
+      >
+      <section class="research-record" id="notes" aria-labelledby="notes-title">
+        <header class="record-header">
+          <p class="section-kicker">Experiment record / 007</p>
+          <h2 id="notes-title">A field must earn its boundary.</h2>
+          <dl class="record-meta">
+            <div>
+              <dt>Phase</dt>
+              <dd>Make movement material</dd>
+            </div>
+            <div>
+              <dt>Study status</dt>
+              <dd>Deterministic pass</dd>
+            </div>
+            <div>
+              <dt>Decision</dt>
+              <dd class="record-decision-value">Keep / physical pending</dd>
+            </div>
+          </dl>
+        </header>
+        <div class="record-flow">
+          <article class="record-entry">
+            <header>
+              <span class="record-index">01</span>
+              <p class="record-label">Question</p>
+            </header>
+            <div>
+              <h3>
+                Can two hands establish a selective visual field without
+                mistaking noisy geometry for intent?
+              </h3>
+            </div>
+          </article>
+          <article class="record-entry">
+            <header>
+              <span class="record-index">02</span>
+              <p class="record-label">Hypothesis</p>
+            </header>
+            <div>
+              <p>
+                Index extension, anatomical corner order, temporal confirmation,
+                and explicit release can make a local effect feel caused rather
+                than pasted on.
+              </p>
+            </div>
+          </article>
+          <article class="record-entry">
+            <header>
+              <span class="record-index">03</span>
+              <p class="record-label">Optics</p>
+            </header>
+            <div>
+              <ul>
+                <li>
+                  Refraction layers offset source pixels by aperture tension.
+                </li>
+                <li>Pixelation maps area to cell size.</li>
+                <li>Blur maps area to radius.</li>
+                <li>All rendering stays Canvas 2D and on-device.</li>
+              </ul>
+            </div>
+          </article>
+          <article class="record-entry">
+            <header>
+              <span class="record-index">04</span>
+              <p class="record-label">Rejection</p>
+            </header>
+            <div>
+              <dl class="record-values">
+                <div>
+                  <dt>Hold</dt>
+                  <dd>180 ms</dd>
+                </div>
+                <div>
+                  <dt>Release</dt>
+                  <dd>120 ms</dd>
+                </div>
+                <div>
+                  <dt>Cooldown</dt>
+                  <dd>220 ms</dd>
+                </div>
+              </dl>
+            </div>
+          </article>
+          <article class="record-entry">
+            <header>
+              <span class="record-index">05</span>
+              <p class="record-label">Not yet proven</p>
+            </header>
+            <div>
+              <p>
+                Crossings, glare, sleeves, jewelry, rotations, varied hands, low
+                light, and mobile camera quality still need physical
+                measurement.
+              </p>
+            </div>
+          </article>
+          <article class="record-entry record-entry--decision">
+            <header>
+              <span class="record-index">06</span>
+              <p class="record-label">Provisional keep</p>
+            </header>
+            <div>
+              <h3>
+                Keep optical selection separate from hand tracking certainty.
+              </h3>
+              <p>
+                Fixtures make failure visible; physical-camera evidence must
+                tune thresholds before product reuse.
+              </p>
+            </div>
+          </article>
+        </div>
+        <nav class="record-pagination" aria-label="Experiment sequence">
+          <a href="%BASE_URL%experiments/006-object-manipulation-bench/"
+            >← Prev / 006</a
+          ><a href="%BASE_URL%#experiments">All studies</a
+          ><a href="#aperture-field">Workspace ↑</a>
+        </nav>
+      </section>
+    </main>
+    <script type="module" src="/src/aperture-field-main.ts"></script>
+  </body>
+</html>

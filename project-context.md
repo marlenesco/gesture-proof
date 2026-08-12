@@ -174,6 +174,17 @@ trash dwell with exact undo, and pointer/keyboard alternatives.
 
 See `docs/experiments/006-object-manipulation-bench.md`.
 
+**007 — Aperture Field**
+
+Question: can two open hands establish a selective local visual field only when
+their thumb-index geometry remains coherent over time?
+
+Deliverable: a two-hand temporal aperture recognizer with area rejection,
+anatomical corner ordering, refraction/pixelate/blur Canvas effects,
+deterministic geometry fixtures, and no-camera recovery.
+
+See `docs/experiments/007-aperture-field.md`.
+
 ## Candidate follow-ups
 
 1. Photo Conductor — gestures modulate a still image without touching controls.
@@ -183,7 +194,7 @@ See `docs/experiments/006-object-manipulation-bench.md`.
 
 ## Non-goals
 
-- cloning Finger Frame behavior, effects, source, or visual identity
+- copying another project's source, visual identity, copy, or implementation
 - building a generic gesture-controlled menu
 - training a custom model before heuristics are understood
 - face recognition, identity, surveillance, or behavioral profiling
