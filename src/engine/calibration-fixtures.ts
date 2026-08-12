@@ -1,4 +1,8 @@
-import type { HandObservation, ObservationFrame } from './contracts';
+import type {
+  HandObservation,
+  NormalizedPoint,
+  ObservationFrame,
+} from './contracts';
 import { fixtureFrameAt } from './fixtures';
 import { palmScale } from './geometry';
 import { shapePinch } from './pinch-fixtures';
@@ -33,6 +37,36 @@ function mix(from: number, to: number, progress: number): number {
   return from + (to - from) * Math.min(1, Math.max(0, progress));
 }
 
+interface Direction2D {
+  readonly x: number;
+  readonly y: number;
+}
+
+function direction(
+  from: NormalizedPoint,
+  to: NormalizedPoint,
+): Direction2D | undefined {
+  const x = to.x - from.x;
+  const y = to.y - from.y;
+  const length = Math.hypot(x, y);
+  if (length <= Number.EPSILON) return undefined;
+  return { x: x / length, y: y / length };
+}
+
+function move(
+  point: NormalizedPoint,
+  first: Direction2D,
+  firstDistance: number,
+  second: Direction2D,
+  secondDistance: number,
+): NormalizedPoint {
+  return {
+    ...point,
+    x: point.x + first.x * firstDistance + second.x * secondDistance,
+    y: point.y + first.y * firstDistance + second.y * secondDistance,
+  };
+}
+
 export function shapeFist(
   hand: HandObservation,
   closure: number,
@@ -40,42 +74,118 @@ export function shapeFist(
 ): HandObservation {
   const scale = palmScale(hand.landmarks);
   const wrist = hand.landmarks[0];
-  if (!scale || !wrist) return hand;
+  const indexMcp = hand.landmarks[5];
+  const middleMcp = hand.landmarks[9];
+  const ringMcp = hand.landmarks[13];
+  const pinkyMcp = hand.landmarks[17];
+  if (!scale || !wrist || !indexMcp || !middleMcp || !ringMcp || !pinkyMcp) {
+    return hand;
+  }
+
+  const mcpCenter = {
+    x: (indexMcp.x + middleMcp.x + ringMcp.x + pinkyMcp.x) / 4,
+    y: (indexMcp.y + middleMcp.y + ringMcp.y + pinkyMcp.y) / 4,
+  };
+  const towardWrist = direction(mcpCenter, wrist);
+  const acrossPalm = direction(indexMcp, pinkyMcp);
+  if (!towardWrist || !acrossPalm) return hand;
+
+  const awayFromWrist = {
+    x: -towardWrist.x,
+    y: -towardWrist.y,
+  };
   const target = hand.landmarks.map((point) => ({ ...point }));
-  for (const [mcpIndex, pipIndex, dipIndex, tipIndex] of [
-    [5, 6, 7, 8],
-    [9, 10, 11, 12],
-    [13, 14, 15, 16],
-    [17, 18, 19, 20],
+  for (const [mcpIndex, pipIndex, dipIndex, tipIndex, lift, inward] of [
+    [5, 6, 7, 8, 0.24, 0.22],
+    [9, 10, 11, 12, 0.27, 0.13],
+    [13, 14, 15, 16, 0.24, 0.13],
+    [17, 18, 19, 20, 0.18, 0.22],
   ] as const) {
     const mcp = hand.landmarks[mcpIndex];
     if (!mcp) continue;
-    const direction = Math.sign(wrist.x - mcp.x) || 1;
-    target[pipIndex] = {
-      ...target[pipIndex],
-      x: mcp.x + direction * scale * 0.02,
-      y: mcp.y - scale * 0.4,
+    const centerward =
+      (mcp.x - mcpCenter.x) * acrossPalm.x +
+        (mcp.y - mcpCenter.y) * acrossPalm.y <
+      0
+        ? acrossPalm
+        : { x: -acrossPalm.x, y: -acrossPalm.y };
+    target[pipIndex] = move(
+      mcp,
+      awayFromWrist,
+      scale * lift,
+      centerward,
+      scale * 0.02,
+    );
+    target[dipIndex] = move(
+      mcp,
+      awayFromWrist,
+      scale * 0.06,
+      centerward,
+      scale * inward * 0.55,
+    );
+    target[tipIndex] = move(
+      mcp,
+      towardWrist,
+      scale * 0.12,
+      centerward,
+      scale * inward,
+    );
+  }
+
+  const thumbMcp = hand.landmarks[2];
+  const thumbIp = hand.landmarks[3];
+  const thumbTip = hand.landmarks[4];
+  let stagedThumbIp: NormalizedPoint | undefined;
+  let stagedThumbTip: NormalizedPoint | undefined;
+  if (thumbMcp && thumbIp && thumbTip) {
+    stagedThumbTip = move(
+      indexMcp,
+      acrossPalm,
+      scale * -0.35,
+      towardWrist,
+      scale * 0.25,
+    );
+    stagedThumbIp = {
+      ...thumbIp,
+      x: mix(thumbMcp.x, stagedThumbTip.x, 0.58),
+      y: mix(thumbMcp.y, stagedThumbTip.y, 0.58),
     };
-    target[dipIndex] = {
-      ...target[dipIndex],
-      x: mcp.x + direction * scale * 0.22,
-      y: mcp.y - scale * 0.06,
+    const foldedThumbTip = move(
+      mcpCenter,
+      acrossPalm,
+      scale * 0.3,
+      towardWrist,
+      scale * 0.42,
+    );
+    target[3] = {
+      ...thumbIp,
+      x: mix(thumbMcp.x, foldedThumbTip.x, 0.58),
+      y: mix(thumbMcp.y, foldedThumbTip.y, 0.58),
     };
-    target[tipIndex] = {
-      ...target[tipIndex],
-      x: mcp.x + direction * scale * 0.12,
-      y: mcp.y - scale * 0.28,
-    };
+    target[4] = { ...thumbTip, ...foldedThumbTip };
   }
   return {
     ...hand,
     timestampMs,
     landmarks: hand.landmarks.map((point, index) => {
-      const closed = target[index] ?? point;
+      let from = point;
+      let closed = target[index] ?? point;
+      let progress = closure;
+      const staged =
+        index === 3 ? stagedThumbIp : index === 4 ? stagedThumbTip : undefined;
+      if (staged) {
+        if (closure <= 0.7) {
+          closed = staged;
+          progress = closure / 0.7;
+        } else {
+          from = staged;
+          progress = (closure - 0.7) / 0.3;
+        }
+      }
       return {
         ...point,
-        x: mix(point.x, closed.x, closure),
-        y: mix(point.y, closed.y, closure),
+        x: mix(from.x, closed.x, progress),
+        y: mix(from.y, closed.y, progress),
       };
     }),
   };
@@ -118,7 +228,7 @@ function evaluationPose(
   const cycle = elapsedMs % EVALUATION_CYCLE_MS;
   const personal = scenario === 'personal-range';
   const activePinch = personal ? 0.42 : 0.25;
-  const activeFist = personal ? 0.55 : 1;
+  const activeFist = personal ? 0.7 : 1;
 
   if (scenario === 'threshold-jitter') {
     if (cycle >= 700 && cycle < 1900) {
@@ -227,7 +337,7 @@ function calibrationPose(
     case 'pinch':
       return { pinchRatio: personal ? 0.4 : 0.25, fistClosure: 0 };
     case 'fist':
-      return { pinchRatio: 0.86, fistClosure: personal ? 0.55 : 1 };
+      return { pinchRatio: 0.86, fistClosure: personal ? 0.7 : 1 };
   }
 }
 
