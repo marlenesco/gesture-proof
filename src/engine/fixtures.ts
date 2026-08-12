@@ -19,11 +19,13 @@ export type FixtureScenario = (typeof FIXTURE_SCENARIOS)[number];
 const FRAME_INTERVAL_MS = 100;
 const SOURCE_WIDTH = 1280;
 const SOURCE_HEIGHT = 720;
+export const FIXTURE_HAND_SCALE = 0.88;
+export const TWO_HAND_FIXTURE_SCALE = 0.8;
 
 // Playback is intentionally slower than fixture time. Recognizers still receive
 // their original timestamp-driven contract; the public demo has room to show
-// acquisition, release, and the change between poses.
-export const FIXTURE_PLAYBACK_RATE = 0.65;
+// acquisition, release, and the neutral boundary between poses.
+export const FIXTURE_PLAYBACK_RATE = 0.45;
 
 export function fixtureElapsedAt(
   startedAtMs: number,
@@ -68,19 +70,42 @@ function createHand(
   jitterX = 0,
   jitterY = 0,
 ): HandObservation {
+  const fixtureScale = scale * FIXTURE_HAND_SCALE;
   const landmarks = BASE_HAND.map((point, index) => {
     const alternating = index % 2 === 0 ? 1 : -1;
     return {
       x:
         centerX +
-        (flipShape ? -point.x : point.x) * scale +
+        (flipShape ? -point.x : point.x) * fixtureScale +
         jitterX * alternating,
-      y: centerY + point.y * scale + jitterY * -alternating,
-      z: point.z === undefined ? undefined : point.z * scale,
+      y: centerY + point.y * fixtureScale + jitterY * -alternating,
+      z: point.z === undefined ? undefined : point.z * fixtureScale,
     };
   });
 
   return { id, handedness, timestampMs, confidence, landmarks };
+}
+
+export function scaleFixtureHand(
+  hand: HandObservation,
+  factor: number,
+): HandObservation {
+  const wrist = hand.landmarks[0];
+  if (!wrist) return hand;
+  return {
+    ...hand,
+    landmarks: hand.landmarks.map((point) => ({
+      ...point,
+      x: wrist.x + (point.x - wrist.x) * factor,
+      y: wrist.y + (point.y - wrist.y) * factor,
+      z:
+        point.z === undefined
+          ? undefined
+          : wrist.z === undefined
+            ? point.z * factor
+            : wrist.z + (point.z - wrist.z) * factor,
+    })),
+  };
 }
 
 function quantize(timestampMs: number): number {

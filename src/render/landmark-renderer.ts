@@ -4,6 +4,7 @@ import type {
   PixelPoint,
 } from '../engine/contracts';
 import {
+  createContainTransform,
   createCoverTransform,
   normalizedToDisplay,
   type DisplayTransform,
@@ -70,13 +71,21 @@ export class LandmarkRenderer {
 
     const sourceWidth = options.frame?.sourceWidth ?? 1280;
     const sourceHeight = options.frame?.sourceHeight ?? 720;
-    this.transform = createCoverTransform(
-      sourceWidth,
-      sourceHeight,
-      this.cssWidth,
-      this.cssHeight,
-      options.mirrorX,
-    );
+    this.transform = options.source
+      ? createCoverTransform(
+          sourceWidth,
+          sourceHeight,
+          this.cssWidth,
+          this.cssHeight,
+          options.mirrorX,
+        )
+      : createContainTransform(
+          1,
+          1,
+          this.cssWidth,
+          this.cssHeight,
+          options.mirrorX,
+        );
 
     if (options.source) {
       this.drawSource(options.source, this.transform);

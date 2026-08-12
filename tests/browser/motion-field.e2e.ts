@@ -124,7 +124,7 @@ test('long fixture dropout expires motion instead of teleporting field', async (
   await expect(page.locator('#motion-fixture-label')).toHaveText(
     'Long dropout',
     {
-      timeout: 4_500,
+      timeout: 6_500,
     },
   );
   await expect(page.locator('#motion-phase')).toHaveText('UNKNOWN');

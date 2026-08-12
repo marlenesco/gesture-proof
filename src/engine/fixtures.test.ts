@@ -5,7 +5,10 @@ import {
   FixturePlayer,
   fixtureElapsedAt,
   fixtureFrameAt,
+  scaleFixtureHand,
+  TWO_HAND_FIXTURE_SCALE,
 } from './fixtures';
+import { palmScale } from './geometry';
 
 describe('deterministic fixtures', () => {
   it('returns identical observations inside a fixture time step', () => {
@@ -47,5 +50,16 @@ describe('deterministic fixtures', () => {
   it('plays public fixture evidence slowly without changing fixture timestamps', () => {
     expect(fixtureElapsedAt(1000, 2000)).toBe(1000 * FIXTURE_PLAYBACK_RATE);
     expect(fixtureFrameAt('rapid-motion', 1000).timestampMs).toBe(1000);
+  });
+
+  it('scales a two-hand fixture around its wrist without changing ratios', () => {
+    const hand = fixtureFrameAt('stable', 0).observations[0]!;
+    const scaled = scaleFixtureHand(hand, TWO_HAND_FIXTURE_SCALE);
+
+    expect(palmScale(scaled.landmarks)).toBeCloseTo(
+      palmScale(hand.landmarks)! * TWO_HAND_FIXTURE_SCALE,
+      8,
+    );
+    expect(scaled.landmarks[0]).toEqual(hand.landmarks[0]);
   });
 });

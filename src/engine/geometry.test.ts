@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import {
+  createContainTransform,
   createCoverTransform,
   distance2D,
   jointAngleDegrees,
@@ -45,6 +46,20 @@ describe('geometry', () => {
     expect(normalizedToDisplay({ x: 0.25, y: 0.5 }, transform)).toEqual({
       x: 900,
       y: 300,
+    });
+  });
+
+  it('keeps a square fixture plane proportional inside portrait display space', () => {
+    const transform = createContainTransform(1, 1, 390, 844);
+
+    expect(transform).toMatchObject({
+      scale: 390,
+      offsetX: 0,
+      offsetY: 227,
+    });
+    expect(normalizedToDisplay({ x: 0.5, y: 0.5 }, transform)).toEqual({
+      x: 195,
+      y: 422,
     });
   });
 

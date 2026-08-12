@@ -1,6 +1,12 @@
 import type { HandObservation, ObservationFrame } from './contracts';
 import { shapeFist } from './calibration-fixtures';
-import { fixtureElapsedAt, fixtureFrameAt } from './fixtures';
+import {
+  fixtureElapsedAt,
+  fixtureFrameAt,
+  FIXTURE_HAND_SCALE,
+  scaleFixtureHand,
+  TWO_HAND_FIXTURE_SCALE,
+} from './fixtures';
 import { shapePinch } from './pinch-fixtures';
 
 export const OBJECT_BENCH_FIXTURE_SCENARIOS = [
@@ -90,23 +96,31 @@ function spanHands(
   timestampMs: number,
   separation: number,
 ): readonly HandObservation[] {
+  const compactSeparation =
+    separation * FIXTURE_HAND_SCALE * TWO_HAND_FIXTURE_SCALE;
   return [
-    cloneAt(
-      base,
-      'fixture-left',
-      'left',
-      0.5 - separation / 2,
-      0.61,
-      timestampMs,
-      true,
+    scaleFixtureHand(
+      cloneAt(
+        base,
+        'fixture-left',
+        'left',
+        0.5 - compactSeparation / 2,
+        0.61,
+        timestampMs,
+        true,
+      ),
+      TWO_HAND_FIXTURE_SCALE,
     ),
-    cloneAt(
-      base,
-      'fixture-right',
-      'right',
-      0.5 + separation / 2,
-      0.61,
-      timestampMs,
+    scaleFixtureHand(
+      cloneAt(
+        base,
+        'fixture-right',
+        'right',
+        0.5 + compactSeparation / 2,
+        0.61,
+        timestampMs,
+      ),
+      TWO_HAND_FIXTURE_SCALE,
     ),
   ];
 }

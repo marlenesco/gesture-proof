@@ -76,10 +76,10 @@ test('personal fixture builds a profile that activates beyond fixed gate', async
 
   await expect(page.locator('#bench-calibration-prompt')).toHaveText(
     'Profile ready',
-    { timeout: 4_500 },
+    { timeout: 6_500 },
   );
   await expect(page.locator('#bench-calibrated-phase')).toHaveText('ACTIVE', {
-    timeout: 2_500,
+    timeout: 3_000,
   });
   await expect(page.locator('#bench-fixed-phase')).not.toHaveText('ACTIVE');
   await expect(page.locator('#bench-calibrated-threshold')).toContainText(
@@ -213,7 +213,7 @@ test('reset discards the in-memory profile', async ({ page }) => {
   await page.getByRole('button', { name: 'Run calibrated fixture' }).click();
   await expect(page.locator('#bench-calibration-prompt')).toHaveText(
     'Profile ready',
-    { timeout: 4_500 },
+    { timeout: 6_500 },
   );
   await page.getByRole('button', { name: 'Reset experiment' }).click();
 
