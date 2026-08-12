@@ -162,6 +162,18 @@ fixtures, and a fixed-size particle buffer.
 
 See `docs/experiments/005-motion-field.md`.
 
+**006 — Object Manipulation Bench**
+
+Question: can confirmed gestures manipulate a deliberately small wireframe
+scene through stable translate, rotate, scale, create, discard, and undo
+operations without transform jumps or mobile clutter?
+
+Deliverable: one initial cube, strict desktop/mobile object caps, a pure Canvas
+2D scene model, locked manipulation signals, deterministic action fixtures,
+trash dwell with exact undo, and pointer/keyboard alternatives.
+
+See `docs/experiments/006-object-manipulation-bench.md`.
+
 ## Candidate follow-ups
 
 1. Photo Conductor — gestures modulate a still image without touching controls.

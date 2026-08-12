@@ -35,6 +35,10 @@ export default defineConfig({
           import.meta.dirname,
           'experiments/005-motion-field/index.html',
         ),
+        objectManipulationBench: resolve(
+          import.meta.dirname,
+          'experiments/006-object-manipulation-bench/index.html',
+        ),
       },
     },
   },
