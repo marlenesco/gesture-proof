@@ -51,6 +51,10 @@ show Canvas cannot meet the experiment.
 Owns art direction, navigation, permission copy, inspectors, and case-study
 story. It does not implement tracking mathematics.
 
+The homepage may explain the research sequence before a study opens. Each study
+can expose a camera-free `#method` panel that maps its signals, guards, and
+implementation boundaries without reaching into input or tracking layers.
+
 ## Coordinate spaces
 
 Name spaces explicitly:
