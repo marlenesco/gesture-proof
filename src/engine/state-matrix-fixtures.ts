@@ -58,12 +58,15 @@ function cloneAt(
 export function shapePoint(
   hand: HandObservation,
   timestampMs: number,
+  closure = 1,
 ): HandObservation {
-  const fist = shapeFist(hand, 1, timestampMs);
+  const fist = shapeFist(hand, closure, timestampMs);
   return {
     ...fist,
     landmarks: fist.landmarks.map((point, index) =>
-      index <= 8 ? { ...(hand.landmarks[index] ?? point) } : point,
+      index >= 5 && index <= 8
+        ? { ...(hand.landmarks[index] ?? point) }
+        : point,
     ),
   };
 }
@@ -72,7 +75,7 @@ function neutralHand(
   hand: HandObservation,
   timestampMs: number,
 ): HandObservation {
-  return shapeFist(hand, 0.48, timestampMs);
+  return shapeFist(hand, 0.65, timestampMs);
 }
 
 function poseHand(
