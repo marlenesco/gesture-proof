@@ -4,7 +4,9 @@
 
 Planned runtime dependency: `@mediapipe/tasks-vision`.
 
-- Project: https://github.com/google-ai-edge/mediapipe
+- Official guide: https://developers.google.com/edge/mediapipe/solutions/guide
+- Hand Landmarker for Web: https://developers.google.com/edge/mediapipe/solutions/vision/hand_landmarker/web_js
+- Source repository and license: https://github.com/google-ai-edge/mediapipe
 - License: Apache License 2.0
 - Model source: Google MediaPipe Hand Landmarker float16 bundle
 
