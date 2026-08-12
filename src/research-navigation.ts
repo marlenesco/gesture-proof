@@ -1,5 +1,5 @@
 type Study = {
-  readonly number: '001' | '002' | '003' | '004' | '005' | '006';
+  readonly number: '001' | '002' | '003' | '004' | '005' | '006' | '007';
   readonly title: string;
   readonly question: string;
   readonly state: string;
@@ -49,7 +49,14 @@ const studies = [
     state: 'Active validation',
     path: 'experiments/006-object-manipulation-bench/',
   },
-] satisfies readonly [Study, Study, Study, Study, Study, Study];
+  {
+    number: '007',
+    title: 'Aperture Field',
+    question: 'Can two hands earn a selective optical field?',
+    state: 'Active validation',
+    path: 'experiments/007-aperture-field/',
+  },
+] satisfies readonly [Study, Study, Study, Study, Study, Study, Study];
 
 function linkFor(path: string): string {
   const base = import.meta.env.BASE_URL.endsWith('/')
@@ -115,10 +122,11 @@ function initResearchNavigation(): void {
         <ol start="5">
           ${studyMarkup(studies[4], currentStudy)}
           ${studyMarkup(studies[5], currentStudy)}
+          ${studyMarkup(studies[6], currentStudy)}
         </ol>
       </nav>
       <footer>
-        <span>06 studies</span><span>On-device / no capture leaves browser</span>
+        <span>07 studies</span><span>On-device / no capture leaves browser</span>
       </footer>
     </div>`;
 

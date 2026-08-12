@@ -9,7 +9,7 @@ the eventual portfolio experience.
 
 ## Current state
 
-- Experiments 001 through 006 are implemented as separate, linkable routes;
+- Experiments 001 through 007 are implemented as separate, linkable routes;
   physical-camera studies remain pending.
 - A Research Spine connects studies by phase, current position, evidence record,
   and keep/revise/discard decision.
@@ -43,6 +43,8 @@ Open `http://127.0.0.1:4173`.
   a fixed-buffer particle field
 - `/experiments/006-object-manipulation-bench/` — locked gestures move, rotate,
   and scale a capped ephemeral wireframe scene
+- `/experiments/007-aperture-field/` — two hands establish a local refraction,
+  pixelate, or blur field
 
 For a GitHub project page build, set `VITE_BASE_PATH` to repository path:
 
@@ -83,7 +85,8 @@ pnpm format       # format repository files
 6. [`docs/experiments/004-gesture-state-matrix.md`](./docs/experiments/004-gesture-state-matrix.md)
 7. [`docs/experiments/005-motion-field.md`](./docs/experiments/005-motion-field.md)
 8. [`docs/experiments/006-object-manipulation-bench.md`](./docs/experiments/006-object-manipulation-bench.md)
-9. [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md)
+9. [`docs/experiments/007-aperture-field.md`](./docs/experiments/007-aperture-field.md)
+10. [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md)
 
 ## Repository map
 
