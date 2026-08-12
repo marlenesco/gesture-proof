@@ -1,6 +1,10 @@
 name: Deploy Gesture Proof to Pages
 
 on:
+  push:
+    branches:
+      - main
+
   workflow_dispatch:
 
 permissions:
