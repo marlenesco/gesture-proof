@@ -61,7 +61,7 @@ the interaction without developer help.
 
 ## Phase 5 — Publish deliberately
 
-- choose license
+- Apache License 2.0 selected and recorded in ADR 0005
 - verify third-party notices
 - add CI and deployment ADR
 - run performance, accessibility, browser, and privacy checks

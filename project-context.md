@@ -217,7 +217,11 @@ Foundation succeeds when:
 
 - first expressive effect after Landmark Explorer
 - whether final public build bundles model or fetches it from same-origin storage
-- project license before publication
 - whether anonymous analytics can ever meet privacy thesis
 
 Do not resolve these silently. Record decisions in `docs/decisions/`.
+
+## Resolved publication decisions
+
+- Original project source code and documentation use the Apache License 2.0.
+  See `docs/decisions/0005-apache-2.0-project-license.md`.

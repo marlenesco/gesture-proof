@@ -104,6 +104,10 @@ scripts/                Explicit setup utilities
 
 ## Publication status
 
-No project license has been selected yet. Keep the repository local until that
-decision is recorded. External inspiration is cited; its source code must not be
-copied unless its license explicitly permits that use.
+Original project source code and documentation are licensed under the
+[Apache License 2.0](./LICENSE). Third-party dependencies, models, and referenced
+projects remain subject to their own licenses; see
+[`THIRD_PARTY_NOTICES.md`](./THIRD_PARTY_NOTICES.md).
+
+Licensing does not itself authorize deployment or publication. Complete the
+remaining Phase 5 checks and obtain explicit approval before either action.

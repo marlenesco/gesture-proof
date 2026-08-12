@@ -22,5 +22,10 @@ review, no explicit repository license was present.
 
 ## Project license
 
-No license selected. Do not describe this repository as open source or publish
-it until a license decision is made.
+Original project source code and documentation are licensed under the Apache
+License 2.0. See `LICENSE` and
+`docs/decisions/0005-apache-2.0-project-license.md`.
+
+This project license does not replace third-party license terms or authorize
+distribution of excluded model files. Publication still requires the remaining
+Phase 5 checks and explicit approval.

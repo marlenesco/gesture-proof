@@ -2,6 +2,8 @@
 
 Status: accepted.
 
+License publication blocker resolved by ADR 0005.
+
 ## Context
 
 The temporary Gesture Showcase Lab name no longer matches the experiment thesis.
