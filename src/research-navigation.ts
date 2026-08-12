@@ -1,5 +1,5 @@
 type Study = {
-  readonly number: '001' | '002' | '003' | '004' | '005';
+  readonly number: '001' | '002' | '003' | '004' | '005' | '006';
   readonly title: string;
   readonly question: string;
   readonly state: string;
@@ -42,7 +42,14 @@ const studies = [
     state: 'Active validation',
     path: 'experiments/005-motion-field/',
   },
-] satisfies readonly [Study, Study, Study, Study, Study];
+  {
+    number: '006',
+    title: 'Object Manipulation Bench',
+    question: 'Can locked gestures transform a small wireframe scene?',
+    state: 'Active validation',
+    path: 'experiments/006-object-manipulation-bench/',
+  },
+] satisfies readonly [Study, Study, Study, Study, Study, Study];
 
 function linkFor(path: string): string {
   const base = import.meta.env.BASE_URL.endsWith('/')
@@ -105,10 +112,13 @@ function initResearchNavigation(): void {
         <p class="research-menu-phase"><span>Phase 03</span> Compose vocabulary</p>
         <ol start="4">${studyMarkup(studies[3], currentStudy)}</ol>
         <p class="research-menu-phase"><span>Phase 04</span> Make movement material</p>
-        <ol start="5">${studyMarkup(studies[4], currentStudy)}</ol>
+        <ol start="5">
+          ${studyMarkup(studies[4], currentStudy)}
+          ${studyMarkup(studies[5], currentStudy)}
+        </ol>
       </nav>
       <footer>
-        <span>05 studies</span><span>On-device / no capture leaves browser</span>
+        <span>06 studies</span><span>On-device / no capture leaves browser</span>
       </footer>
     </div>`;
 
