@@ -155,8 +155,16 @@ every score, phase, reason, and focus transition.
   almost perfect closure. Fixtures now use palm-relative articulated curls,
   point restores only the index chain, and incomplete camera-like fist/point
   poses pass while two open non-index fingers still reject point.
-- Public fixture playback runs at 65% of fixture time. Recognition thresholds
+- Public fixture playback runs at 45% of fixture time. Recognition thresholds
   remain timestamp-driven in fixture time, so every acquisition, release, and
   neutral transition is visibly slower without weakening the gesture contract.
+- Fixture display preserves a centered square coordinate plane rather than
+  cropping a synthetic 16:9 source or stretching normalized coordinates across
+  a portrait canvas. Shared fixture hands are compact; two-hand spans scale both
+  hand geometry and separation by the same factor, preserving palm-normalized
+  span evidence on narrow screens.
+- Method view exposes the real signal path, competition thresholds, rejection
+  rules, and implementation map through the shareable `#method` hash. Its
+  one-time diagrams explain evidence flow without starting camera capture.
 - Still pending: physical hands across blur, occlusion, low light, crossings,
   skin tones, sleeves, jewelry, and varied devices.

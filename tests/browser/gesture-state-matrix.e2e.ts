@@ -63,6 +63,39 @@ test('initial matrix remains camera-free and marks study 004 current', async ({
     .toBe(0);
 });
 
+test('method opens from a shareable hash without requesting camera', async ({
+  page,
+}) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'mediaDevices', {
+      configurable: true,
+      value: {
+        getUserMedia: () => {
+          window.__matrixCameraRequests__ =
+            (window.__matrixCameraRequests__ ?? 0) + 1;
+          return Promise.reject(
+            new DOMException('Unexpected', 'NotAllowedError'),
+          );
+        },
+      },
+    });
+  });
+  await page.goto(`${EXPERIMENT_PATH}#method`);
+
+  const panel = page.locator('#matrix-method');
+  await expect(panel).toBeVisible();
+  await expect(
+    panel.getByRole('heading', { name: 'Evidence earns intent.' }),
+  ).toBeVisible();
+  await expect(panel.getByText('Competition before certainty')).toBeVisible();
+  await expect
+    .poll(() => page.evaluate(() => window.__matrixCameraRequests__ ?? 0))
+    .toBe(0);
+  await panel.getByRole('button', { name: /close/i }).click();
+  await expect(panel).toBeHidden();
+  await expect(page).toHaveURL(EXPERIMENT_PATH);
+});
+
 test('deterministic sequence confirms one-hand and two-hand gestures', async ({
   page,
 }) => {
@@ -75,7 +108,7 @@ test('deterministic sequence confirms one-hand and two-hand gestures', async ({
   await expect(page.locator('#matrix-winner')).toHaveText('PINCH');
   await expect(page.locator('#matrix-owner')).not.toContainText('+');
   await expect(page.locator('#matrix-winner')).toHaveText('TWO HAND SPAN', {
-    timeout: 7_500,
+    timeout: 11_000,
   });
   await expect(page.locator('#matrix-owner')).toContainText('+');
 });
@@ -88,7 +121,7 @@ test('competitive evidence becomes unknown and never fabricates a label', async 
   await page.locator('#matrix-scenario').selectOption('competitive-evidence');
 
   await expect(page.locator('#matrix-phase')).toHaveText('UNKNOWN', {
-    timeout: 1_500,
+    timeout: 4_000,
   });
   await expect(page.locator('#matrix-reason')).toHaveText('ambiguous');
   await expect(page.locator('#gesture-matrix')).toHaveAttribute(

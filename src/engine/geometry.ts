@@ -53,6 +53,32 @@ export function createCoverTransform(
   };
 }
 
+export function createContainTransform(
+  inputWidth: number,
+  inputHeight: number,
+  displayWidth: number,
+  displayHeight: number,
+  mirrorX = false,
+): DisplayTransform {
+  const safeInputWidth = Math.max(inputWidth, 1);
+  const safeInputHeight = Math.max(inputHeight, 1);
+  const scale = Math.min(
+    displayWidth / safeInputWidth,
+    displayHeight / safeInputHeight,
+  );
+
+  return {
+    inputWidth: safeInputWidth,
+    inputHeight: safeInputHeight,
+    displayWidth,
+    displayHeight,
+    scale,
+    offsetX: (displayWidth - safeInputWidth * scale) / 2,
+    offsetY: (displayHeight - safeInputHeight * scale) / 2,
+    mirrorX,
+  };
+}
+
 export function normalizedToDisplay(
   point: NormalizedPoint,
   transform: DisplayTransform,

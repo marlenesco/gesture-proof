@@ -94,8 +94,8 @@ test('fixtures expose one hand, two hands, dropout, and recovery', async ({
   await scenario.selectOption('crossing');
   await expect(hand.locator('option')).toHaveCount(2);
   await scenario.selectOption('dropout');
-  await expect(hand).toBeDisabled({ timeout: 2_000 });
-  await expect(hand).toBeEnabled({ timeout: 2_000 });
+  await expect(hand).toBeDisabled({ timeout: 3_500 });
+  await expect(hand).toBeEnabled({ timeout: 3_500 });
 });
 
 test('keyboard activation enters fixture mode and keeps useful focus', async ({

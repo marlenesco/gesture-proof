@@ -4,7 +4,13 @@ import type {
   ObservationFrame,
 } from './contracts';
 import { shapeFist } from './calibration-fixtures';
-import { fixtureElapsedAt, fixtureFrameAt } from './fixtures';
+import {
+  fixtureElapsedAt,
+  fixtureFrameAt,
+  FIXTURE_HAND_SCALE,
+  scaleFixtureHand,
+  TWO_HAND_FIXTURE_SCALE,
+} from './fixtures';
 import { palmScale } from './geometry';
 
 export const APERTURE_FIXTURE_SCENARIOS = [
@@ -187,26 +193,34 @@ function apertureHands(
   openness: number,
   jitter = 0,
 ): readonly HandObservation[] {
+  const compactSeparation =
+    separation * FIXTURE_HAND_SCALE * TWO_HAND_FIXTURE_SCALE;
   return [
     shapeLHand(
-      cloneAt(
-        hand,
-        'aperture-left',
-        'left',
-        0.5 - separation / 2 + jitter,
-        timestampMs,
-        true,
+      scaleFixtureHand(
+        cloneAt(
+          hand,
+          'aperture-left',
+          'left',
+          0.5 - compactSeparation / 2 + jitter,
+          timestampMs,
+          true,
+        ),
+        TWO_HAND_FIXTURE_SCALE,
       ),
       openness,
       timestampMs,
     ),
     shapeLHand(
-      cloneAt(
-        hand,
-        'aperture-right',
-        'right',
-        0.5 + separation / 2 - jitter,
-        timestampMs,
+      scaleFixtureHand(
+        cloneAt(
+          hand,
+          'aperture-right',
+          'right',
+          0.5 + compactSeparation / 2 - jitter,
+          timestampMs,
+        ),
+        TWO_HAND_FIXTURE_SCALE,
       ),
       openness,
       timestampMs,
