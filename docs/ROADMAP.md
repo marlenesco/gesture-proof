@@ -1,7 +1,7 @@
 # Roadmap
 
-Current position: Experiments 001–005 are implemented. Experiment 005 turns a
-stable, timestamp-derived palm motion signal into a fixed-buffer particle field.
+Current position: Experiments 001–006 are implemented. Experiment 006 tests
+locked gesture actions against a deliberately small wireframe object scene.
 Physical-camera, lighting, occlusion, diversity, and device measurements remain
 required before the studies can be concluded.
 
@@ -40,7 +40,9 @@ Exit: choose two signals that feel controllable across diverse conditions.
 
 - Experiment 005: Motion Field — normalized palm velocity and confirmed gesture
   modes drive a persistent fixed-buffer field
-- two further small effects, each proving a different signal quality
+- Experiment 006: Object Manipulation Bench — pinch, fist, and two-hand span
+  translate, rotate, and scale a capped ephemeral scene
+- one further small effect proving a different signal quality
 - still-image and live-video paths
 - effect performance comparison
 
