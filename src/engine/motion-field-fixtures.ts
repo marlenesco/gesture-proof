@@ -1,5 +1,5 @@
 import type { HandObservation, ObservationFrame } from './contracts';
-import { fixtureFrameAt } from './fixtures';
+import { fixtureElapsedAt, fixtureFrameAt } from './fixtures';
 
 export const MOTION_FIELD_FIXTURE_SCENARIOS = [
   'horizontal-sweep',
@@ -156,6 +156,9 @@ export class MotionFieldFixturePlayer {
   }
 
   frame(timestampMs: number): MotionFieldFixtureState {
-    return motionFieldFixtureAt(this.scenario, timestampMs - this.startedAtMs);
+    return motionFieldFixtureAt(
+      this.scenario,
+      fixtureElapsedAt(this.startedAtMs, timestampMs),
+    );
   }
 }

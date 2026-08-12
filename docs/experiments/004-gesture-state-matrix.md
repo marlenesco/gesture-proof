@@ -155,5 +155,8 @@ every score, phase, reason, and focus transition.
   almost perfect closure. Fixtures now use palm-relative articulated curls,
   point restores only the index chain, and incomplete camera-like fist/point
   poses pass while two open non-index fingers still reject point.
+- Public fixture playback runs at 65% of fixture time. Recognition thresholds
+  remain timestamp-driven in fixture time, so every acquisition, release, and
+  neutral transition is visibly slower without weakening the gesture contract.
 - Still pending: physical hands across blur, occlusion, low light, crossings,
   skin tones, sleeves, jewelry, and varied devices.

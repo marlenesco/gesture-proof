@@ -126,7 +126,7 @@ a {
     linear-gradient(90deg, rgba(7, 9, 10, 0.88), rgba(7, 9, 10, 0.1) 63%),
     linear-gradient(0deg, rgba(7, 9, 10, 0.54), transparent 45%);
   content: '';
-  transition: opacity 360ms ease;
+  transition: opacity 520ms ease;
 }
 
 .matrix[data-active='true'] .visual-plane::after {
@@ -162,9 +162,9 @@ a {
   width: min(65rem, calc(100% - 3rem));
   transform: translateY(-52%);
   transition:
-    top 480ms cubic-bezier(0.22, 1, 0.36, 1),
-    transform 480ms cubic-bezier(0.22, 1, 0.36, 1),
-    width 480ms cubic-bezier(0.22, 1, 0.36, 1);
+    top 680ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 680ms cubic-bezier(0.22, 1, 0.36, 1),
+    width 680ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .eyebrow,
@@ -240,8 +240,8 @@ h1 span:last-child {
   opacity: 0;
   pointer-events: none;
   transition:
-    opacity 260ms ease,
-    transform 400ms cubic-bezier(0.22, 1, 0.36, 1);
+    opacity 360ms ease,
+    transform 560ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .matrix[data-active='true']
@@ -404,7 +404,7 @@ input {
 
 .score-matrix meter::-webkit-meter-optimum-value {
   background: rgba(244, 238, 229, 0.68);
-  transition: width 100ms linear;
+  transition: width 160ms linear;
 }
 
 .score-matrix li[data-winner='true'] :is(strong, b),

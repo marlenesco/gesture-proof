@@ -141,7 +141,7 @@ h1 span:last-child {
   color: var(--accent);
   font-size: 1.4rem;
   font-style: normal;
-  transition: transform 180ms ease;
+  transition: transform 260ms ease;
 }
 .current-study:hover i,
 .current-study:focus-visible i {
@@ -272,7 +272,7 @@ h1 span:last-child {
   gap: 1.5rem;
   align-items: center;
   text-decoration: none;
-  transition: color 180ms ease;
+  transition: color 260ms ease;
 }
 .experiment-list a:hover {
   color: var(--accent);
@@ -285,7 +285,7 @@ h1 span:last-child {
   height: 1px;
   background: var(--accent);
   content: '';
-  transition: width 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: width 320ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 .experiment-list a:hover::before,
 .experiment-list a:focus-visible::before {
@@ -368,10 +368,10 @@ h1 span:last-child {
 
 @media (prefers-reduced-motion: no-preference) {
   .orbit-ring--outer {
-    animation: orbit-spin 18s linear infinite;
+    animation: orbit-spin 26s linear infinite;
   }
   .orbit-ring--inner {
-    animation: orbit-spin 11s linear reverse infinite;
+    animation: orbit-spin 16s linear reverse infinite;
   }
   @keyframes orbit-spin {
     to {
@@ -380,7 +380,7 @@ h1 span:last-child {
   }
 
   .current-study i {
-    transition: transform 180ms ease;
+    transition: transform 260ms ease;
   }
 }
 

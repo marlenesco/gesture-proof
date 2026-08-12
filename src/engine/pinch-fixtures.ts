@@ -1,5 +1,5 @@
 import type { HandObservation, ObservationFrame } from './contracts';
-import { fixtureFrameAt } from './fixtures';
+import { fixtureElapsedAt, fixtureFrameAt } from './fixtures';
 import { palmScale } from './geometry';
 
 export const PINCH_FIXTURE_SCENARIOS = [
@@ -154,6 +154,9 @@ export class PinchFixturePlayer {
   }
 
   frame(timestampMs: number): ObservationFrame {
-    return pinchFixtureFrameAt(this.scenario, timestampMs - this.startedAtMs);
+    return pinchFixtureFrameAt(
+      this.scenario,
+      fixtureElapsedAt(this.startedAtMs, timestampMs),
+    );
   }
 }

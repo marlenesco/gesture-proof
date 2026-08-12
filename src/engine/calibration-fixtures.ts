@@ -3,7 +3,7 @@ import type {
   NormalizedPoint,
   ObservationFrame,
 } from './contracts';
-import { fixtureFrameAt } from './fixtures';
+import { fixtureElapsedAt, fixtureFrameAt } from './fixtures';
 import { palmScale } from './geometry';
 import { shapePinch } from './pinch-fixtures';
 
@@ -395,6 +395,9 @@ export class CalibrationFixturePlayer {
   }
 
   frame(timestampMs: number): CalibrationFixtureState {
-    return calibrationFixtureAt(this.scenario, timestampMs - this.startedAtMs);
+    return calibrationFixtureAt(
+      this.scenario,
+      fixtureElapsedAt(this.startedAtMs, timestampMs),
+    );
   }
 }
