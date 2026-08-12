@@ -77,37 +77,381 @@
         aria-haspopup="dialog"
       >
         <span>Studies</span>
-        <span class="burger-mark" aria-hidden="true"><i></i><i></i></span>
+        <span class="burger-mark" aria-hidden="true"
+          ><i></i><i></i><i></i
+        ></span>
       </button>
     </header>
 
-    <main>
+    <main id="main-content">
       <section class="hero" aria-labelledby="lab-title">
-        <div class="orbit" aria-hidden="true">
-          <span class="orbit-ring orbit-ring--outer"></span>
-          <span class="orbit-ring orbit-ring--inner"></span>
-          <span class="orbit-core"></span>
+        <div class="hero-grid" aria-hidden="true"></div>
+        <div class="hero-copy">
+          <p class="eyebrow">Private, on-device gesture research</p>
+          <h1 id="lab-title">Gesture <span>Proof</span></h1>
+          <p class="hero-question">When a hand moves, what can you trust?</p>
+          <p class="lede">
+            Seven visual studies make the hidden work of hand tracking legible:
+            signal, confidence, intent, then effect.
+          </p>
+          <div class="hero-actions">
+            <a
+              class="button button--primary"
+              href="%BASE_URL%experiments/007-aperture-field/"
+            >
+              Explore Aperture Field <span aria-hidden="true">↗</span>
+            </a>
+            <a class="button button--quiet" href="#research-spine">
+              Read the research spine <span aria-hidden="true">↓</span>
+            </a>
+          </div>
+          <ul class="hero-proof" aria-label="Laboratory principles">
+            <li><strong>21</strong> landmarks</li>
+            <li><strong>0</strong> uploads</li>
+            <li><strong>1</strong> visible decision at a time</li>
+          </ul>
         </div>
-        <p class="eyebrow">Tracking studies / 2026</p>
-        <h1 id="lab-title">
-          <span>Gesture</span>
-          <span>Proof</span>
-        </h1>
-        <p class="lede">
-          Private, on-device motion experiments. Learn signal before designing
-          spectacle.
-        </p>
-        <a
-          class="current-study"
-          href="%BASE_URL%experiments/006-object-manipulation-bench/"
-        >
-          <span>Current study</span>
-          <strong>006 / Object Manipulation Bench</strong>
-          <i aria-hidden="true">↗</i>
-        </a>
-        <p class="hero-index">
-          07 studies / 03 revisions / 04 active validation
-        </p>
+
+        <div class="hero-signal" aria-hidden="true">
+          <svg viewBox="0 0 720 600" focusable="false">
+            <defs>
+              <linearGradient id="signal-line" x1="0" x2="1">
+                <stop stop-color="#ffb000" />
+                <stop offset="0.5" stop-color="#53e0e4" />
+                <stop offset="1" stop-color="#ff4fc3" />
+              </linearGradient>
+              <filter
+                id="signal-glow"
+                x="-50%"
+                y="-50%"
+                width="200%"
+                height="200%"
+              >
+                <feGaussianBlur stdDeviation="8" />
+              </filter>
+            </defs>
+            <path
+              class="signal-trail signal-trail--soft"
+              d="M75 308C200 308 215 165 350 165S470 434 638 434"
+            />
+            <path
+              class="signal-trail"
+              d="M75 308C200 308 215 165 350 165S470 434 638 434"
+            />
+            <g class="signal-points">
+              <circle cx="75" cy="308" r="9" />
+              <circle cx="143" cy="285" r="6" />
+              <circle cx="192" cy="231" r="6" />
+              <circle cx="250" cy="181" r="7" />
+              <circle cx="350" cy="165" r="11" />
+              <circle cx="420" cy="214" r="6" />
+              <circle cx="475" cy="315" r="7" />
+              <circle cx="545" cy="397" r="6" />
+              <circle cx="638" cy="434" r="10" />
+            </g>
+            <g class="signal-frame">
+              <path d="M500 212 631 260 578 427 446 379Z" />
+              <path d="m500 212 78 215M631 260 446 379" />
+            </g>
+          </svg>
+          <span class="signal-label signal-label--landmarks"
+            >01 / landmarks</span
+          >
+          <span class="signal-label signal-label--intent">02 / intent</span>
+          <span class="signal-label signal-label--field">07 / field</span>
+        </div>
+        <p class="hero-index">07 studies / local only / no hidden capture</p>
+      </section>
+
+      <section class="research-journey" aria-labelledby="journey-title">
+        <header class="section-heading">
+          <p class="eyebrow">A visible method</p>
+          <h2 id="journey-title">Do not skip<br />the evidence.</h2>
+          <p>
+            Each study answers one practical question before the next one is
+            allowed to become more expressive.
+          </p>
+        </header>
+
+        <ol class="journey-list">
+          <li class="journey-step journey-step--observe">
+            <div class="journey-visual" aria-hidden="true">
+              <svg viewBox="0 0 280 180" focusable="false">
+                <path
+                  class="visual-grid"
+                  d="M20 35h240M20 90h240M20 145h240M65 15v150M140 15v150M215 15v150"
+                />
+                <path
+                  class="visual-hand"
+                  d="M95 136c-10-24 2-42 16-42 8 0 11 6 13 14V60c0-13 20-13 20 0v39-58c0-13 20-13 20 0v58-45c0-12 20-12 20 0v50-26c0-11 18-11 18 0v56c0 26-20 34-43 34h-31c-16 0-25-10-33-32Z"
+                />
+                <g class="visual-points">
+                  <circle cx="124" cy="60" r="4" />
+                  <circle cx="144" cy="41" r="4" />
+                  <circle cx="164" cy="54" r="4" />
+                  <circle cx="184" cy="78" r="4" />
+                  <circle cx="111" cy="108" r="4" />
+                </g>
+              </svg>
+            </div>
+            <div class="journey-copy">
+              <p class="step-label">Phase 01 / observation</p>
+              <h3>See the signal before naming it.</h3>
+              <p>
+                Start with the tracker’s 21 points, their confidence, and the
+                gaps where evidence is missing.
+              </p>
+              <a href="%BASE_URL%experiments/001-landmark-explorer/"
+                >Open Landmark Explorer <span aria-hidden="true">↗</span></a
+              >
+            </div>
+          </li>
+          <li class="journey-step journey-step--intent">
+            <div class="journey-visual" aria-hidden="true">
+              <svg viewBox="0 0 280 180" focusable="false">
+                <path
+                  class="visual-axis"
+                  d="M25 135H255M55 35v115M115 35v115M175 35v115M235 35v115"
+                />
+                <path class="visual-threshold" d="M28 74h222" />
+                <path
+                  class="visual-curve"
+                  d="M28 137C67 136 75 132 97 116S117 66 142 61c23-5 29 39 54 35 22-4 24-58 54-60"
+                />
+                <circle class="visual-gate" cx="142" cy="61" r="9" />
+              </svg>
+            </div>
+            <div class="journey-copy">
+              <p class="step-label">Phase 02 / temporal evidence</p>
+              <h3>Make intent earn its name.</h3>
+              <p>
+                Ratios, hysteresis, confirmation, and release turn a noisy pose
+                into a state that can safely persist.
+              </p>
+              <div class="journey-links">
+                <a href="%BASE_URL%experiments/002-intent-gate/"
+                  >002 Intent Gate <span aria-hidden="true">↗</span></a
+                >
+                <a href="%BASE_URL%experiments/003-gesture-calibration-bench/"
+                  >003 Calibration Bench <span aria-hidden="true">↗</span></a
+                >
+              </div>
+            </div>
+          </li>
+          <li class="journey-step journey-step--vocabulary">
+            <div class="journey-visual" aria-hidden="true">
+              <svg viewBox="0 0 280 180" focusable="false">
+                <rect
+                  class="visual-matrix-cell"
+                  x="36"
+                  y="28"
+                  width="47"
+                  height="38"
+                  rx="3"
+                />
+                <rect
+                  class="visual-matrix-cell"
+                  x="93"
+                  y="28"
+                  width="47"
+                  height="38"
+                  rx="3"
+                />
+                <rect
+                  class="visual-matrix-cell visual-matrix-cell--active"
+                  x="150"
+                  y="28"
+                  width="47"
+                  height="38"
+                  rx="3"
+                />
+                <rect
+                  class="visual-matrix-cell"
+                  x="207"
+                  y="28"
+                  width="37"
+                  height="38"
+                  rx="3"
+                />
+                <rect
+                  class="visual-matrix-cell"
+                  x="36"
+                  y="77"
+                  width="47"
+                  height="38"
+                  rx="3"
+                />
+                <rect
+                  class="visual-matrix-cell visual-matrix-cell--active"
+                  x="93"
+                  y="77"
+                  width="47"
+                  height="38"
+                  rx="3"
+                />
+                <rect
+                  class="visual-matrix-cell"
+                  x="150"
+                  y="77"
+                  width="47"
+                  height="38"
+                  rx="3"
+                />
+                <path class="visual-route" d="M59 145 116 96 173 47 226 47" />
+                <circle cx="59" cy="145" r="5" />
+                <circle cx="116" cy="96" r="5" />
+                <circle cx="173" cy="47" r="5" />
+                <circle cx="226" cy="47" r="5" />
+              </svg>
+            </div>
+            <div class="journey-copy">
+              <p class="step-label">Phase 03 / gesture vocabulary</p>
+              <h3>Give different gestures one temporal contract.</h3>
+              <p>
+                A shared state matrix makes activation, hold, uncertainty, and
+                release inspectable instead of mysterious.
+              </p>
+              <a href="%BASE_URL%experiments/004-gesture-state-matrix/"
+                >Open Gesture State Matrix <span aria-hidden="true">↗</span></a
+              >
+            </div>
+          </li>
+          <li class="journey-step journey-step--material">
+            <div class="journey-visual" aria-hidden="true">
+              <svg viewBox="0 0 280 180" focusable="false">
+                <path
+                  class="visual-wave"
+                  d="M18 122c23 0 23-64 46-64s23 64 46 64 23-64 46-64 23 64 46 64 23-64 46-64 23 64 46 64"
+                />
+                <path class="visual-frame" d="m172 46 75 28-28 75-75-28Z" />
+                <circle cx="172" cy="46" r="6" />
+                <circle cx="247" cy="74" r="6" />
+                <circle cx="219" cy="149" r="6" />
+                <circle cx="144" cy="121" r="6" />
+              </svg>
+            </div>
+            <div class="journey-copy">
+              <p class="step-label">Phase 04 / material response</p>
+              <h3>Let movement change a field, not the rules.</h3>
+              <p>
+                Effects receive normalized signals. Tracking stays separate,
+                visible, and reversible.
+              </p>
+              <div class="journey-links">
+                <a href="%BASE_URL%experiments/005-motion-field/"
+                  >005 Motion Field <span aria-hidden="true">↗</span></a
+                >
+                <a href="%BASE_URL%experiments/006-object-manipulation-bench/"
+                  >006 Object Bench <span aria-hidden="true">↗</span></a
+                >
+                <a href="%BASE_URL%experiments/007-aperture-field/"
+                  >007 Aperture Field <span aria-hidden="true">↗</span></a
+                >
+              </div>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <section class="featured-studies" aria-labelledby="featured-title">
+        <header class="section-heading">
+          <p class="eyebrow">Start where it moves</p>
+          <h2 id="featured-title">Three ways to<br />make evidence felt.</h2>
+        </header>
+
+        <div class="featured-list">
+          <a
+            class="featured-study featured-study--motion"
+            href="%BASE_URL%experiments/005-motion-field/"
+          >
+            <div class="featured-art" aria-hidden="true">
+              <svg viewBox="0 0 620 340" focusable="false">
+                <path
+                  class="field-path field-path--one"
+                  d="M15 213C87 213 86 86 164 86s72 164 151 164 76-153 149-153 66 106 141 106"
+                />
+                <path
+                  class="field-path field-path--two"
+                  d="M15 263c88 0 94-125 171-125s75 84 144 84 75-113 139-113 65 53 136 53"
+                />
+                <g class="field-particles">
+                  <circle cx="164" cy="86" r="9" />
+                  <circle cx="315" cy="250" r="8" />
+                  <circle cx="464" cy="97" r="10" />
+                  <circle cx="577" cy="203" r="7" />
+                </g>
+              </svg>
+            </div>
+            <div class="featured-copy">
+              <p>005 / Motion Field</p>
+              <h3>Velocity becomes a visible force.</h3>
+              <span
+                >Palm center → speed → bounded particle field
+                <b aria-hidden="true">↗</b></span
+              >
+            </div>
+          </a>
+          <a
+            class="featured-study featured-study--object"
+            href="%BASE_URL%experiments/006-object-manipulation-bench/"
+          >
+            <div class="featured-art" aria-hidden="true">
+              <svg viewBox="0 0 620 340" focusable="false">
+                <g class="cube">
+                  <path d="m250 87 128 45v132l-128 48-128-48V132Z" />
+                  <path
+                    d="m250 87 0 145m128-100-128 100-128-100m128 100 0 80"
+                  />
+                </g>
+                <path class="cube-guide" d="M78 270h464M78 70h464" />
+                <circle class="cube-point" cx="250" cy="87" r="8" />
+                <circle class="cube-point" cx="378" cy="132" r="8" />
+                <circle class="cube-point" cx="250" cy="312" r="8" />
+                <circle class="cube-point" cx="122" cy="264" r="8" />
+              </svg>
+            </div>
+            <div class="featured-copy">
+              <p>006 / Object Manipulation Bench</p>
+              <h3>Confirm the gesture. Then transform the scene.</h3>
+              <span
+                >Locked state → scale / rotate / translate
+                <b aria-hidden="true">↗</b></span
+              >
+            </div>
+          </a>
+          <a
+            class="featured-study featured-study--aperture"
+            href="%BASE_URL%experiments/007-aperture-field/"
+          >
+            <div class="featured-art" aria-hidden="true">
+              <svg viewBox="0 0 620 340" focusable="false">
+                <path class="aperture-glow" d="m178 87 270 61-84 145-269-60Z" />
+                <path
+                  class="aperture-frame"
+                  d="m178 87 270 61-84 145-269-60Z"
+                />
+                <path
+                  class="aperture-cross"
+                  d="m178 87 186 206M448 148 95 233"
+                />
+                <g class="aperture-points">
+                  <circle cx="178" cy="87" r="11" />
+                  <circle cx="448" cy="148" r="11" />
+                  <circle cx="364" cy="293" r="11" />
+                  <circle cx="95" cy="233" r="11" />
+                </g>
+              </svg>
+            </div>
+            <div class="featured-copy">
+              <p>007 / Aperture Field</p>
+              <h3>Two hands make an optical field.</h3>
+              <span
+                >Reliable contact → refraction / pixelate / blur
+                <b aria-hidden="true">↗</b></span
+              >
+            </div>
+          </a>
+        </div>
       </section>
 
       <section
@@ -115,9 +459,14 @@
         id="experiments"
         aria-labelledby="list-title"
       >
+        <span
+          class="anchor-target"
+          id="research-spine"
+          aria-hidden="true"
+        ></span>
         <header>
           <p class="eyebrow">Experiment index</p>
-          <h2 id="list-title">From observation<br />to vocabulary.</h2>
+          <h2 id="list-title">Every question.<br />Every result.</h2>
         </header>
 
         <div class="spine-sequence">

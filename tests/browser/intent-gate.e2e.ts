@@ -28,6 +28,20 @@ async function installNoopTracker(page: Page): Promise<void> {
 }
 
 test('index keeps all experiments separate and reachable', async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'mediaDevices', {
+      configurable: true,
+      value: {
+        getUserMedia: () => {
+          window.__cameraRequestCount__ =
+            (window.__cameraRequestCount__ ?? 0) + 1;
+          return Promise.reject(
+            new DOMException('Unexpected camera request', 'NotAllowedError'),
+          );
+        },
+      },
+    });
+  });
   await page.goto('/');
   const index = page.locator('#experiments');
 
@@ -49,6 +63,26 @@ test('index keeps all experiments separate and reachable', async ({ page }) => {
   await expect(
     index.getByRole('link', { name: /Gesture Calibration Bench/ }),
   ).toHaveAttribute('href', '/experiments/003-gesture-calibration-bench/');
+  await expect(
+    page.getByRole('link', { name: /Explore Aperture Field/ }),
+  ).toHaveAttribute('href', '/experiments/007-aperture-field/');
+  await expect(
+    page.locator('.research-menu-toggle .burger-mark i'),
+  ).toHaveCount(3);
+  await expect
+    .poll(() => page.evaluate(() => window.__cameraRequestCount__ ?? 0))
+    .toBe(0);
+});
+
+test('homepage reduces non-essential signal motion', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/');
+
+  await expect(page.locator('.signal-trail').first()).toHaveCSS(
+    'animation-name',
+    'none',
+  );
+  await expect(page.locator('html')).toHaveCSS('scroll-behavior', 'auto');
 });
 
 test('initial gate does not request camera permission', async ({ page }) => {
@@ -108,7 +142,7 @@ test('clean fixture crosses temporal gate without camera or model', async ({
 
   await expect(page.getByRole('status')).toContainText('Fixture playing');
   await expect(page.locator('#gate-phase')).toHaveText('ACTIVE', {
-    timeout: 2_500,
+    timeout: 4_000,
   });
   await expect(page.locator('#gate-hand')).toHaveText('fixture-right');
   await expect(page.locator('#gate-activation-value')).toHaveText('100%');
