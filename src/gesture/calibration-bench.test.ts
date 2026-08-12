@@ -4,7 +4,9 @@ import {
   calibrationFixtureAt,
   shapeFist,
 } from '../engine/calibration-fixtures';
+import type { HandObservation } from '../engine/contracts';
 import { fixtureFrameAt } from '../engine/fixtures';
+import { palmScale } from '../engine/geometry';
 import { pinchRatio } from './pinch-recognizer';
 import { CalibrationPipeline } from './calibration-comparison';
 import { GestureCalibrationSession } from './calibration-profile';
@@ -13,6 +15,22 @@ import { fistOpenness } from './pose-metrics';
 import { ScalarGestureGate } from './scalar-gate';
 
 describe('calibration metrics', () => {
+  function palmAxisProjection(
+    hand: HandObservation,
+    mcpIndex: number,
+    pointIndex: number,
+  ): number {
+    const wrist = hand.landmarks[0]!;
+    const mcp = hand.landmarks[mcpIndex]!;
+    const point = hand.landmarks[pointIndex]!;
+    const length = Math.hypot(wrist.x - mcp.x, wrist.y - mcp.y);
+    return (
+      ((point.x - mcp.x) * (wrist.x - mcp.x) +
+        (point.y - mcp.y) * (wrist.y - mcp.y)) /
+      length
+    );
+  }
+
   it('separates an open hand from a deterministic fist', () => {
     const open = fixtureFrameAt('stable', 0).observations[0];
     expect(open).toBeDefined();
@@ -21,6 +39,32 @@ describe('calibration metrics', () => {
 
     expect(fistOpenness(open)).toBeGreaterThan(0.75);
     expect(fistOpenness(fist)).toBeLessThan(0.25);
+    expect(pinchRatio(fist)).toBeGreaterThan(0.52);
+    expect(pinchRatio(shapeFist(open, 0.7, 0))).toBeGreaterThan(0.52);
+  });
+
+  it('curls each fist fixture finger toward the palm without a tip reversal', () => {
+    const open = fixtureFrameAt('stable', 0).observations[0];
+    expect(open).toBeDefined();
+    if (!open) return;
+    const fist = shapeFist(open, 1, 0);
+    const scale = palmScale(fist.landmarks);
+    expect(scale).toBeDefined();
+    if (!scale) return;
+
+    for (const [mcpIndex, pipIndex, dipIndex, tipIndex] of [
+      [5, 6, 7, 8],
+      [9, 10, 11, 12],
+      [13, 14, 15, 16],
+      [17, 18, 19, 20],
+    ] as const) {
+      const pip = palmAxisProjection(fist, mcpIndex, pipIndex) / scale;
+      const dip = palmAxisProjection(fist, mcpIndex, dipIndex) / scale;
+      const tip = palmAxisProjection(fist, mcpIndex, tipIndex) / scale;
+
+      expect(pip).toBeLessThan(dip);
+      expect(dip).toBeLessThan(tip);
+    }
   });
 
   it('keeps openness invariant under mirroring and scale changes', () => {

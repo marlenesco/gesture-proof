@@ -61,7 +61,8 @@ export function fingerOpenness(
   }
 
   const angleEvidence =
-    (clamp01((pipAngle - 65) / 105) + clamp01((dipAngle - 65) / 105)) / 2;
+    clamp01((pipAngle - 55) / 115) * 0.75 +
+    clamp01((dipAngle - 65) / 105) * 0.25;
   const reachEvidence = clamp01((reach - 0.75) / 1.65);
   return angleEvidence * 0.72 + reachEvidence * 0.28;
 }

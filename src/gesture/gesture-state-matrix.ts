@@ -41,6 +41,8 @@ export interface GestureStateMatrixConfig {
   readonly cooldownDurationMs: number;
   readonly dropoutGraceMs: number;
   readonly maximumEvidenceGapMs: number;
+  readonly spanContinuationRatio: number;
+  readonly spanActivationRatio: number;
 }
 
 export const DEFAULT_GESTURE_STATE_MATRIX_CONFIG: GestureStateMatrixConfig = {
@@ -53,6 +55,8 @@ export const DEFAULT_GESTURE_STATE_MATRIX_CONFIG: GestureStateMatrixConfig = {
   cooldownDurationMs: 180,
   dropoutGraceMs: 100,
   maximumEvidenceGapMs: 90,
+  spanContinuationRatio: 1.6,
+  spanActivationRatio: 2.9,
 };
 
 export type GestureStateMatrixReason =
@@ -131,10 +135,15 @@ function palmCenter(hand: HandObservation): NormalizedPoint | undefined {
   };
 }
 
-function minimumFingerOpenness(hand: HandObservation): number | undefined {
+function stableMinimumFingerOpenness(
+  hand: HandObservation,
+): number | undefined {
   const opennesses = fingerOpennesses(hand);
   if (!opennesses) return undefined;
-  return Math.min(...FINGER_NAMES.map((finger) => opennesses[finger]));
+  const sorted = FINGER_NAMES.map((finger) => opennesses[finger]).toSorted(
+    (first, second) => first - second,
+  );
+  return sorted[1];
 }
 
 function rank(scores: MatrixScores): readonly [MatrixGesture, MatrixGesture] {
@@ -147,6 +156,7 @@ function rank(scores: MatrixScores): readonly [MatrixGesture, MatrixGesture] {
 export function measureGestureMatrix(
   observations: readonly HandObservation[],
   primaryHandId?: string,
+  config = DEFAULT_GESTURE_STATE_MATRIX_CONFIG,
 ): GestureMatrixEvidence | undefined {
   const primary = primaryHandId
     ? observations.find(({ id }) => id === primaryHandId)
@@ -158,18 +168,33 @@ export function measureGestureMatrix(
   if (pinch === undefined || !fingers) return undefined;
 
   const fingerValues = FINGER_NAMES.map((finger) => fingers[finger]);
-  const mostOpen = Math.max(...fingerValues);
-  const leastOpen = Math.min(...fingerValues);
-  const otherMostOpen = Math.max(fingers.middle, fingers.ring, fingers.pinky);
-  const pinchScore = mapFalling(pinch, 0.52, 0.24);
-  const fistScore = mapFalling(mostOpen, 0.46, 0.18);
+  const sortedFingerValues = fingerValues.toSorted(
+    (first, second) => first - second,
+  );
+  const stableLeastOpen = sortedFingerValues[1] ?? 0;
+  const stableMostOpen = sortedFingerValues.at(-2) ?? 1;
+  const stableOtherMostOpen = [
+    fingers.middle,
+    fingers.ring,
+    fingers.pinky,
+  ].toSorted((first, second) => first - second)[1]!;
+  const curledFingerRelease = mapRising(stableLeastOpen, 0.42, 0.68);
+  const pinchScore = Math.min(
+    mapFalling(pinch, 0.52, 0.24),
+    curledFingerRelease,
+  );
+  const rawFistScore = mapFalling(stableMostOpen, 0.52, 0.3);
   const releasedPinch = mapRising(pinch, 0.44, 0.66);
-  const openScore = Math.min(mapRising(leastOpen, 0.62, 0.88), releasedPinch);
-  const pointScore = Math.min(
-    mapRising(fingers.index, 0.62, 0.9),
-    mapFalling(otherMostOpen, 0.42, 0.16),
+  const openScore = Math.min(
+    mapRising(stableLeastOpen, 0.62, 0.88),
     releasedPinch,
   );
+  const pointScore = Math.min(
+    mapRising(fingers.index, 0.58, 0.82),
+    mapFalling(stableOtherMostOpen, 0.52, 0.3),
+    releasedPinch,
+  );
+  const fistScore = rawFistScore * (1 - pointScore);
 
   let spanRatio: number | undefined;
   let spanScore = 0;
@@ -185,7 +210,7 @@ export function measureGestureMatrix(
       ? palmScale(secondary.landmarks)
       : undefined;
     const secondaryOpen = secondary
-      ? minimumFingerOpenness(secondary)
+      ? stableMinimumFingerOpenness(secondary)
       : undefined;
     if (
       primaryCenter &&
@@ -199,9 +224,13 @@ export function measureGestureMatrix(
       spanRatio =
         normalizedDistance(primaryCenter, secondaryCenter) /
         ((primaryScale + secondaryScale) / 2);
-      const bothOpen = Math.min(leastOpen, secondaryOpen);
+      const bothOpen = Math.min(stableLeastOpen, secondaryOpen);
       spanScore = Math.min(
-        mapRising(spanRatio, 1.6, 2.9),
+        mapRising(
+          spanRatio,
+          config.spanContinuationRatio,
+          config.spanActivationRatio,
+        ),
         mapRising(bothOpen, 0.56, 0.82),
       );
     }
@@ -252,7 +281,11 @@ export class GestureStateMatrix {
     timestampMs: number,
   ): GestureSignal<GestureStateMatrixPayload> {
     const primary = this.selectPrimary(observations, timestampMs);
-    const evidence = measureGestureMatrix(observations, primary?.id);
+    const evidence = measureGestureMatrix(
+      observations,
+      primary?.id,
+      this.config,
+    );
     if (!evidence) return this.missing(timestampMs);
 
     const evidenceGap =
