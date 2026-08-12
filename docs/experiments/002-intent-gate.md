@@ -164,3 +164,7 @@ Pending before a keep/revise/discard conclusion:
 - physical camera: one/two/no hands, lighting, occlusion, motion blur, partial
   exits, skin tones, sleeves, jewelry, busy backgrounds, and device performance
 - camera inactivity teardown in a physical permission session
+
+Method view exposes the palm-normalized ratio, hysteresis, temporal gate,
+rejection rules, and implementation map through the shareable `#method` hash.
+It never starts camera capture.

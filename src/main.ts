@@ -1,6 +1,9 @@
 import './styles.css';
+import './method-panel.css';
 import './research-spine.css';
 import './research-navigation';
+import { initMethodPanel } from './method-panel';
+import { mountMethodPanel } from './method-content';
 
 import type { HandTracker } from './engine/contracts';
 import { LandmarkExplorer } from './experience/landmark-explorer';
@@ -22,3 +25,5 @@ const tracker = testTrackerFactory
   : createMediaPipeHandTracker();
 
 new LandmarkExplorer(tracker);
+mountMethodPanel();
+initMethodPanel();

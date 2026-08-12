@@ -135,3 +135,6 @@ marker and preserves all numeric evidence and focus transitions.
   force laws and thresholds after physical-camera measurement.
 - Still pending: physical direction error, camera-rate stability, blur,
   occlusion, lighting, varied devices, skin tones, sleeves, and jewelry.
+- Method view exposes stable-owner velocity, timestamp gap rejection, bounded
+  particle output, and implementation map through the shareable `#method` hash.
+  It never starts camera capture.

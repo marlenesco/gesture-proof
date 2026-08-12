@@ -197,3 +197,7 @@ discard travel while retaining direct manipulation, state text, focus, and undo.
 Conclusion: **keep for physical validation**. The bounded object count and
 input lock make the interaction coherent enough to test with real hands; final
 gesture thresholds and product direction remain pending physical evidence.
+
+Method view exposes confirmed gesture mapping, candidate-baseline staging,
+transform rejection, and implementation map through the shareable `#method`
+hash. It never starts camera capture.

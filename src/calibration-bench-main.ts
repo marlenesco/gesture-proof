@@ -1,6 +1,9 @@
 import './calibration-bench.css';
+import './method-panel.css';
 import './research-spine.css';
 import './research-navigation';
+import { initMethodPanel } from './method-panel';
+import { mountMethodPanel } from './method-content';
 
 import type { HandTracker } from './engine/contracts';
 import { GestureCalibrationBench } from './experience/calibration-bench';
@@ -21,3 +24,5 @@ const testTrackerFactory = import.meta.env.DEV
 new GestureCalibrationBench(
   testTrackerFactory ? testTrackerFactory() : createMediaPipeHandTracker(),
 );
+mountMethodPanel();
+initMethodPanel();

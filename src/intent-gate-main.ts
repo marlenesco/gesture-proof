@@ -1,6 +1,9 @@
 import './intent-gate.css';
+import './method-panel.css';
 import './research-spine.css';
 import './research-navigation';
+import { initMethodPanel } from './method-panel';
+import { mountMethodPanel } from './method-content';
 
 import type { HandTracker } from './engine/contracts';
 import { IntentGate } from './experience/intent-gate';
@@ -20,3 +23,5 @@ const testTrackerFactory = import.meta.env.DEV
 new IntentGate(
   testTrackerFactory ? testTrackerFactory() : createMediaPipeHandTracker(),
 );
+mountMethodPanel();
+initMethodPanel();

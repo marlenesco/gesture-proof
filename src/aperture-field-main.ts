@@ -1,6 +1,8 @@
 import './aperture-field.css';
+import './method-panel.css';
 import './research-spine.css';
 import './research-navigation';
+import { initMethodPanel } from './method-panel';
 
 import type { HandTracker } from './engine/contracts';
 import { ApertureFieldExperience } from './experience/aperture-field';
@@ -19,3 +21,4 @@ const testTrackerFactory = import.meta.env.DEV
 new ApertureFieldExperience(
   testTrackerFactory ? testTrackerFactory() : createMediaPipeHandTracker(),
 );
+initMethodPanel();

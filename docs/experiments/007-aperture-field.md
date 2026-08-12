@@ -102,5 +102,8 @@ make its boundary credible.
   The L-pose fixture visibly establishes the field; crossed tips render as two
   clipped triangles and thumb-index contact as one triangle. All three optics
   remain selectable.
+- Method view exposes the real anatomical corner order, contact midpoint rule,
+  temporal area gate, and implementation map through the shareable `#method`
+  hash. Its diagrams never start camera capture.
 - Decision: **keep / physical pending**. Physical-camera matrix still decides
   threshold tuning and whether this becomes a product interaction.
