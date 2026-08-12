@@ -11,8 +11,12 @@ the eventual portfolio experience.
 
 - Experiments 001 through 007 are implemented as separate, linkable routes;
   physical-camera studies remain pending.
+- Homepage turns Research Spine into a visual sequence from landmarks to material
+  response, while keeping complete study index below it. It explicitly directs
+  visitors to deterministic fixtures or a user-started device camera.
 - A Research Spine connects studies by phase, current position, evidence record,
-  and keep/revise/discard decision.
+  and keep/revise/discard decision. Every study also has a camera-free,
+  shareable `#method` technical view.
 - Camera, image, and deterministic tracking or pinch fixture paths are
   available.
 - Camera permission is requested only after the explicit Start camera action.
@@ -32,19 +36,21 @@ pnpm dev
 
 Open `http://127.0.0.1:4173`.
 
-- `/` — experiment index
-- `/experiments/001-landmark-explorer/` — tracking signal inspector
-- `/experiments/002-intent-gate/` — pinch evidence and intent state machine
-- `/experiments/003-gesture-calibration-bench/` — fixed, filtered, and locally
-  calibrated pinch/fist comparison
-- `/experiments/004-gesture-state-matrix/` — competing pinch, fist, open-palm,
-  pointing, and two-hand-span evidence
-- `/experiments/005-motion-field/` — palm velocity and confirmed gestures drive
-  a fixed-buffer particle field
-- `/experiments/006-object-manipulation-bench/` — locked gestures move, rotate,
-  and scale a capped ephemeral wireframe scene
-- `/experiments/007-aperture-field/` — two hands establish a local refraction,
-  pixelate, or blur field
+## Explore locally
+
+Start `pnpm dev`, then use these links. Method links never request camera
+permission.
+
+| Study                           | Experience                                                               | Technical method                                                                  | Record                                                                                    |
+| ------------------------------- | ------------------------------------------------------------------------ | --------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| Home                            | [Open homepage](http://127.0.0.1:4173/)                                  | [Landing direction](./docs/home-landing.md)                                       | [Research Spine decision](./docs/decisions/0004-research-spine-collection-and-records.md) |
+| 001 — Landmark Explorer         | [Open](http://127.0.0.1:4173/experiments/001-landmark-explorer/)         | [Method](http://127.0.0.1:4173/experiments/001-landmark-explorer/#method)         | [Brief](./docs/experiments/001-landmark-explorer.md)                                      |
+| 002 — Intent Gate               | [Open](http://127.0.0.1:4173/experiments/002-intent-gate/)               | [Method](http://127.0.0.1:4173/experiments/002-intent-gate/#method)               | [Brief](./docs/experiments/002-intent-gate.md)                                            |
+| 003 — Gesture Calibration Bench | [Open](http://127.0.0.1:4173/experiments/003-gesture-calibration-bench/) | [Method](http://127.0.0.1:4173/experiments/003-gesture-calibration-bench/#method) | [Brief](./docs/experiments/003-gesture-calibration-bench.md)                              |
+| 004 — Gesture State Matrix      | [Open](http://127.0.0.1:4173/experiments/004-gesture-state-matrix/)      | [Method](http://127.0.0.1:4173/experiments/004-gesture-state-matrix/#method)      | [Brief](./docs/experiments/004-gesture-state-matrix.md)                                   |
+| 005 — Motion Field              | [Open](http://127.0.0.1:4173/experiments/005-motion-field/)              | [Method](http://127.0.0.1:4173/experiments/005-motion-field/#method)              | [Brief](./docs/experiments/005-motion-field.md)                                           |
+| 006 — Object Manipulation Bench | [Open](http://127.0.0.1:4173/experiments/006-object-manipulation-bench/) | [Method](http://127.0.0.1:4173/experiments/006-object-manipulation-bench/#method) | [Brief](./docs/experiments/006-object-manipulation-bench.md)                              |
+| 007 — Aperture Field            | [Open](http://127.0.0.1:4173/experiments/007-aperture-field/)            | [Method](http://127.0.0.1:4173/experiments/007-aperture-field/#method)            | [Brief](./docs/experiments/007-aperture-field.md)                                         |
 
 For a GitHub project page build, set `VITE_BASE_PATH` to repository path:
 
@@ -86,7 +92,8 @@ pnpm format       # format repository files
 7. [`docs/experiments/005-motion-field.md`](./docs/experiments/005-motion-field.md)
 8. [`docs/experiments/006-object-manipulation-bench.md`](./docs/experiments/006-object-manipulation-bench.md)
 9. [`docs/experiments/007-aperture-field.md`](./docs/experiments/007-aperture-field.md)
-10. [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md)
+10. [`docs/home-landing.md`](./docs/home-landing.md)
+11. [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md)
 
 ## Repository map
 

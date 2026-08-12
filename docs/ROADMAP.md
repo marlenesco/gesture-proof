@@ -51,7 +51,10 @@ Exit: select one interaction with original expressive value.
 
 ## Phase 4 — Build the showcase
 
-- portfolio narrative and final identity
+- homepage research narrative, illustrated study path, and featured experiments
+  are implemented
+- shareable technical Method panels are implemented for studies 001–007
+- portfolio narrative and final identity remain open
 - full-bleed flagship experience
 - readable technical breakdown
 - failure and privacy explanation
