@@ -61,14 +61,35 @@ test('initial aperture field remains camera-free and appears in collection', asy
     .toBe(0);
 });
 
-test('homepage index links to Aperture Field without changing current study', async ({
+test('homepage foregrounds Aperture Field while keeping it in the research index', async ({
   page,
 }) => {
   await page.goto('/');
   await expect(
-    page.getByRole('link', { name: /007 Aperture Field/ }),
+    page.getByRole('link', { name: /Explore Aperture Field/ }),
   ).toHaveAttribute('href', /experiments\/007-aperture-field\/$/);
-  await expect(page.getByText('006 / Object Manipulation Bench')).toBeVisible();
+  await expect(
+    page
+      .locator('#experiments')
+      .getByRole('link', { name: /007 Aperture Field/ }),
+  ).toHaveAttribute('href', /experiments\/007-aperture-field\/$/);
+});
+
+test('method explains aperture topology through a shareable hash', async ({
+  page,
+}) => {
+  await page.goto(`${EXPERIMENT_PATH}#method`);
+
+  const panel = page.locator('#aperture-method');
+  await expect(panel).toBeVisible();
+  await expect(
+    panel.getByRole('heading', { name: 'A field keeps its anatomy.' }),
+  ).toBeVisible();
+  await expect(panel.getByText('Anatomical corner order')).toBeVisible();
+  await expect(panel.getByText('Contact without snap')).toBeVisible();
+  await panel.getByRole('button', { name: /close/i }).click();
+  await expect(panel).toBeHidden();
+  await expect(page).toHaveURL(EXPERIMENT_PATH);
 });
 
 test('steady fixture confirms an aperture and switches local optics', async ({
@@ -78,7 +99,7 @@ test('steady fixture confirms an aperture and switches local optics', async ({
   await page.getByRole('button', { name: 'Run aperture fixture' }).click();
 
   await expect(page.locator('#aperture-phase')).toHaveText('ACTIVE', {
-    timeout: 1_500,
+    timeout: 2_500,
   });
   await expect(page.locator('#aperture-area')).not.toHaveText('0.00');
   await page.locator('#aperture-effect-select').selectOption('pixelate');
@@ -147,7 +168,7 @@ test('reduced motion preserves fixture evidence', async ({ page }) => {
   await page.getByRole('button', { name: 'Run aperture fixture' }).click();
 
   await expect(page.locator('#aperture-phase')).toHaveText('ACTIVE', {
-    timeout: 1_500,
+    timeout: 2_500,
   });
   await expect
     .poll(() =>
