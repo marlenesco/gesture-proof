@@ -19,7 +19,7 @@
   --dim: #77756f;
   --line: rgba(245, 239, 229, 0.18);
   --line-strong: rgba(245, 239, 229, 0.34);
-  --accent: #ff4f2f;
+  --accent: #ffb000;
   --header-height: 64px;
   --mono: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
 }
@@ -770,6 +770,10 @@ h1 span:last-child {
     justify-content: flex-start;
     font-size: 0.58rem;
     text-align: left;
+  }
+
+  .experiment:not([data-active='true']) .status-line {
+    bottom: 1.2rem;
   }
 
   .final-actions {
