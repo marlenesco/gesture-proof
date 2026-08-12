@@ -47,8 +47,9 @@ result as truth.
 
 ### Fist
 
-- metric: mean extension evidence from index, middle, ring, and pinky PIP angles
-  plus wrist-to-tip distance, normalized to `[0, 1]`; lower means more closed
+- metric: mean extension evidence from index, middle, ring, and pinky, with PIP
+  bend weighted above perspective-sensitive DIP bend and combined with
+  wrist-to-tip distance; normalized to `[0, 1]`, lower means more closed
 - fixed activation: `0.32`; fixed continuation: `0.45`
 - calibrated activation: fist median plus `15%` of distance to open median
 - calibrated continuation: fist median plus `30%` of distance to open median
@@ -167,6 +168,10 @@ preserves current values, thresholds, phases, and comparison evidence.
   for both pinch and fist while reducing threshold-jitter phase changes.
 - Jitter and deliberately short holds remain negative cases in fixed and
   filtered pipelines.
+- Hands-on review of experiment 004 exposed anatomically inconsistent fist
+  fixtures. Finger chains now curl from MCP through PIP and DIP toward the palm;
+  the thumb folds in two stages and the personalized fixture preserves the same
+  calibration separation without posing as a pinch.
 - Calibration remains memory-only and is discarded on reset, input switch,
   inactivity, error, and teardown.
 - Physical-camera validation remains pending; no reliability claim is made for

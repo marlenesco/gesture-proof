@@ -35,12 +35,16 @@ was accepted instead of receiving an unexplained label.
 All pose scores are normalized to `[0, 1]`; higher means stronger evidence.
 
 - **Pinch:** thumb-tip to index-tip distance divided by palm scale, mapped from
-  released at `0.52` to fully pinched at `0.24`
-- **Fist:** mean four-finger openness, mapped from released at `0.52` to fully
-  closed at `0.20`
-- **Open palm:** four-finger openness above `0.62`, gated by a released pinch
-- **Point:** extended index plus curled middle, ring, and pinky, gated by a
-  released pinch
+  released at `0.52` to fully pinched at `0.24`, and suppressed unless at least
+  two fingers remain coherently open
+- **Fist:** second-most-open finger evidence, mapped from released at `0.52` to
+  fully closed at `0.30`, then suppressed by pointing evidence; this tolerates
+  one noisy non-pointing finger without classifying an extended index as fist
+- **Open palm:** second-least-open finger evidence above `0.62`, gated by a
+  released pinch, so one noisy finger does not erase otherwise coherent evidence
+- **Point:** index openness mapped from `0.58` to `0.82`, plus the second-most
+  open value among middle, ring, and pinky mapped from `0.52` to `0.30`, gated
+  by a released pinch; one noisy non-index finger is tolerated, two are not
 - **Two-hand span:** palm-center distance divided by mean palm scale, mapped
   from released at `1.60` to fully extended at `2.90`
 - activation requires score `>= 0.78`, at least `0.16` above the runner-up, for
@@ -131,9 +135,9 @@ every score, phase, reason, and focus transition.
 
 ## Result log
 
-- `pnpm check` passed: formatting, lint, 46 unit tests, type-check, and production
+- `pnpm check` passed: formatting, lint, 88 unit tests, type-check, and production
   build.
-- The full browser suite passed 32/32 with one worker. The eight experiment 004
+- The full browser suite passed 55/55 with one worker. The eight experiment 004
   cases cover initial privacy, all five gesture families, competitive evidence,
   short holds, camera denial/unavailability, media-track teardown, and reduced
   motion.
@@ -143,5 +147,13 @@ every score, phase, reason, and focus transition.
 - Deterministic evidence supports the shared competition and temporal state
   machine. Decision: **revise** thresholds and ownership behavior after the
   physical-camera matrix; do not promote these values to a product contract yet.
+- Experiment 006 hands-on feedback added regression evidence for a fist with one
+  noisy non-pointing finger. Pointing still wins when index evidence is extended;
+  default two-hand span thresholds remain unchanged for this study.
+- Further hands-on feedback found the shared deterministic fist geometry was a
+  zig-zag pose unlike a physical hand and had hidden thresholds that demanded
+  almost perfect closure. Fixtures now use palm-relative articulated curls,
+  point restores only the index chain, and incomplete camera-like fist/point
+  poses pass while two open non-index fingers still reject point.
 - Still pending: physical hands across blur, occlusion, low light, crossings,
   skin tones, sleeves, jewelry, and varied devices.
