@@ -43,6 +43,10 @@ export default defineConfig({
           import.meta.dirname,
           'experiments/007-aperture-field/index.html',
         ),
+        apertureObjectSet: resolve(
+          import.meta.dirname,
+          'experiments/008-aperture-object-set/index.html',
+        ),
       },
     },
   },

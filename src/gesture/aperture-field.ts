@@ -23,6 +23,7 @@ export interface ApertureEvidence {
   readonly handIds: readonly [string, string];
   readonly area: number;
   readonly tension: number;
+  readonly meanScale: number;
 }
 
 export interface AperturePayload {
@@ -44,17 +45,27 @@ export interface ApertureFieldConfig {
   readonly nearContactRatio: number;
   readonly activationAreaRatio: number;
   readonly continuationAreaRatio: number;
+  readonly minimumDistinctCornerRatio: number;
+  readonly minimumHandConfidence: number;
+  readonly maximumCandidateCornerDriftRatio: number;
+  readonly maximumClosedFingerOpennessActivation: number;
+  readonly maximumClosedFingerOpennessContinuation: number;
 }
 
 export const DEFAULT_APERTURE_FIELD_CONFIG: ApertureFieldConfig = {
-  activationDurationMs: 180,
+  activationDurationMs: 260,
   releaseDurationMs: 120,
   cooldownDurationMs: 220,
   contactActivationRatio: 0.075,
   contactContinuationRatio: 0.12,
   nearContactRatio: 0.32,
-  activationAreaRatio: 1.25,
-  continuationAreaRatio: 0.85,
+  activationAreaRatio: 0.18,
+  continuationAreaRatio: 0.12,
+  minimumDistinctCornerRatio: 0.045,
+  minimumHandConfidence: 0.8,
+  maximumCandidateCornerDriftRatio: 0.06,
+  maximumClosedFingerOpennessActivation: 0.78,
+  maximumClosedFingerOpennessContinuation: 0.86,
 };
 
 function clamp01(value: number): number {
@@ -78,6 +89,7 @@ function angularHull(
 function handEvidence(
   hand: HandObservation,
   nearContactRatio: number,
+  maximumClosedFingerOpenness: number,
 ):
   | {
       readonly ratio: number;
@@ -89,9 +101,22 @@ function handEvidence(
   const index = hand.landmarks[8];
   const scale = palmScale(hand.landmarks);
   const indexOpen = fingerOpenness(hand, 'index');
+  const closedFingerOpennesses = (['middle', 'ring', 'pinky'] as const).map(
+    (finger) => fingerOpenness(hand, finger),
+  );
   if (!thumb || !index || !scale || scale < 0.02 || indexOpen === undefined) {
     return undefined;
   }
+  if (closedFingerOpennesses.some((openness) => openness === undefined)) {
+    return undefined;
+  }
+  // MediaPipe can briefly overestimate one curled fingertip. Require two of
+  // three non-index fingers to be curled, while a genuine open palm/span has
+  // all three extended.
+  const curledFingerCount = closedFingerOpennesses.filter(
+    (openness) => openness! <= maximumClosedFingerOpenness,
+  ).length;
+  if (curledFingerCount < 2) return undefined;
   const ratio = normalizedDistance(thumb, index) / scale;
   const minimumIndexOpen = ratio <= nearContactRatio ? 0.2 : 0.58;
   if (!Number.isFinite(ratio) || indexOpen < minimumIndexOpen) return undefined;
@@ -105,6 +130,45 @@ function contactPoint(
   return { x: (thumb.x + index.x) / 2, y: (thumb.y + index.y) / 2 };
 }
 
+function hasThreeDistinctCorners(
+  points: readonly NormalizedPoint[],
+  minimumDistance: number,
+): boolean {
+  const distinct: NormalizedPoint[] = [];
+  points.forEach((point) => {
+    if (
+      distinct.every(
+        (candidate) => normalizedDistance(candidate, point) >= minimumDistance,
+      )
+    ) {
+      distinct.push(point);
+    }
+  });
+  return distinct.length >= 3;
+}
+
+function cornersRemainStable(
+  baseline: ApertureEvidence,
+  current: ApertureEvidence,
+  maximumDriftRatio: number,
+): boolean {
+  if (
+    baseline.handIds[0] !== current.handIds[0] ||
+    baseline.handIds[1] !== current.handIds[1] ||
+    baseline.corners.length !== current.corners.length
+  ) {
+    return false;
+  }
+  const maximumDrift =
+    Math.min(baseline.meanScale, current.meanScale) * maximumDriftRatio;
+  return baseline.corners.every((corner, index) => {
+    const next = current.corners[index];
+    return (
+      next !== undefined && normalizedDistance(corner, next) <= maximumDrift
+    );
+  });
+}
+
 export function measureAperture(
   observations: readonly HandObservation[],
   config = DEFAULT_APERTURE_FIELD_CONFIG,
@@ -114,16 +178,36 @@ export function measureAperture(
     .toSorted((first, second) => second.confidence - first.confidence)
     .slice(0, 2);
   if (detectedHands.length !== 2) return undefined;
+  if (
+    detectedHands.some(
+      ({ confidence }) =>
+        !Number.isFinite(confidence) ||
+        confidence < config.minimumHandConfidence,
+    )
+  ) {
+    return undefined;
+  }
   const hands = detectedHands.toSorted((first, second) => {
     const firstWrist = first.landmarks[0];
     const secondWrist = second.landmarks[0];
     return (firstWrist?.x ?? 0) - (secondWrist?.x ?? 0);
   });
+  const maximumClosedFingerOpenness = continuation
+    ? config.maximumClosedFingerOpennessContinuation
+    : config.maximumClosedFingerOpennessActivation;
   const first = hands[0]
-    ? handEvidence(hands[0], config.nearContactRatio)
+    ? handEvidence(
+        hands[0],
+        config.nearContactRatio,
+        maximumClosedFingerOpenness,
+      )
     : undefined;
   const second = hands[1]
-    ? handEvidence(hands[1], config.nearContactRatio)
+    ? handEvidence(
+        hands[1],
+        config.nearContactRatio,
+        maximumClosedFingerOpenness,
+      )
     : undefined;
   if (!first || !second) return undefined;
   const contactRatio = continuation
@@ -154,6 +238,14 @@ export function measureAperture(
   const hull = angularHull(hullPoints);
   const meanScale =
     (palmScale(hands[0]!.landmarks)! + palmScale(hands[1]!.landmarks)!) / 2;
+  if (
+    !hasThreeDistinctCorners(
+      hullPoints,
+      meanScale * config.minimumDistinctCornerRatio,
+    )
+  ) {
+    return undefined;
+  }
   const area = polygonArea(hull) / (meanScale * meanScale);
   const minimumArea =
     (continuation ? config.continuationAreaRatio : config.activationAreaRatio) *
@@ -166,6 +258,7 @@ export function measureAperture(
     tension: clamp01(
       (Math.max(first.ratio, second.ratio) - contactRatio) / 0.84,
     ),
+    meanScale,
   };
 }
 
@@ -186,6 +279,7 @@ export class ApertureFieldRecognizer {
   private releaseAtMs: number | undefined;
   private cooldownAtMs: number | undefined;
   private activeIds: readonly [string, string] | undefined;
+  private candidateEvidence: ApertureEvidence | undefined;
   private lastEvidence: ApertureEvidence | undefined;
 
   constructor(private readonly config = DEFAULT_APERTURE_FIELD_CONFIG) {}
@@ -266,12 +360,26 @@ export class ApertureFieldRecognizer {
     if (!evidence) {
       this.phase = 'idle';
       this.candidateAtMs = undefined;
+      this.candidateEvidence = undefined;
       return signal('geometry-invalid');
     }
     this.lastEvidence = evidence;
     if (this.phase !== 'candidate') {
       this.phase = 'candidate';
       this.candidateAtMs = timestampMs;
+      this.candidateEvidence = evidence;
+      return signal('activation-candidate');
+    }
+    if (
+      !this.candidateEvidence ||
+      !cornersRemainStable(
+        this.candidateEvidence,
+        evidence,
+        this.config.maximumCandidateCornerDriftRatio,
+      )
+    ) {
+      this.candidateAtMs = timestampMs;
+      this.candidateEvidence = evidence;
       return signal('activation-candidate');
     }
     if (
@@ -283,6 +391,7 @@ export class ApertureFieldRecognizer {
     this.phase = 'active';
     this.activeIds = evidence.handIds;
     this.candidateAtMs = undefined;
+    this.candidateEvidence = undefined;
     return signal('activation-confirmed');
   }
 
@@ -292,6 +401,7 @@ export class ApertureFieldRecognizer {
     this.releaseAtMs = undefined;
     this.cooldownAtMs = undefined;
     this.activeIds = undefined;
+    this.candidateEvidence = undefined;
     this.lastEvidence = undefined;
   }
 

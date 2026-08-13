@@ -16,6 +16,8 @@ import { palmScale } from './geometry';
 export const APERTURE_FIXTURE_SCENARIOS = [
   'steady-aperture',
   'small-aperture',
+  'collapsed-aperture',
+  'open-palm-span',
   'jitter',
   'dropout',
   'crossing',
@@ -96,6 +98,7 @@ function shapeLHand(
   hand: HandObservation,
   openness: number,
   timestampMs: number,
+  closedOtherFingers = true,
 ): HandObservation {
   const closed = shapeFist(hand, 1, timestampMs);
   const indexMcp = hand.landmarks[5];
@@ -130,7 +133,9 @@ function shapeLHand(
       const open = target[index] ?? point;
       const preserveIndex = index >= 5 && index <= 8;
       const preserveThumb = index === 3 || index === 4;
-      if (!preserveIndex && !preserveThumb) return point;
+      const preserveOtherFingers = !closedOtherFingers && index >= 9;
+      if (!preserveIndex && !preserveThumb && !preserveOtherFingers)
+        return point;
       return {
         ...point,
         x: mix(point.x, open.x, openness),
@@ -179,6 +184,26 @@ function pinchIndexToThumb(hand: HandObservation): HandObservation {
   };
 }
 
+function collapseApertureTips(
+  hands: readonly HandObservation[],
+): readonly HandObservation[] {
+  const tips = hands.flatMap((hand) => [hand.landmarks[4], hand.landmarks[8]]);
+  const valid = tips.filter(
+    (point): point is NormalizedPoint => point !== undefined,
+  );
+  if (valid.length === 0) return hands;
+  const center = {
+    x: valid.reduce((sum, point) => sum + point.x, 0) / valid.length,
+    y: valid.reduce((sum, point) => sum + point.y, 0) / valid.length,
+  };
+  return hands.map((hand) => ({
+    ...hand,
+    landmarks: hand.landmarks.map((point, index) =>
+      index === 4 || index === 8 ? { ...point, ...center } : point,
+    ),
+  }));
+}
+
 function lPoseProgress(cycleMs: number): number {
   if (cycleMs < 360) return 0;
   if (cycleMs < 1160) return easeInOut((cycleMs - 360) / 800);
@@ -192,6 +217,7 @@ function apertureHands(
   separation: number,
   openness: number,
   jitter = 0,
+  closedOtherFingers = true,
 ): readonly HandObservation[] {
   const compactSeparation =
     separation * FIXTURE_HAND_SCALE * TWO_HAND_FIXTURE_SCALE;
@@ -210,6 +236,7 @@ function apertureHands(
       ),
       openness,
       timestampMs,
+      closedOtherFingers,
     ),
     shapeLHand(
       scaleFixtureHand(
@@ -224,6 +251,7 @@ function apertureHands(
       ),
       openness,
       timestampMs,
+      closedOtherFingers,
     ),
   ];
 }
@@ -245,15 +273,25 @@ export function apertureFixtureAt(
     separation,
     lPoseProgress(cycle),
     jitter,
+    scenario !== 'open-palm-span',
   );
   let frameObservations = observations;
   let label =
     scenario === 'small-aperture'
-      ? 'Area below activation'
-      : 'Closed fist to L-pose aperture';
+      ? 'Micro aperture: stable close hands'
+      : scenario === 'open-palm-span'
+        ? 'Open palms: span-like evidence rejected'
+        : 'Closed fist to L-pose aperture';
+
+  if (scenario === 'collapsed-aperture') {
+    frameObservations = collapseApertureTips(frameObservations);
+    label = 'Collapsed corners: geometry rejected';
+  }
 
   if (scenario === 'crossing') {
-    const crossing = easeInOut(((cycle + 600) % CYCLE_MS) / CYCLE_MS);
+    // Demonstrate the crossed topology, then hold it long enough for the
+    // recognizer to require a stable, deliberate field rather than chase motion.
+    const crossing = 0.6 * lPoseProgress(cycle);
     const right = frameObservations[1];
     if (right)
       frameObservations = [

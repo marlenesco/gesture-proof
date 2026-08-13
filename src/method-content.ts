@@ -147,11 +147,40 @@ const METHODS: Readonly<Record<string, MethodContent>> = {
       ],
       [
         'src/engine/object-scene.ts',
-        'Keeps cube identity, transforms, capacity, discard, and exact undo ephemeral.',
+        'Keeps one cube and its bounded position, rotation, and scale ephemeral.',
       ],
       [
         'src/engine/object-bench-fixtures.ts',
         'Replays translate, rotate, scale, dropout, and candidate movement.',
+      ],
+    ],
+  },
+  '008': {
+    title: 'Containment before transformation.',
+    intro:
+      'Aperture Object Set uses a temporally confirmed micro-capable two-hand field only for explicit selection. Each cube must be geometrically complete inside its polygon before any continuous command can reach the scene.',
+    flow: ['Aperture preview', 'Release + neutral', 'Set command'],
+    detailTitle: 'Eight vertices, no partial capture',
+    detail:
+      'The system projects every cube vertex into the same normalized stage as the aperture. One vertex outside rejects that cube. The field previews complete cubes, then release commits that exact preview before a neutral safety pause arms commands.',
+    code: `preview = cubes.filter((cube) => projectCube(cube, stageAspect).every((vertex) => pointInPolygon(vertex, aperture)));\nonApertureRelease(() => selectedSet = preview);\nrequireNeutral(180);`,
+    guards: [
+      'Aperture accepts L-poses only: at least two of middle, ring, and pinky remain non-extended at 0.78 palm openness on entry and 0.86 on continuation. One noisy fingertip is tolerated; clear full palms/spans still fail. It also requires 0.18 palm², 260 ms, confidence 0.80, three distinct corners, and 0.06 palm slot drift.',
+      'Transforms are blocked during Aperture candidate/active, neutral pause, and deletion animation.',
+      'Delete needs one pointing hand: index extended, thumb released, middle/ring/pinky folded. Hold after neutral arm for 350 ms; removal waits for a visible 280 ms collapse. Open palm held 350 ms clears selection only.',
+    ],
+    map: [
+      [
+        'src/engine/object-scene.ts',
+        'Projects cube vertices, owns set selection, bounded transforms, and exact set undo.',
+      ],
+      [
+        'src/gesture/aperture-field.ts',
+        'Confirms coherent two-hand geometry before containment is evaluated.',
+      ],
+      [
+        'src/gesture/point-hold.ts',
+        'Makes point deletion timestamp-driven and one-shot per hold.',
       ],
     ],
   },

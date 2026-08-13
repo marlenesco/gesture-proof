@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="/src/assets/gesture-proof-logo.svg"
+    />
+    <meta
+      name="description"
+      content="A local aperture-selected multi-cube manipulation experiment."
+    />
+    <title>Aperture Object Set - Gesture Proof</title>
+  </head>
+  <body data-current-study="008">
+    <header class="site-header">
+      <a class="wordmark" href="%BASE_URL%" aria-label="Gesture Proof home">
+        <img
+          class="brand-logo"
+          src="/src/assets/gesture-proof-logo.svg"
+          alt=""
+        />
+        <span class="wordmark-copy"
+          ><strong>Gesture Proof</strong><small>Read the movement</small></span
+        >
+      </a>
+      <p class="privacy-mark"><i aria-hidden="true"></i> Object sets / local</p>
+      <button
+        class="research-menu-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="research-menu"
+        aria-haspopup="dialog"
+      >
+        <span>Studies</span
+        ><span class="burger-mark" aria-hidden="true"><i></i><i></i></span>
+      </button>
+    </header>
+    <main>
+      <section
+        class="matrix aperture-object-set"
+        id="aperture-object-set"
+        data-active="false"
+        aria-labelledby="aperture-set-title"
+      >
+        <div class="visual-plane">
+          <canvas
+            id="aperture-set-landmarks"
+            aria-label="Hand landmarks for aperture and gesture control"
+          ></canvas>
+          <canvas
+            id="aperture-set-stage"
+            role="img"
+            aria-label="Wireframe cube set selected only by complete aperture containment"
+          ></canvas>
+          <video id="aperture-set-video" playsinline muted hidden></video>
+          <p class="axis axis--score" aria-hidden="true">
+            APERTURE SELECT / SET TRANSFORM / CANVAS 2D
+          </p>
+          <p class="axis axis--margin" aria-hidden="true">
+            APERTURE 260 MS / POINT HOLD 350 MS
+          </p>
+          <div class="hero-copy">
+            <p class="eyebrow">Experiment 008 / Containment before command</p>
+            <h1 id="aperture-set-title">
+              <span>Aperture</span><span>Object Set</span>
+            </h1>
+            <p class="lede">
+              Preview complete cubes with two L-poses. Release, pause neutral,
+              then pinch, fist, or span transforms set. To delete, hold one
+              pointing hand steady; open palm clears selection.
+            </p>
+            <div class="hero-actions">
+              <button
+                class="primary-action"
+                id="aperture-set-start-camera"
+                type="button"
+              >
+                <span>Start camera</span><span aria-hidden="true">↗</span>
+              </button>
+              <button
+                class="fixture-action"
+                id="aperture-set-start-fixture"
+                type="button"
+              >
+                Run set fixture
+              </button>
+              <button
+                class="method-action"
+                type="button"
+                data-method-open
+                aria-controls="method-008"
+                aria-expanded="false"
+              >
+                Method ↗
+              </button>
+            </div>
+            <p class="permission-copy">
+              Camera starts only after click. Frames, landmarks, aperture
+              geometry, and scene state stay inside this browser.
+            </p>
+          </div>
+          <div class="controls" aria-label="Aperture Object Set controls">
+            <label class="select-control" for="aperture-set-scenario"
+              ><span>Fixture</span>
+              <select id="aperture-set-scenario">
+                <option value="set-sequence">Select, transform, delete</option>
+                <option value="one-cube">One complete cube</option>
+                <option value="two-cubes">Two complete cubes</option>
+                <option value="empty-field">No complete cube</option>
+                <option value="open-palm-span">
+                  Open palm / span rejected
+                </option>
+                <option value="span-scale">Span scale selected set</option>
+                <option value="open-palm-clear">Open palm clear hold</option>
+                <option value="point-delete">Point delete hold</option>
+                <option value="dropout">Tracking dropout</option>
+              </select>
+            </label>
+            <div class="toggles">
+              <label
+                ><input id="aperture-set-overlay" type="checkbox" checked />
+                Skeleton</label
+              >
+              <label
+                ><input id="aperture-set-mirror" type="checkbox" checked />
+                Mirror</label
+              >
+            </div>
+          </div>
+          <section
+            class="decision-panel"
+            aria-labelledby="aperture-set-signal-title"
+          >
+            <p class="section-kicker">Set signal</p>
+            <h2 id="aperture-set-signal-title">Contain, then command</h2>
+            <dl>
+              <div>
+                <dt>Selected</dt>
+                <dd id="aperture-set-selected">NONE</dd>
+              </div>
+              <div>
+                <dt>Action</dt>
+                <dd id="aperture-set-action">SELECT</dd>
+              </div>
+              <div>
+                <dt>Aperture</dt>
+                <dd id="aperture-set-aperture">UNKNOWN</dd>
+              </div>
+              <div>
+                <dt>Delete hold</dt>
+                <dd id="aperture-set-deletion">0%</dd>
+              </div>
+              <div>
+                <dt>Clear hold</dt>
+                <dd id="aperture-set-clear">0%</dd>
+              </div>
+              <div>
+                <dt>Set phase</dt>
+                <dd id="aperture-set-phase">SELECT</dd>
+              </div>
+              <div>
+                <dt>Scene</dt>
+                <dd id="aperture-set-count">3 / 3</dd>
+              </div>
+            </dl>
+            <p id="aperture-set-fixture">No set fixture selected</p>
+          </section>
+          <section
+            class="score-panel aperture-set-panel"
+            aria-labelledby="aperture-set-contract-title"
+          >
+            <p class="section-kicker">Selection contract</p>
+            <h2 id="aperture-set-contract-title">No partial capture</h2>
+            <ul>
+              <li>
+                All eight projected cube vertices must remain inside aperture
+                polygon.
+              </li>
+              <li>Middle, ring, and pinky stay closed: L-pose is not span.</li>
+              <li>
+                Preview while field holds. Release then pause neutral to commit.
+              </li>
+              <li>
+                Pinch, fist, and span apply same bounded delta to selected set.
+              </li>
+              <li>
+                Delete: one hand, index extended, thumb away, other fingers
+                folded. Hold steady until Point hold reaches 100%, then cubes
+                collapse and Undo appears.
+              </li>
+              <li>Open palm held 350 ms clears selection, never cubes.</li>
+            </ul>
+          </section>
+          <div class="status-line" data-state="idle">
+            <i aria-hidden="true"></i>
+            <p id="aperture-set-status" role="status" aria-live="polite">
+              Ready. Camera permission has not been requested.
+            </p>
+          </div>
+          <div class="workspace-actions">
+            <button class="reset-action" id="aperture-set-reset" type="button">
+              Reset scene
+            </button>
+            <button
+              class="fixture-action"
+              id="aperture-set-undo"
+              type="button"
+              disabled
+            >
+              Undo delete
+            </button>
+          </div>
+        </div>
+      </section>
+      <a class="record-handoff" href="#notes"
+        ><span>Continue research spine</span><b>Experiment record / 008</b
+        ><span aria-hidden="true">↓</span></a
+      >
+      <section class="research-record" id="notes" aria-labelledby="notes-title">
+        <header class="record-header">
+          <p class="section-kicker">Experiment record / 008</p>
+          <h2 id="notes-title">Selection is a geometric claim.</h2>
+          <dl class="record-meta">
+            <div>
+              <dt>Phase</dt>
+              <dd>Make movement material</dd>
+            </div>
+            <div>
+              <dt>Study status</dt>
+              <dd>Deterministic pass pending</dd>
+            </div>
+            <div>
+              <dt>Decision</dt>
+              <dd class="record-decision-value">Evaluate set clarity</dd>
+            </div>
+          </dl>
+        </header>
+        <div class="record-flow">
+          <article class="record-entry">
+            <header>
+              <span class="record-index">01</span>
+              <p class="record-label">Question</p>
+            </header>
+            <div>
+              <h3>
+                Can aperture containment make multi-object hand manipulation
+                legible without turning the scene into an editor?
+              </h3>
+            </div>
+          </article>
+          <article class="record-entry">
+            <header>
+              <span class="record-index">02</span>
+              <p class="record-label">Hypothesis</p>
+            </header>
+            <div>
+              <p>
+                Previewing selection before release makes a shared command
+                predictable. A neutral pause prevents direct handoff into
+                transform or deletion, while vertex containment rejects partial
+                captures.
+              </p>
+            </div>
+          </article>
+          <article class="record-entry">
+            <header>
+              <span class="record-index">03</span>
+              <p class="record-label">Deletion</p>
+            </header>
+            <div>
+              <p>
+                Point hold is armed only after neutral pause, avoiding
+                accidental loss after selection. Open palm has separate
+                clear-only hold. Deletion collapses for 280 ms; Undo restores
+                exact identity.
+              </p>
+            </div>
+          </article>
+        </div>
+        <nav class="record-pagination" aria-label="Experiment sequence">
+          <a href="%BASE_URL%experiments/007-aperture-field/">← Prev / 007</a
+          ><a href="%BASE_URL%#experiments">All studies</a
+          ><a href="#aperture-object-set">Workspace ↑</a>
+        </nav>
+      </section>
+    </main>
+    <script type="module" src="/src/aperture-object-set-main.ts"></script>
+  </body>
+</html>
