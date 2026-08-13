@@ -113,6 +113,19 @@ public/models/          Locally downloaded ML models, ignored by Git
 scripts/                Explicit setup utilities
 ```
 
+## Credits
+
+Made by [David Foliti](https://twitter.com/marlenesco) for study, play, and
+making hand tracking easier to understand.
+
+## Inspiration references
+
+The `sophiamyang/finger-frame-effect` project by
+[Sophia Yang](https://github.com/sophiamyang) inspired this repository. No
+source code from that repository is included.
+
+- https://github.com/sophiamyang/finger-frame-effect
+
 ## Publication status
 
 Original project source code and documentation are licensed under the
