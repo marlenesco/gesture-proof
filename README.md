@@ -34,28 +34,29 @@ pnpm install
 pnpm dev
 ```
 
-Open `http://127.0.0.1:4173`.
+Local development: open `http://127.0.0.1:4173`.
 
-## Explore locally
+## Explore on GitHub Pages
 
-Start `pnpm dev`, then use these links. Method links never request camera
+These links resolve against the GitHub Pages build. Repository changes appear
+there after the approved deployment completes. Method links never request camera
 permission.
 
-| Study                           | Experience                                                               | Technical method                                                                  | Record                                                                                    |
-| ------------------------------- | ------------------------------------------------------------------------ | --------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| Home                            | [Open homepage](http://127.0.0.1:4173/)                                  | [Landing direction](./docs/home-landing.md)                                       | [Research Spine decision](./docs/decisions/0004-research-spine-collection-and-records.md) |
-| 001 — Landmark Explorer         | [Open](http://127.0.0.1:4173/experiments/001-landmark-explorer/)         | [Method](http://127.0.0.1:4173/experiments/001-landmark-explorer/#method)         | [Brief](./docs/experiments/001-landmark-explorer.md)                                      |
-| 002 — Intent Gate               | [Open](http://127.0.0.1:4173/experiments/002-intent-gate/)               | [Method](http://127.0.0.1:4173/experiments/002-intent-gate/#method)               | [Brief](./docs/experiments/002-intent-gate.md)                                            |
-| 003 — Gesture Calibration Bench | [Open](http://127.0.0.1:4173/experiments/003-gesture-calibration-bench/) | [Method](http://127.0.0.1:4173/experiments/003-gesture-calibration-bench/#method) | [Brief](./docs/experiments/003-gesture-calibration-bench.md)                              |
-| 004 — Gesture State Matrix      | [Open](http://127.0.0.1:4173/experiments/004-gesture-state-matrix/)      | [Method](http://127.0.0.1:4173/experiments/004-gesture-state-matrix/#method)      | [Brief](./docs/experiments/004-gesture-state-matrix.md)                                   |
-| 005 — Motion Field              | [Open](http://127.0.0.1:4173/experiments/005-motion-field/)              | [Method](http://127.0.0.1:4173/experiments/005-motion-field/#method)              | [Brief](./docs/experiments/005-motion-field.md)                                           |
-| 006 — Object Manipulation Bench | [Open](http://127.0.0.1:4173/experiments/006-object-manipulation-bench/) | [Method](http://127.0.0.1:4173/experiments/006-object-manipulation-bench/#method) | [Brief](./docs/experiments/006-object-manipulation-bench.md)                              |
-| 007 — Aperture Field            | [Open](http://127.0.0.1:4173/experiments/007-aperture-field/)            | [Method](http://127.0.0.1:4173/experiments/007-aperture-field/#method)            | [Brief](./docs/experiments/007-aperture-field.md)                                         |
+| Study                           | Experience                                                                                    | Technical method                                                                                       | Record                                                                                    |
+| ------------------------------- | --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------- |
+| Home                            | [Open homepage](https://marlenesco.github.io/gesture-proof/)                                  | [Landing direction](./docs/home-landing.md)                                                            | [Research Spine decision](./docs/decisions/0004-research-spine-collection-and-records.md) |
+| 001 — Landmark Explorer         | [Open](https://marlenesco.github.io/gesture-proof/experiments/001-landmark-explorer/)         | [Method](https://marlenesco.github.io/gesture-proof/experiments/001-landmark-explorer/#method)         | [Brief](./docs/experiments/001-landmark-explorer.md)                                      |
+| 002 — Intent Gate               | [Open](https://marlenesco.github.io/gesture-proof/experiments/002-intent-gate/)               | [Method](https://marlenesco.github.io/gesture-proof/experiments/002-intent-gate/#method)               | [Brief](./docs/experiments/002-intent-gate.md)                                            |
+| 003 — Gesture Calibration Bench | [Open](https://marlenesco.github.io/gesture-proof/experiments/003-gesture-calibration-bench/) | [Method](https://marlenesco.github.io/gesture-proof/experiments/003-gesture-calibration-bench/#method) | [Brief](./docs/experiments/003-gesture-calibration-bench.md)                              |
+| 004 — Gesture State Matrix      | [Open](https://marlenesco.github.io/gesture-proof/experiments/004-gesture-state-matrix/)      | [Method](https://marlenesco.github.io/gesture-proof/experiments/004-gesture-state-matrix/#method)      | [Brief](./docs/experiments/004-gesture-state-matrix.md)                                   |
+| 005 — Motion Field              | [Open](https://marlenesco.github.io/gesture-proof/experiments/005-motion-field/)              | [Method](https://marlenesco.github.io/gesture-proof/experiments/005-motion-field/#method)              | [Brief](./docs/experiments/005-motion-field.md)                                           |
+| 006 — Object Manipulation Bench | [Open](https://marlenesco.github.io/gesture-proof/experiments/006-object-manipulation-bench/) | [Method](https://marlenesco.github.io/gesture-proof/experiments/006-object-manipulation-bench/#method) | [Brief](./docs/experiments/006-object-manipulation-bench.md)                              |
+| 007 — Aperture Field            | [Open](https://marlenesco.github.io/gesture-proof/experiments/007-aperture-field/)            | [Method](https://marlenesco.github.io/gesture-proof/experiments/007-aperture-field/#method)            | [Brief](./docs/experiments/007-aperture-field.md)                                         |
 
 For a GitHub project page build, set `VITE_BASE_PATH` to repository path:
 
 ```bash
-VITE_BASE_PATH=/repository-name/ pnpm build
+VITE_BASE_PATH=/gesture-proof/ pnpm build
 ```
 
 Navigation, generated assets, and local model path then share same deployment
