@@ -16,8 +16,9 @@ the publication and distribution decision is recorded.
 
 ## Inspiration references
 
-`sophiamyang/finger-frame-effect` informed research into landmark-to-geometry
-pipelines. No source code from that repository is included. At the time of
+The `sophiamyang/finger-frame-effect` project by
+[Sophia Yang](https://github.com/sophiamyang) inspired this repository. No
+source code from that repository is included. At the time of
 review, no explicit repository license was present.
 
 - https://github.com/sophiamyang/finger-frame-effect
