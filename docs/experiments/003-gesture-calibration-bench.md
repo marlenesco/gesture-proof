@@ -1,4 +1,4 @@
-# Experiment 003 — Gesture Calibration Bench
+# Experiment 003 - Gesture Calibration Bench
 
 Status: implemented; deterministic validation complete, physical-camera matrix
 pending.
@@ -67,9 +67,9 @@ result as truth.
 
 ### Comparison pipelines
 
-1. **Fixed** — raw metric and fixed thresholds
-2. **Filtered** — One Euro filtered metric and fixed thresholds
-3. **Calibrated** — same filter and per-session thresholds
+1. **Fixed** - raw metric and fixed thresholds
+2. **Filtered** - One Euro filtered metric and fixed thresholds
+3. **Calibrated** - same filter and per-session thresholds
 
 One Euro parameters use minimum cutoff `1`, beta `1.2`, derivative cutoff `1`.
 The initial beta `0.04` exceeded the deterministic latency budget and was

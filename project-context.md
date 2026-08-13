@@ -107,7 +107,7 @@ These are research candidates, not committed features:
 
 ## Implemented experiments
 
-**001 — Landmark Explorer**
+**001 - Landmark Explorer**
 
 Question: can users understand tracking quality and intentionally manipulate its
 signals without an effect hiding errors?
@@ -118,7 +118,7 @@ for derived distances and joint angles. No showcase effect yet.
 
 See `docs/experiments/001-landmark-explorer.md`.
 
-**002 — Intent Gate**
+**002 - Intent Gate**
 
 Question: can a palm-normalized pinch measurement plus elapsed-time evidence,
 hysteresis, dropout handling, and cooldown produce controllable intent?
@@ -129,7 +129,7 @@ only the gesture signal.
 
 See `docs/experiments/002-intent-gate.md`.
 
-**003 — Gesture Calibration Bench**
+**003 - Gesture Calibration Bench**
 
 Question: does a short, on-device calibration improve activation accuracy for
 pinch and fist compared with fixed thresholds without excessive latency?
@@ -140,7 +140,7 @@ and latency. Calibration can explicitly return `inconclusive`.
 
 See `docs/experiments/003-gesture-calibration-bench.md`.
 
-**004 — Gesture State Matrix**
+**004 - Gesture State Matrix**
 
 Question: can pinch, fist, open palm, pointing, and two-hand span share one
 timestamp-driven recognizer without direct handoffs or single-frame activation?
@@ -151,7 +151,7 @@ and `unknown` for ambiguous or missing evidence.
 
 See `docs/experiments/004-gesture-state-matrix.md`.
 
-**005 — Motion Field**
+**005 - Motion Field**
 
 Question: can timestamp-derived palm motion drive a persistent effect through a
 clean signal boundary that never exposes raw tracker landmarks to the renderer?
@@ -162,7 +162,7 @@ fixtures, and a fixed-size particle buffer.
 
 See `docs/experiments/005-motion-field.md`.
 
-**006 — Object Manipulation Bench**
+**006 - Object Manipulation Bench**
 
 Question: can confirmed gestures manipulate a deliberately small wireframe
 scene through stable translate, rotate, scale, create, discard, and undo
@@ -174,7 +174,7 @@ trash dwell with exact undo, and pointer/keyboard alternatives.
 
 See `docs/experiments/006-object-manipulation-bench.md`.
 
-**007 — Aperture Field**
+**007 - Aperture Field**
 
 Question: can two open hands establish a selective local visual field only when
 their thumb-index geometry remains coherent over time?
@@ -187,9 +187,9 @@ See `docs/experiments/007-aperture-field.md`.
 
 ## Candidate follow-ups
 
-1. Photo Conductor — gestures modulate a still image without touching controls.
-2. Temporal Sculpture — movement writes into layered video history.
-3. Intent Lens — a user-defined spatial region becomes a private processing
+1. Photo Conductor - gestures modulate a still image without touching controls.
+2. Temporal Sculpture - movement writes into layered video history.
+3. Intent Lens - a user-defined spatial region becomes a private processing
    boundary for color, text, or visual transformations.
 
 ## Non-goals

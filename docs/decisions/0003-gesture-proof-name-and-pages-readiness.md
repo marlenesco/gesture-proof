@@ -1,4 +1,4 @@
-# ADR 0003 — Gesture Proof name and Pages-ready paths
+# ADR 0003 - Gesture Proof name and Pages-ready paths
 
 Status: accepted.
 

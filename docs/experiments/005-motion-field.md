@@ -1,4 +1,4 @@
-# Experiment 005 — Motion Field
+# Experiment 005 - Motion Field
 
 Status: deterministic implementation validated; physical-camera validation pending.
 

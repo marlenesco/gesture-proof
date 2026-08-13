@@ -1,4 +1,4 @@
-# ADR 0002 — Experiments as bounded studies
+# ADR 0002 - Experiments as bounded studies
 
 Status: accepted.
 

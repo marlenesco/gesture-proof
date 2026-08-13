@@ -1,4 +1,4 @@
-# Experiment 007 — Aperture Field
+# Experiment 007 - Aperture Field
 
 Status: deterministic implementation validated; physical-camera validation pending.
 

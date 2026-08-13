@@ -5,7 +5,7 @@ two-hand optical field against deterministic area, dropout, and geometry cases.
 Physical-camera, lighting, occlusion, diversity, and device measurements remain
 required before the studies can be concluded.
 
-## Phase 0 — Foundation
+## Phase 0 - Foundation
 
 - repository rules and project context
 - strict TypeScript scaffold
@@ -15,7 +15,7 @@ required before the studies can be concluded.
 
 Exit: `pnpm check` passes and repository contains no runtime camera request.
 
-## Phase 1 — See the signal
+## Phase 1 - See the signal
 
 - Experiment 001: Landmark Explorer
 - camera, image, and deterministic fixture inputs
@@ -24,32 +24,32 @@ Exit: `pnpm check` passes and repository contains no runtime camera request.
 
 Exit: tracking behavior can be inspected without any expressive effect.
 
-## Phase 2 — Name the movement
+## Phase 2 - Name the movement
 
-- Experiment 002: Intent Gate — temporal, palm-normalized pinch contract
-- Experiment 003: Gesture Calibration Bench — fixed, filtered, and local
+- Experiment 002: Intent Gate - temporal, palm-normalized pinch contract
+- Experiment 003: Gesture Calibration Bench - fixed, filtered, and local
   pinch/fist thresholds
-- Experiment 004: Gesture State Matrix — pinch, fist, open palm, point, and
+- Experiment 004: Gesture State Matrix - pinch, fist, open palm, point, and
   two-hand span competition
 - timestamp-driven state machines and deterministic playback
 - visible score, ambiguity, ownership, and false-positive evidence
 
 Exit: choose two signals that feel controllable across diverse conditions.
 
-## Phase 3 — Make movement material
+## Phase 3 - Make movement material
 
-- Experiment 005: Motion Field — normalized palm velocity and confirmed gesture
+- Experiment 005: Motion Field - normalized palm velocity and confirmed gesture
   modes drive a persistent fixed-buffer field
-- Experiment 006: Object Manipulation Bench — pinch, fist, and two-hand span
+- Experiment 006: Object Manipulation Bench - pinch, fist, and two-hand span
   translate, rotate, and scale a capped ephemeral scene
-- Experiment 007: Aperture Field — two open hands establish a temporal local
+- Experiment 007: Aperture Field - two open hands establish a temporal local
   refraction, pixelate, or blur field
 - still-image and live-video paths
 - effect performance comparison
 
 Exit: select one interaction with original expressive value.
 
-## Phase 4 — Build the showcase
+## Phase 4 - Build the showcase
 
 - homepage research narrative, illustrated study path, and featured experiments
   are implemented
@@ -63,7 +63,7 @@ Exit: select one interaction with original expressive value.
 Exit: visitor understands promise within ten seconds and can experience or replay
 the interaction without developer help.
 
-## Phase 5 — Publish deliberately
+## Phase 5 - Publish deliberately
 
 - Apache License 2.0 selected and recorded in ADR 0005
 - verify third-party notices

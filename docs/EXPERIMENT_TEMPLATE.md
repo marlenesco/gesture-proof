@@ -1,4 +1,4 @@
-# Experiment NNN — Title
+# Experiment NNN - Title
 
 ## Question
 

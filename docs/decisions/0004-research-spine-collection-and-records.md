@@ -1,4 +1,4 @@
-# ADR 0004 — Research Spine collection and experiment records
+# ADR 0004 - Research Spine collection and experiment records
 
 Status: accepted.
 

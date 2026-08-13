@@ -1,4 +1,4 @@
-# ADR 0001 — Local-first browser stack
+# ADR 0001 - Local-first browser stack
 
 Status: accepted.
 

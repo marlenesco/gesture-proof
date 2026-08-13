@@ -1,4 +1,4 @@
-# Experiment 001 — Landmark Explorer
+# Experiment 001 - Landmark Explorer
 
 Status: implemented; physical-camera validation pending.
 
@@ -17,7 +17,7 @@ deterministic fixture path will make failures reproducible.
 
 MediaPipe examples commonly draw landmarks. This experiment adds portfolio value
 through signal explanation, deterministic failure playback, coordinate-space
-clarity, and documented observation—not through copying a signature gesture or
+clarity, and documented observation - not through copying a signature gesture or
 effect from another demo.
 
 ## Inputs
@@ -116,7 +116,7 @@ Record:
 
 ## Result log
 
-### 2026-08-11 — implementation pass
+### 2026-08-11 - implementation pass
 
 Implemented:
 

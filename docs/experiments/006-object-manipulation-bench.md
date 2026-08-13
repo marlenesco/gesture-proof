@@ -1,4 +1,4 @@
-# Experiment 006 — Object Manipulation Bench
+# Experiment 006 - Object Manipulation Bench
 
 Status: implemented; deterministic validation passed; physical-camera
 validation pending.

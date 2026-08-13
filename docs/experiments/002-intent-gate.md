@@ -1,4 +1,4 @@
-# Experiment 002 — Intent Gate
+# Experiment 002 - Intent Gate
 
 Status: implemented; deterministic and browser validation complete, physical
 camera study pending.
@@ -149,13 +149,13 @@ Implemented:
 
 Validation completed on 2026-08-11:
 
-- `pnpm exec vitest run src/gesture/pinch-recognizer.test.ts` — 11 passed
-- `pnpm check` — formatting, lint, 22 unit tests, type-check, and production
+- `pnpm exec vitest run src/gesture/pinch-recognizer.test.ts` - 11 passed
+- `pnpm check` - formatting, lint, 22 unit tests, type-check, and production
   multi-page build passed
-- `pnpm test:browser` — 16 passed, including route separation, no premature
+- `pnpm test:browser` - 16 passed, including route separation, no premature
   permission, one/two/no-hand fixtures, keyboard focus, denied/unavailable
   camera, local model initialization, reduced motion, and track teardown
-- in-app Chromium at 1440×900 and 390×844 — initial and active states rendered,
+- in-app Chromium at 1440×900 and 390×844 - initial and active states rendered,
   no horizontal overflow, mobile control/status regions do not overlap, no
   console warnings or errors
 

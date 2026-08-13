@@ -1,4 +1,4 @@
-# ADR 0005 — Apache License 2.0 project license
+# ADR 0005 - Apache License 2.0 project license
 
 Status: accepted.
 

@@ -1,4 +1,4 @@
-# Experiment 004 — Gesture State Matrix
+# Experiment 004 - Gesture State Matrix
 
 Status: deterministic implementation validated; physical-camera validation pending.
 
