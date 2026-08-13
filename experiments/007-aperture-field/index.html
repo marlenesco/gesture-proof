@@ -63,15 +63,15 @@
             LOCAL OPTICS / 2 HANDS / CANVAS 2D
           </p>
           <p class="axis axis--margin" aria-hidden="true">
-            HOLD 180 MS / RELEASE 120 MS
+            HOLD 260 MS / RELEASE 120 MS
           </p>
           <div class="hero-copy">
             <p class="eyebrow">Experiment 007 / Shape selective seeing</p>
             <h1 id="aperture-title"><span>Aperture</span><span>Field</span></h1>
             <p class="lede">
-              Two open hands establish an optical field. Keep geometry coherent,
-              then choose refraction, pixelation, or blur without sending a
-              frame anywhere.
+              Two L-pose hands establish an optical field. Keep middle, ring,
+              and pinky closed, then choose refraction, pixelation, or blur
+              without sending a frame anywhere.
             </p>
             <div class="hero-actions">
               <button
@@ -116,7 +116,11 @@
                 <option value="steady-aperture">
                   Stable two-hand aperture
                 </option>
-                <option value="small-aperture">Too-small aperture</option>
+                <option value="small-aperture">Micro aperture</option>
+                <option value="collapsed-aperture">Collapsed geometry</option>
+                <option value="open-palm-span">
+                  Open palm / span rejected
+                </option>
                 <option value="jitter">Jitter resistance</option>
                 <option value="dropout">Short + long dropout</option>
                 <option value="crossing">Crossed L-pose</option>
@@ -399,7 +403,7 @@
               aria-label="Two hands become a normalized area measurement, temporal aperture state, then a local Canvas optic."
             >
               <span class="method-flow__node"
-                >Two hands<small>index stays open</small></span
+                >Two L-poses<small>three fingers closed</small></span
               >
               <i class="method-flow__arrow"></i>
               <span class="method-flow__node"
@@ -412,10 +416,14 @@
               <i class="method-flow__pulse"></i>
             </div>
             <ul>
-              <li>Four corners need area ≥ 1.25 palm-scale² for 180 ms.</li>
               <li>
-                Triangle gets 68% equivalent-area threshold; continuation allows
-                0.85.
+                At least two of middle, ring, and pinky remain non-extended: ≤
+                0.78 on entry, ≤ 0.86 while active. This excludes clear
+                span/open palms while tolerating one noisy fingertip.
+              </li>
+              <li>
+                Four corners need area ≥ 0.18 palm-scale² for 260 ms. Triangle
+                gets 68% equivalent-area threshold; continuation allows 0.12.
               </li>
               <li>
                 Release 120 ms and cooldown 220 ms prevent a flickering field.

@@ -14,6 +14,10 @@ const methods = [
     'Confirm first. Transform once.',
   ],
   ['/experiments/007-aperture-field/', 'A field keeps its anatomy.'],
+  [
+    '/experiments/008-aperture-object-set/',
+    'Containment before transformation.',
+  ],
 ] as const;
 
 test.describe('shareable Method panels', () => {

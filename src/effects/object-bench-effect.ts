@@ -9,8 +9,14 @@ import type { ObjectManipulationAction } from '../gesture/object-manipulation-si
 export interface ObjectBenchRenderState {
   readonly objects: readonly SceneObject[];
   readonly selectedId?: string;
+  readonly selectedIds?: readonly string[];
   readonly cursor?: NormalizedPoint;
   readonly action?: ObjectManipulationAction;
+  readonly aperture?: readonly NormalizedPoint[];
+  readonly deletion?: {
+    readonly ids: readonly string[];
+    readonly progress: number;
+  };
   readonly timestampMs: number;
 }
 
@@ -42,6 +48,12 @@ export class ObjectBenchEffect {
     const context = this.context;
     context.clearRect(0, 0, this.width, this.height);
     this.drawDraftingField();
+    if (state.aperture && state.aperture.length >= 3) {
+      this.drawAperture(state.aperture);
+    }
+    const selectedIds = new Set(
+      state.selectedIds ?? (state.selectedId ? [state.selectedId] : []),
+    );
     state.objects.forEach((object, index) => {
       const projection = this.projections[index];
       if (!projection) return;
@@ -49,9 +61,12 @@ export class ObjectBenchEffect {
       this.drawCube(
         object,
         projection,
-        object.id === state.selectedId,
+        selectedIds.has(object.id),
         state.action,
         state.timestampMs,
+        state.deletion?.ids.includes(object.id)
+          ? state.deletion.progress
+          : undefined,
       );
     });
     if (state.cursor) this.drawCursor(state.cursor, state.action);
@@ -84,8 +99,14 @@ export class ObjectBenchEffect {
     selected: boolean,
     action: ObjectManipulationAction | undefined,
     timestampMs: number,
+    deletionProgress: number | undefined,
   ): void {
     const context = this.context;
+    const deleting = deletionProgress !== undefined;
+    const opacity = deleting ? Math.max(0, 1 - deletionProgress) : 1;
+    const collapse = deleting ? Math.max(0.02, 1 - deletionProgress * 0.94) : 1;
+    const centerX = object.x * this.width;
+    const centerY = object.y * this.height;
     if (selected) {
       const pulse =
         action && !this.reducedMotion.matches
@@ -98,9 +119,13 @@ export class ObjectBenchEffect {
       context.setLineDash([4, 8]);
       context.beginPath();
       context.arc(
-        object.x * this.width,
-        object.y * this.height,
-        this.height * 0.175 * object.scale * pulse,
+        centerX,
+        centerY,
+        this.height *
+          0.175 *
+          object.scale *
+          pulse *
+          (deleting ? 1 + deletionProgress * 0.8 : 1),
         0,
         Math.PI * 2,
       );
@@ -110,7 +135,7 @@ export class ObjectBenchEffect {
 
     context.save();
     context.strokeStyle = selected ? this.accentColor : this.lineColor;
-    context.globalAlpha = selected ? 1 : 0.48;
+    context.globalAlpha = (selected ? 1 : 0.48) * opacity;
     context.lineWidth = selected ? 2 : 1.15;
     context.lineJoin = 'round';
     CUBE_EDGES.forEach(([from, to]) => {
@@ -127,14 +152,21 @@ export class ObjectBenchEffect {
         return;
       }
       context.beginPath();
-      context.moveTo(fromX * this.width, fromY * this.height);
-      context.lineTo(toX * this.width, toY * this.height);
+      context.moveTo(
+        centerX + (fromX * this.width - centerX) * collapse,
+        centerY + (fromY * this.height - centerY) * collapse,
+      );
+      context.lineTo(
+        centerX + (toX * this.width - centerX) * collapse,
+        centerY + (toY * this.height - centerY) * collapse,
+      );
       context.stroke();
     });
     context.restore();
 
     context.save();
     context.fillStyle = selected ? this.accentColor : this.mutedColor;
+    context.globalAlpha = opacity;
     context.font = '600 10px ui-monospace, monospace';
     context.textAlign = 'center';
     context.fillText(
@@ -142,6 +174,28 @@ export class ObjectBenchEffect {
       object.x * this.width,
       object.y * this.height + this.height * 0.2 * object.scale,
     );
+    context.restore();
+  }
+
+  private drawAperture(corners: readonly NormalizedPoint[]): void {
+    const context = this.context;
+    const first = corners[0];
+    if (!first) return;
+    context.save();
+    context.strokeStyle = this.accentColor;
+    context.fillStyle = this.accentColor;
+    context.globalAlpha = 0.13;
+    context.beginPath();
+    context.moveTo(first.x * this.width, first.y * this.height);
+    corners.slice(1).forEach((corner) => {
+      context.lineTo(corner.x * this.width, corner.y * this.height);
+    });
+    context.closePath();
+    context.fill();
+    context.globalAlpha = 0.86;
+    context.setLineDash([6, 8]);
+    context.lineWidth = 1.5;
+    context.stroke();
     context.restore();
   }
 

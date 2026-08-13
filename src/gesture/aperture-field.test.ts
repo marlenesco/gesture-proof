@@ -58,8 +58,53 @@ describe('ApertureFieldRecognizer', () => {
     expect(phases.at(-1)).toBe('active');
   });
 
-  it('rejects insufficient aperture area', () => {
+  it('accepts a temporally confirmed micro aperture below former area floor', () => {
     const frame = apertureFixtureAt('small-aperture', 1600).frame;
+    const evidence = measureAperture(frame.observations);
+    expect(evidence?.area).toBeLessThan(1.25);
+    expect(evidence?.area).toBeGreaterThanOrEqual(0.18);
+  });
+
+  it('rejects low-confidence aperture corners before geometry can activate', () => {
+    const frame = apertureFixtureAt('small-aperture', 1600).frame;
+    const uncertain = frame.observations.map((hand) => ({
+      ...hand,
+      confidence: 0.79,
+    }));
+    expect(measureAperture(uncertain)).toBeUndefined();
+  });
+
+  it('keeps open-palm fixture evidence inactive', () => {
+    const frame = apertureFixtureAt('open-palm-span', 1600).frame;
+    expect(measureAperture(frame.observations)).toBeUndefined();
+  });
+
+  it('requires micro corners to stay still through the longer confirmation', () => {
+    const recognizer = new ApertureFieldRecognizer();
+    const phases = Array.from({ length: 18 }, (_, index) => {
+      const frame = apertureFixtureAt(
+        'small-aperture',
+        1300 + index * 20,
+      ).frame;
+      const unstable = {
+        ...frame.observations[0]!,
+        landmarks: frame.observations[0]!.landmarks.map(
+          (point, landmarkIndex) =>
+            landmarkIndex === 4 || landmarkIndex === 8
+              ? { ...point, x: point.x + (index % 2 === 0 ? 0.03 : -0.03) }
+              : point,
+        ),
+      };
+      return recognizer.update(
+        [unstable, frame.observations[1]!],
+        frame.timestampMs,
+      ).phase;
+    });
+    expect(phases).not.toContain('active');
+  });
+
+  it('rejects a collapsed aperture with fewer than three distinct corners', () => {
+    const frame = apertureFixtureAt('collapsed-aperture', 1600).frame;
     expect(measureAperture(frame.observations)).toBeUndefined();
   });
 

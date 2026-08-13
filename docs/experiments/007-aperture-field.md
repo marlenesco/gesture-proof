@@ -25,21 +25,30 @@ frame; its three Canvas effects and temporal contract are project-owned.
 
 - front-facing camera after explicit user action
 - deterministic two-hand fixtures without camera or model
-- two open hands with visible thumb and index tips
+- two L-pose hands: thumb and index open, middle/ring/pinky closed
 - maximum two hands; still images excluded because confirmation requires time
 
 ## Gesture contract
 
-- each hand must keep index openness above a palm-normalized joint threshold
+- each hand must keep index and thumb available while at least two of middle,
+  ring, and pinky remain non-extended. Activation accepts them at openness <=
+  `0.78`; continuation allows <= `0.86` to absorb frontal-pose landmark
+  variation. This separates Aperture from clear two-hand span/open-palm
+  evidence, where all three fingers are extended.
 - corners retain hand anatomy: left index, right index, right thumb, left thumb
 - crossed corner paths remain valid bow-ties and render as two triangles
 - near thumb-index tips keep their two corners; contact activates only below
   `0.075` palm scale and continues until `0.12` for hysteresis
 - contact midpoint occupies both existing anatomical slots, so Canvas becomes a
   triangle without a four-to-three-corner signal snap
-- four corners require area >= `1.25` palm-scale squared for `180 ms`; a pinch
+- four corners require area >= `0.18` palm-scale squared for `260 ms`; a pinch
   triangle uses `68%` of this area to preserve an equivalent local field
-- continuation uses area >= `0.85` palm-scale squared, with same triangle factor
+- continuation uses area >= `0.12` palm-scale squared, with same triangle factor
+- hands need confidence >= `0.80`; at least three corners remain distinct by
+  `0.045` palm scale
+- candidate corners must remain within `0.06` palm scale of their first measured
+  slots for full `260 ms`; movement restarts confirmation. This admits much
+  smaller fields without treating landmark drift as intent.
 - release requires `120 ms` outside continuation evidence; cooldown is `220 ms`
 - missing hands, non-finite points, too-small area, fewer than three distinct
   corners, or changed hand ownership return inactive evidence
@@ -64,7 +73,9 @@ make its boundary credible.
 
 ## Test matrix
 
-- closed-fist to L-pose, insufficient area, jitter, short/long dropout
+- closed-fist to L-pose, open-palm/span rejection, micro aperture,
+  low-confidence evidence, collapsed geometry, candidate drift, jitter,
+  short/long dropout
 - near-contact quadrilateral, contact triangle, left/right and mirrored display,
   crossed bow-tie, partial exit
 - refraction, pixelate, blur, reduced motion, narrow mobile, desktop
@@ -83,8 +94,8 @@ make its boundary credible.
 ## Exit criteria
 
 - valid fixture activates only after hold and renders selected optic
-- small/missing evidence never activates; crossed and pinched evidence preserve
-  their natural boundary topology
+- micro evidence activates after hold; collapsed/missing evidence never does;
+  crossed and pinched evidence preserve their natural boundary topology
 - release and cooldown prevent instant direct handoff
 - mirror does not change decision
 - fixture, permission failure, and track teardown remain recoverable
@@ -92,12 +103,12 @@ make its boundary credible.
 
 ## Result log
 
-- `pnpm check` passed: formatting, lint, 99 unit tests, type-check, and
+- `pnpm check` passed: formatting, lint, 109 unit tests, type-check, and
   production build.
-- Targeted browser suite passed 7/7: camera-free initial state, homepage and
-  collection navigation, deterministic activation, optic selection,
-  insufficient-area rejection, crossed bow-tie, pinch triangle, denial
-  recovery, and reduced motion.
+- Targeted browser suite passed 9/9: camera-free initial state, homepage and
+  collection navigation, large and micro aperture activation, collapsed-geometry
+  rejection, open-palm/span rejection, optic selection, crossed bow-tie, pinch
+  triangle, denial recovery, and reduced motion.
 - Desktop and 390 px rendered checks passed without visible horizontal overflow.
   The L-pose fixture visibly establishes the field; crossed tips render as two
   clipped triangles and thumb-index contact as one triangle. All three optics

@@ -61,13 +61,14 @@ test('initial aperture field remains camera-free and appears in collection', asy
     .toBe(0);
 });
 
-test('homepage foregrounds Aperture Field while keeping it in the research index', async ({
+test('homepage features Aperture Field while keeping it in the research index', async ({
   page,
 }) => {
   await page.goto('/');
-  await expect(
-    page.getByRole('link', { name: /Try Aperture Field/ }),
-  ).toHaveAttribute('href', /experiments\/007-aperture-field\/$/);
+  await expect(page.locator('.featured-study--aperture')).toHaveAttribute(
+    'href',
+    /experiments\/007-aperture-field\/$/,
+  );
   await expect(
     page
       .locator('#experiments')
@@ -99,7 +100,7 @@ test('steady fixture confirms an aperture and switches local optics', async ({
   await page.getByRole('button', { name: 'Run aperture fixture' }).click();
 
   await expect(page.locator('#aperture-phase')).toHaveText('ACTIVE', {
-    timeout: 2_500,
+    timeout: 4_000,
   });
   await expect(page.locator('#aperture-area')).not.toHaveText('0.00');
   await page.locator('#aperture-effect-select').selectOption('pixelate');
@@ -108,15 +109,36 @@ test('steady fixture confirms an aperture and switches local optics', async ({
   await expect(page.locator('#aperture-effect-select')).toHaveValue('blur');
 });
 
-test('small aperture stays inactive', async ({ page }) => {
+test('micro aperture activates while collapsed geometry stays inactive', async ({
+  page,
+}) => {
   await page.goto(EXPERIMENT_PATH);
   await page.getByRole('button', { name: 'Run aperture fixture' }).click();
   await page.locator('#aperture-scenario').selectOption('small-aperture');
 
+  await expect(page.locator('#aperture-phase')).toHaveText('ACTIVE', {
+    timeout: 4_000,
+  });
+  await page.locator('#aperture-scenario').selectOption('collapsed-aperture');
   await expect(page.locator('#aperture-phase')).not.toHaveText('ACTIVE', {
     timeout: 900,
   });
   await expect(page.locator('#aperture-reason')).toHaveText('geometry invalid');
+});
+
+test('open-palm span-like evidence cannot activate an aperture', async ({
+  page,
+}) => {
+  await page.goto(EXPERIMENT_PATH);
+  await page.getByRole('button', { name: 'Run aperture fixture' }).click();
+  await page.locator('#aperture-scenario').selectOption('open-palm-span');
+
+  await expect(page.locator('#aperture-phase')).not.toHaveText('ACTIVE', {
+    timeout: 2_000,
+  });
+  await expect(page.locator('#aperture-fixture-label')).toContainText(
+    'span-like evidence rejected',
+  );
 });
 
 test('crossed and pinched fixtures preserve their valid topology', async ({
@@ -127,7 +149,7 @@ test('crossed and pinched fixtures preserve their valid topology', async ({
 
   await page.locator('#aperture-scenario').selectOption('crossing');
   await expect(page.locator('#aperture-phase')).toHaveText('ACTIVE', {
-    timeout: 2_500,
+    timeout: 6_000,
   });
   await expect(page.locator('#aperture-fixture-label')).toContainText(
     'bow-tie',
@@ -135,7 +157,7 @@ test('crossed and pinched fixtures preserve their valid topology', async ({
 
   await page.locator('#aperture-scenario').selectOption('pinch-corner');
   await expect(page.locator('#aperture-phase')).toHaveText('ACTIVE', {
-    timeout: 2_500,
+    timeout: 4_000,
   });
   await expect(page.locator('#aperture-fixture-label')).toContainText(
     'triangular',
@@ -168,7 +190,7 @@ test('reduced motion preserves fixture evidence', async ({ page }) => {
   await page.getByRole('button', { name: 'Run aperture fixture' }).click();
 
   await expect(page.locator('#aperture-phase')).toHaveText('ACTIVE', {
-    timeout: 2_500,
+    timeout: 4_000,
   });
   await expect
     .poll(() =>

@@ -1,0 +1,94 @@
+@import './gesture-state-matrix.css';
+
+:root {
+  --accent: #a78bfa;
+  --object-accent: #a78bfa;
+}
+
+.aperture-object-set .visual-plane {
+  background:
+    radial-gradient(
+      circle at 54% 45%,
+      rgba(167, 139, 250, 0.16),
+      transparent 34%
+    ),
+    linear-gradient(140deg, #090812, #121026 55%, #0a0b16);
+}
+
+#aperture-set-landmarks,
+#aperture-set-stage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#aperture-set-stage {
+  z-index: 2;
+  pointer-events: none;
+}
+
+.aperture-object-set .primary-action,
+.aperture-object-set .mode-switch button[data-selected='true'] {
+  color: #0b0914;
+}
+
+.aperture-set-panel li {
+  padding-left: 0.9rem;
+  border-left: 1px solid rgba(167, 139, 250, 0.65);
+}
+
+.aperture-set-panel ul {
+  display: grid;
+  gap: 0.65rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  color: var(--muted);
+  font: 0.68rem/1.55 var(--mono);
+  list-style: none;
+}
+
+.workspace-actions {
+  position: absolute;
+  right: clamp(1rem, 3vw, 3rem);
+  bottom: 1.05rem;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 360ms ease,
+    visibility 0s linear 360ms;
+}
+
+.aperture-object-set[data-active='true'] .workspace-actions {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  transition-delay: 0s;
+}
+
+.workspace-actions .reset-action {
+  position: static;
+  padding: 0.55rem 0;
+}
+
+.workspace-actions .fixture-action {
+  min-width: auto;
+  padding: 0.55rem 1rem;
+  background: transparent;
+  color: var(--text);
+}
+
+@media (max-width: 680px) {
+  .aperture-object-set[data-active='true'] .visual-plane {
+    min-height: 58rem;
+  }
+
+  .aperture-object-set .score-panel {
+    top: 28rem;
+  }
+}
