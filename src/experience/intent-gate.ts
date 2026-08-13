@@ -295,13 +295,13 @@ export class IntentGate {
     this.elements.phase.textContent = signal.phase.toUpperCase();
     this.elements.confidence.textContent = `${Math.round(signal.confidence * 100)}%`;
     this.elements.ratio.textContent =
-      payload.ratio === undefined ? '—' : payload.ratio.toFixed(3);
+      payload.ratio === undefined ? '-' : payload.ratio.toFixed(3);
     this.elements.activation.value = payload.activationProgress;
     this.elements.activationValue.textContent = `${Math.round(payload.activationProgress * 100)}%`;
     this.elements.release.value = payload.releaseProgress;
     this.elements.releaseValue.textContent = `${Math.round(payload.releaseProgress * 100)}%`;
     this.elements.reason.textContent = readableReason(payload.reason);
-    this.elements.hand.textContent = payload.handId ?? '—';
+    this.elements.hand.textContent = payload.handId ?? '-';
     const snapshot = this.performance.snapshot();
     this.elements.inference.textContent =
       this.mode === 'fixture'
@@ -409,14 +409,14 @@ export class IntentGate {
     this.clearTimeline();
     this.elements.phase.textContent = 'UNKNOWN';
     this.elements.confidence.textContent = '0%';
-    this.elements.ratio.textContent = '—';
+    this.elements.ratio.textContent = '-';
     this.elements.activation.value = 0;
     this.elements.release.value = 0;
     this.elements.activationValue.textContent = '0%';
     this.elements.releaseValue.textContent = '0%';
     this.elements.reason.textContent = 'Awaiting evidence';
-    this.elements.hand.textContent = '—';
-    this.elements.inference.textContent = '—';
+    this.elements.hand.textContent = '-';
+    this.elements.inference.textContent = '-';
     this.setStatus('idle', 'Ready. Camera permission has not been requested.');
   }
 

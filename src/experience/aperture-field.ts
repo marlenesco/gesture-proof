@@ -287,7 +287,7 @@ export class ApertureFieldExperience {
     this.elements.tension.textContent = payload.tension.toFixed(2);
     this.elements.hands.textContent = payload.handIds.length
       ? payload.handIds.join(' + ')
-      : '—';
+      : '-';
     this.elements.reason.textContent = payload.reason.replaceAll('-', ' ');
   }
 

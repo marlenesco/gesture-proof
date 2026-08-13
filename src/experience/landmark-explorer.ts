@@ -128,7 +128,7 @@ function isPermissionDenied(error: unknown): boolean {
 
 function formatNumber(value: number | undefined, digits = 3): string {
   return value === undefined || !Number.isFinite(value)
-    ? '—'
+    ? '-'
     : value.toFixed(digits);
 }
 
@@ -500,8 +500,8 @@ export class LandmarkExplorer {
     const landmark = hand?.landmarks[this.selectedLandmarkIndex];
     if (!hand || !landmark) {
       this.elements.inspectorTitle.textContent = 'No hand selected';
-      this.elements.confidenceValue.textContent = '—';
-      this.setInspectorValues('—');
+      this.elements.confidenceValue.textContent = '-';
+      this.setInspectorValues('-');
       return;
     }
 
@@ -514,7 +514,7 @@ export class LandmarkExplorer {
     );
     this.elements.displayCoordinate.textContent = displayPoint
       ? `${Math.round(displayPoint.x)}, ${Math.round(displayPoint.y)}`
-      : '—';
+      : '-';
     this.elements.depthValue.textContent = formatNumber(landmark.z);
     this.elements.frameAge.textContent = `${Math.max(0, timestampMs - this.frameReceivedAtMs).toFixed(0)} ms`;
 
@@ -530,11 +530,11 @@ export class LandmarkExplorer {
         ? formatNumber(
             scaleIndependentDistance(thumbTip, indexTip, hand.landmarks),
           )
-        : '—';
+        : '-';
     this.elements.jointAngle.textContent =
       indexMcp && indexPip && indexDip
         ? `${formatNumber(jointAngleDegrees(indexMcp, indexPip, indexDip), 1)}°`
-        : '—';
+        : '-';
     this.elements.wristVelocity.textContent = this.wristVelocity(hand);
   }
 
@@ -548,7 +548,7 @@ export class LandmarkExplorer {
       ? hand.timestampMs - previousHand.timestampMs
       : 0;
     const scale = palmScale(hand.landmarks);
-    if (!wrist || !previousWrist || elapsedMs <= 0 || !scale) return '—';
+    if (!wrist || !previousWrist || elapsedMs <= 0 || !scale) return '-';
     const palmsPerSecond =
       (normalizedDistance(wrist, previousWrist) / scale) * (1000 / elapsedMs);
     return `${formatNumber(palmsPerSecond, 2)} palm/s`;
@@ -569,19 +569,19 @@ export class LandmarkExplorer {
     const snapshot = this.performance.snapshot();
     this.elements.inputSize.textContent = this.currentFrame
       ? `${this.currentFrame.sourceWidth}×${this.currentFrame.sourceHeight}`
-      : '—';
+      : '-';
     this.elements.displayRate.textContent = snapshot.displayFps
       ? `${snapshot.displayFps.toFixed(0)} Hz`
-      : '—';
+      : '-';
     this.elements.inferenceRate.textContent =
       this.mode === 'fixture'
         ? 'fixture'
         : snapshot.inferenceFps
           ? `${snapshot.inferenceFps.toFixed(1)} Hz`
-          : '—';
+          : '-';
     this.elements.inferenceTime.textContent = snapshot.medianInferenceMs
       ? `${snapshot.medianInferenceMs.toFixed(1)} / ${snapshot.worstInferenceMs.toFixed(1)} ms`
-      : '—';
+      : '-';
     this.elements.longTasks.textContent = String(snapshot.longTaskCount);
   }
 

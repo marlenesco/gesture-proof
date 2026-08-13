@@ -113,7 +113,7 @@ function permissionDenied(error: unknown): boolean {
 }
 
 function label(gesture: MatrixGesture | undefined): string {
-  return gesture?.replaceAll('-', ' ') ?? '—';
+  return gesture?.replaceAll('-', ' ') ?? '-';
 }
 
 export class GestureStateMatrixExperience {
@@ -337,14 +337,14 @@ export class GestureStateMatrixExperience {
     this.elements.winner.textContent = label(payload.winner).toUpperCase();
     this.elements.margin.textContent = payload.margin.toFixed(3);
     this.elements.owner.textContent = payload.secondaryHandId
-      ? `${payload.primaryHandId ?? '—'} + ${payload.secondaryHandId}`
-      : (payload.primaryHandId ?? '—');
+      ? `${payload.primaryHandId ?? '-'} + ${payload.secondaryHandId}`
+      : (payload.primaryHandId ?? '-');
     this.elements.timer.textContent =
       this.signal.phase === 'candidate'
         ? `${Math.round(payload.activationProgress * 140)} / 140 ms`
         : this.signal.phase === 'active' && payload.releaseProgress > 0
           ? `${Math.round(payload.releaseProgress * 100)} / 100 ms release`
-          : '—';
+          : '-';
     this.elements.reason.textContent = payload.reason.replaceAll('-', ' ');
 
     MATRIX_GESTURES.forEach((gesture) => {

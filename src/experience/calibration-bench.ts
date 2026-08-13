@@ -598,12 +598,12 @@ export class GestureCalibrationBench {
         : undefined;
       elements.root.dataset.active = String(output.signal.phase === 'active');
       elements.phase.textContent = output.signal.phase.toUpperCase();
-      elements.value.textContent = value === undefined ? '—' : value.toFixed(3);
+      elements.value.textContent = value === undefined ? '-' : value.toFixed(3);
       elements.threshold.textContent = `${output.signal.payload.thresholds.activation.toFixed(3)} / ${output.signal.payload.thresholds.continuation.toFixed(3)}`;
       elements.errors.textContent = `F${stats.falseActivations} / M${stats.missedActivations}`;
       elements.latency.textContent =
         medianLatency === undefined
-          ? '—'
+          ? '-'
           : `${medianLatency.toFixed(0)} ms med.`;
     });
   }

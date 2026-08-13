@@ -104,7 +104,7 @@ function permissionDenied(error: unknown): boolean {
 }
 
 function label(value: string | undefined): string {
-  return value?.replaceAll('-', ' ') ?? '—';
+  return value?.replaceAll('-', ' ') ?? '-';
 }
 
 export class MotionFieldExperience {
@@ -325,7 +325,7 @@ export class MotionFieldExperience {
     this.elements.speed.textContent = payload.speed.toFixed(3);
     this.elements.palmSpeed.textContent = payload.palmRelativeSpeed.toFixed(2);
     this.elements.vector.textContent = `${payload.velocityX.toFixed(2)}, ${payload.velocityY.toFixed(2)}`;
-    this.elements.owner.textContent = payload.ownerId ?? '—';
+    this.elements.owner.textContent = payload.ownerId ?? '-';
     this.elements.reason.textContent = label(payload.reason);
     this.elements.gesture.textContent = label(
       this.matrixSignal.payload.gesture,

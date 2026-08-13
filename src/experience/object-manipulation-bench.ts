@@ -136,7 +136,7 @@ function permissionDenied(error: unknown): boolean {
 }
 
 function label(value: string | undefined): string {
-  return value?.replaceAll('-', ' ') ?? '—';
+  return value?.replaceAll('-', ' ') ?? '-';
 }
 
 function displayCursor(
@@ -687,15 +687,15 @@ export class ObjectManipulationBenchExperience {
     ).toUpperCase();
     this.elements.phase.textContent =
       this.manipulationSignal.phase.toUpperCase();
-    this.elements.owner.textContent = payload.ownerId ?? '—';
+    this.elements.owner.textContent = payload.ownerId ?? '-';
     this.elements.reason.textContent = label(payload.reason);
     this.elements.position.textContent = selected
       ? `${selected.x.toFixed(2)}, ${selected.y.toFixed(2)}`
-      : '—';
+      : '-';
     this.elements.rotation.textContent = selected
       ? `${selected.rotationX.toFixed(2)}, ${selected.rotationY.toFixed(2)}`
-      : '—';
-    this.elements.scale.textContent = selected?.scale.toFixed(2) ?? '—';
+      : '-';
+    this.elements.scale.textContent = selected?.scale.toFixed(2) ?? '-';
     this.elements.count.textContent = String(this.scene.count);
     this.elements.capacity.textContent = String(this.scene.capacity);
     this.elements.create.disabled = this.scene.full;
