@@ -64,8 +64,11 @@ test('index keeps all experiments separate and reachable', async ({ page }) => {
     index.getByRole('link', { name: /Gesture Calibration Bench/ }),
   ).toHaveAttribute('href', '/experiments/003-gesture-calibration-bench/');
   await expect(
-    page.getByRole('link', { name: /Try Aperture Field/ }),
-  ).toHaveAttribute('href', '/experiments/007-aperture-field/');
+    page.getByRole('link', { name: /Try Gesture State Matrix/ }),
+  ).toHaveAttribute('href', '/experiments/004-gesture-state-matrix/');
+  await expect(
+    index.getByRole('link', { name: /Aperture Object Set/ }),
+  ).toHaveAttribute('href', '/experiments/008-aperture-object-set/');
   await expect(
     page.getByText(
       'Open a study. Try its deterministic fixture or start your device camera.',

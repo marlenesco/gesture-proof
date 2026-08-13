@@ -164,13 +164,12 @@ See `docs/experiments/005-motion-field.md`.
 
 **006 - Object Manipulation Bench**
 
-Question: can confirmed gestures manipulate a deliberately small wireframe
-scene through stable translate, rotate, scale, create, discard, and undo
-operations without transform jumps or mobile clutter?
+Question: can confirmed gestures transform one wireframe cube through stable
+translate, rotate, and scale operations without transform jumps or mobile
+clutter?
 
-Deliverable: one initial cube, strict desktop/mobile object caps, a pure Canvas
-2D scene model, locked manipulation signals, deterministic action fixtures,
-trash dwell with exact undo, and pointer/keyboard alternatives.
+Deliverable: one fixed cube, a pure Canvas 2D scene model, locked manipulation
+signals, deterministic action fixtures, and pointer/keyboard alternatives.
 
 See `docs/experiments/006-object-manipulation-bench.md`.
 
@@ -184,6 +183,18 @@ anatomical corner ordering, refraction/pixelate/blur Canvas effects,
 deterministic geometry fixtures, and no-camera recovery.
 
 See `docs/experiments/007-aperture-field.md`.
+
+**008 - Aperture Object Set**
+
+Question: can a temporally confirmed two-hand aperture select one or several
+complete wireframe cubes before a separate gesture transforms or deletes that
+set?
+
+Deliverable: three desktop/two mobile varied cubes, all-vertex aperture
+containment, shared pinch/fist/span commands, timestamp-based point-hold
+deletion animation, exact Undo, and deterministic set fixtures.
+
+See `docs/experiments/008-aperture-object-set.md`.
 
 ## Candidate follow-ups
 

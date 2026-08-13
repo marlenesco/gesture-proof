@@ -9,7 +9,7 @@ the eventual portfolio experience.
 
 ## Current state
 
-- Experiments 001 through 007 are implemented as separate, linkable routes;
+- Experiments 001 through 008 are implemented as separate, linkable routes;
   physical-camera studies remain pending.
 - Homepage turns Research Spine into a visual sequence from landmarks to material
   response, while keeping complete study index below it. It explicitly directs
@@ -50,6 +50,7 @@ permission.
 - [005 - Motion Field](https://marlenesco.github.io/gesture-proof/experiments/005-motion-field/) - [Method](https://marlenesco.github.io/gesture-proof/experiments/005-motion-field/#method); [Brief](./docs/experiments/005-motion-field.md)
 - [006 - Object Manipulation Bench](https://marlenesco.github.io/gesture-proof/experiments/006-object-manipulation-bench/) - [Method](https://marlenesco.github.io/gesture-proof/experiments/006-object-manipulation-bench/#method); [Brief](./docs/experiments/006-object-manipulation-bench.md)
 - [007 - Aperture Field](https://marlenesco.github.io/gesture-proof/experiments/007-aperture-field/) - [Method](https://marlenesco.github.io/gesture-proof/experiments/007-aperture-field/#method); [Brief](./docs/experiments/007-aperture-field.md)
+- [008 - Aperture Object Set](https://marlenesco.github.io/gesture-proof/experiments/008-aperture-object-set/) - [Method](https://marlenesco.github.io/gesture-proof/experiments/008-aperture-object-set/#method); [Brief](./docs/experiments/008-aperture-object-set.md)
 
 For a GitHub project page build, set `VITE_BASE_PATH` to repository path:
 
@@ -91,8 +92,9 @@ pnpm format       # format repository files
 7. [`docs/experiments/005-motion-field.md`](./docs/experiments/005-motion-field.md)
 8. [`docs/experiments/006-object-manipulation-bench.md`](./docs/experiments/006-object-manipulation-bench.md)
 9. [`docs/experiments/007-aperture-field.md`](./docs/experiments/007-aperture-field.md)
-10. [`docs/home-landing.md`](./docs/home-landing.md)
-11. [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md)
+10. [`docs/experiments/008-aperture-object-set.md`](./docs/experiments/008-aperture-object-set.md)
+11. [`docs/home-landing.md`](./docs/home-landing.md)
+12. [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md)
 
 ## Repository map
 

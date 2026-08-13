@@ -91,8 +91,8 @@
           <h1 id="lab-title">Gesture <span>Proof</span></h1>
           <p class="hero-question">When a hand moves, what can you trust?</p>
           <p class="lede">
-            Seven visual studies make the hidden work of hand tracking legible:
-            signal, confidence, intent, then effect.
+            Eight visual studies make hand tracking legible: signal, confidence,
+            intent, then controlled consequence.
           </p>
           <p class="hero-invitation">
             Open a study. Try its deterministic fixture or start your device
@@ -101,9 +101,9 @@
           <div class="hero-actions">
             <a
               class="button button--primary"
-              href="%BASE_URL%experiments/007-aperture-field/"
+              href="%BASE_URL%experiments/004-gesture-state-matrix/"
             >
-              Try Aperture Field <span aria-hidden="true">↗</span>
+              Try Gesture State Matrix <span aria-hidden="true">↗</span>
             </a>
             <a class="button button--quiet" href="#research-spine">
               Read the research spine <span aria-hidden="true">↓</span>
@@ -125,7 +125,7 @@
               <linearGradient id="signal-line" x1="0" x2="1">
                 <stop stop-color="#ffb000" />
                 <stop offset="0.5" stop-color="#53e0e4" />
-                <stop offset="1" stop-color="#ff4fc3" />
+                <stop offset="1" stop-color="#ff4f2f" />
               </linearGradient>
               <filter
                 id="signal-glow"
@@ -156,18 +156,26 @@
               <circle cx="545" cy="397" r="6" />
               <circle cx="638" cy="434" r="10" />
             </g>
-            <g class="signal-frame">
+            <g class="signal-set">
               <path d="M500 212 631 260 578 427 446 379Z" />
               <path d="m500 212 78 215M631 260 446 379" />
+              <g class="signal-set-cube signal-set-cube--one">
+                <path d="m526 278 28 10v29l-28 11-28-11v-29Z" />
+                <path d="m526 278v32m28-22-28 22-28-22" />
+              </g>
+              <g class="signal-set-cube signal-set-cube--two">
+                <path d="m572 326 22 8v23l-22 9-22-9v-23Z" />
+                <path d="m572 326v26m22-18-22 18-22-18" />
+              </g>
             </g>
           </svg>
           <span class="signal-label signal-label--landmarks"
             >01 / landmarks</span
           >
-          <span class="signal-label signal-label--intent">02 / intent</span>
-          <span class="signal-label signal-label--field">07 / field</span>
+          <span class="signal-label signal-label--intent">04 / matrix</span>
+          <span class="signal-label signal-label--set">08 / set</span>
         </div>
-        <p class="hero-index">07 studies / local only / no hidden capture</p>
+        <p class="hero-index">08 studies / local only / no hidden capture</p>
       </section>
 
       <section class="research-journey" aria-labelledby="journey-title">
@@ -354,6 +362,9 @@
                 <a href="%BASE_URL%experiments/007-aperture-field/"
                   >007 Aperture Field <span aria-hidden="true">↗</span></a
                 >
+                <a href="%BASE_URL%experiments/008-aperture-object-set/"
+                  >008 Aperture Object Set <span aria-hidden="true">↗</span></a
+                >
               </div>
             </div>
           </li>
@@ -363,7 +374,7 @@
       <section class="featured-studies" aria-labelledby="featured-title">
         <header class="section-heading">
           <p class="eyebrow">Start where it moves</p>
-          <h2 id="featured-title">Three ways to<br />make evidence felt.</h2>
+          <h2 id="featured-title">Four studies.<br />One visible chain.</h2>
         </header>
 
         <div class="featured-list">
@@ -419,9 +430,9 @@
             </div>
             <div class="featured-copy">
               <p>006 / Object Manipulation Bench</p>
-              <h3>Confirm the gesture. Then transform the scene.</h3>
+              <h3>Confirm the gesture. Then transform one cube.</h3>
               <span
-                >Locked state → scale / rotate / translate
+                >Locked state → translate / rotate / scale
                 <b aria-hidden="true">↗</b></span
               >
             </div>
@@ -454,6 +465,39 @@
               <h3>Two hands make an optical field.</h3>
               <span
                 >Reliable contact → refraction / pixelate / blur
+                <b aria-hidden="true">↗</b></span
+              >
+            </div>
+          </a>
+          <a
+            class="featured-study featured-study--set"
+            href="%BASE_URL%experiments/008-aperture-object-set/"
+          >
+            <div class="featured-art" aria-hidden="true">
+              <svg viewBox="0 0 620 340" focusable="false">
+                <path class="set-guide" d="M82 270h456M82 70h456" />
+                <path class="set-frame" d="m143 87 341 67-89 123-338-68Z" />
+                <g class="set-cube set-cube--one">
+                  <path d="m236 124 67 25v70l-67 26-67-26v-70Z" />
+                  <path d="m236 124v77m67-52-67 52-67-52" />
+                </g>
+                <g class="set-cube set-cube--two">
+                  <path d="m343 160 49 18v52l-49 19-49-19v-52Z" />
+                  <path d="m343 160v57m49-39-49 39-49-39" />
+                </g>
+                <g class="set-points">
+                  <circle cx="143" cy="87" r="9" />
+                  <circle cx="484" cy="154" r="9" />
+                  <circle cx="395" cy="277" r="9" />
+                  <circle cx="57" cy="209" r="9" />
+                </g>
+              </svg>
+            </div>
+            <div class="featured-copy">
+              <p>008 / Aperture Object Set</p>
+              <h3>Containment becomes a shared command.</h3>
+              <span
+                >Aperture preview → neutral → set transform
                 <b aria-hidden="true">↗</b></span
               >
             </div>
@@ -570,8 +614,7 @@
                   <span class="number">006</span>
                   <span class="experiment-name">Object Manipulation Bench</span>
                   <span class="question"
-                    >Can locked gestures transform a small wireframe
-                    scene?</span
+                    >Can locked gestures transform one wireframe cube?</span
                   >
                   <span class="state">Validation / active</span>
                   <span class="arrow" aria-hidden="true">↗</span>
@@ -583,6 +626,18 @@
                   <span class="experiment-name">Aperture Field</span>
                   <span class="question"
                     >Can two hands earn a selective optical field?</span
+                  >
+                  <span class="state">Validation / active</span>
+                  <span class="arrow" aria-hidden="true">↗</span>
+                </a>
+              </li>
+              <li>
+                <a href="%BASE_URL%experiments/008-aperture-object-set/">
+                  <span class="number">008</span>
+                  <span class="experiment-name">Aperture Object Set</span>
+                  <span class="question"
+                    >Can a complete hand field select a transformable cube
+                    set?</span
                   >
                   <span class="state">Validation / active</span>
                   <span class="arrow" aria-hidden="true">↗</span>

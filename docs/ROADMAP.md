@@ -1,9 +1,9 @@
 # Roadmap
 
-Current position: Experiments 001–007 are implemented. Experiment 007 tests a
-two-hand optical field against deterministic area, dropout, and geometry cases.
-Physical-camera, lighting, occlusion, diversity, and device measurements remain
-required before the studies can be concluded.
+Current position: Experiments 001–008 are implemented. Experiment 008 tests
+two-hand aperture containment before shared wireframe commands. Physical-camera,
+lighting, occlusion, diversity, and device measurements remain required before
+the studies can be concluded.
 
 ## Phase 0 - Foundation
 
@@ -41,9 +41,11 @@ Exit: choose two signals that feel controllable across diverse conditions.
 - Experiment 005: Motion Field - normalized palm velocity and confirmed gesture
   modes drive a persistent fixed-buffer field
 - Experiment 006: Object Manipulation Bench - pinch, fist, and two-hand span
-  translate, rotate, and scale a capped ephemeral scene
+  translate, rotate, and scale one fixed cube
 - Experiment 007: Aperture Field - two open hands establish a temporal local
   refraction, pixelate, or blur field
+- Experiment 008: Aperture Object Set - complete aperture containment selects
+  one or more cubes before shared transform or point-hold deletion
 - still-image and live-video paths
 - effect performance comparison
 
@@ -53,7 +55,7 @@ Exit: select one interaction with original expressive value.
 
 - homepage research narrative, illustrated study path, and featured experiments
   are implemented
-- shareable technical Method panels are implemented for studies 001–007
+- shareable technical Method panels are implemented for studies 001–008
 - portfolio narrative and final identity remain open
 - full-bleed flagship experience
 - readable technical breakdown
