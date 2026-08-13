@@ -9,7 +9,7 @@ import {
   type ObjectBenchFixtureScenario,
   type ObjectBenchFixtureState,
 } from '../engine/object-bench-fixtures';
-import { ObjectScene, type DiscardedSceneObject } from '../engine/object-scene';
+import { ObjectScene } from '../engine/object-scene';
 import { PerformanceMonitor } from '../engine/performance-monitor';
 import { ObjectBenchEffect } from '../effects/object-bench-effect';
 import {
@@ -43,15 +43,7 @@ interface ObjectBenchElements {
   readonly scenario: HTMLSelectElement;
   readonly overlay: HTMLInputElement;
   readonly mirror: HTMLInputElement;
-  readonly create: HTMLButtonElement;
-  readonly previous: HTMLButtonElement;
-  readonly next: HTMLButtonElement;
   readonly toolButtons: readonly HTMLButtonElement[];
-  readonly trash: HTMLElement;
-  readonly trashLabel: HTMLElement;
-  readonly undoToast: HTMLElement;
-  readonly undo: HTMLButtonElement;
-  readonly selected: HTMLElement;
   readonly action: HTMLElement;
   readonly gesture: HTMLElement;
   readonly phase: HTMLElement;
@@ -60,19 +52,10 @@ interface ObjectBenchElements {
   readonly position: HTMLElement;
   readonly rotation: HTMLElement;
   readonly scale: HTMLElement;
-  readonly count: HTMLElement;
-  readonly capacity: HTMLElement;
   readonly fixtureLabel: HTMLElement;
   readonly status: HTMLElement;
   readonly statusLine: HTMLElement;
   readonly reset: HTMLButtonElement;
-}
-
-interface NormalizedBounds {
-  readonly left: number;
-  readonly right: number;
-  readonly top: number;
-  readonly bottom: number;
 }
 
 function required<TElement extends Element>(
@@ -100,17 +83,9 @@ function collectElements(): ObjectBenchElements {
     scenario: required('#object-scenario', HTMLSelectElement),
     overlay: required('#object-overlay', HTMLInputElement),
     mirror: required('#object-mirror', HTMLInputElement),
-    create: required('#object-create', HTMLButtonElement),
-    previous: required('#object-previous', HTMLButtonElement),
-    next: required('#object-next', HTMLButtonElement),
     toolButtons: Array.from(
       document.querySelectorAll<HTMLButtonElement>('[data-object-tool]'),
     ),
-    trash: required('#object-trash', HTMLElement),
-    trashLabel: required('#object-trash-label', HTMLElement),
-    undoToast: required('#object-undo-toast', HTMLElement),
-    undo: required('#object-undo', HTMLButtonElement),
-    selected: required('#object-selected', HTMLElement),
     action: required('#object-action', HTMLElement),
     gesture: required('#object-gesture', HTMLElement),
     phase: required('#object-phase', HTMLElement),
@@ -119,8 +94,6 @@ function collectElements(): ObjectBenchElements {
     position: required('#object-position', HTMLElement),
     rotation: required('#object-rotation', HTMLElement),
     scale: required('#object-scale', HTMLElement),
-    count: required('#object-count', HTMLElement),
-    capacity: required('#object-capacity', HTMLElement),
     fixtureLabel: required('#object-fixture-label', HTMLElement),
     status: required('#object-status', HTMLElement),
     statusLine: required('.status-line', HTMLElement),
@@ -165,7 +138,7 @@ export class ObjectManipulationBenchExperience {
   });
   private readonly motion = new PalmMotionSignal();
   private readonly manipulation = new ObjectManipulationSignal();
-  private readonly scene = new ObjectScene(compactViewport() ? 2 : 3);
+  private readonly scene = new ObjectScene(1);
   private readonly camera: CameraSource;
   private readonly scheduler: VideoFrameScheduler;
   private mode: ObjectBenchInputMode = 'idle';
@@ -182,12 +155,6 @@ export class ObjectManipulationBenchExperience {
   private pointerDragging = false;
   private pointerPrevious: NormalizedPoint | undefined;
   private lastFixtureTimestamp = -1;
-  private trashEnteredAtMs: number | undefined;
-  private trashProgress = 0;
-  private trashArmed = false;
-  private trashBounds: NormalizedBounds | undefined;
-  private lastDiscarded: DiscardedSceneObject | undefined;
-  private undoTimer: number | undefined;
   private displayRequest = 0;
   private operationId = 0;
   private disposed = false;
@@ -217,9 +184,6 @@ export class ObjectManipulationBenchExperience {
         this.lastFixtureTimestamp = state.frame.timestampMs;
         this.acceptFrame(state.frame, state);
       }
-    }
-    if (this.pointerDragging) {
-      this.updateTrash(this.pointerTool === 'translate', timestampMs);
     }
     this.landmarks.render({
       frame: this.currentFrame,
@@ -260,15 +224,6 @@ export class ObjectManipulationBenchExperience {
     this.elements.scenario.addEventListener('change', () => {
       if (this.mode === 'fixture') this.startFixture();
     });
-    this.elements.create.addEventListener('click', () => this.createObject());
-    this.elements.previous.addEventListener('click', () => {
-      this.scene.selectRelative(-1);
-      this.updateReadout();
-    });
-    this.elements.next.addEventListener('click', () => {
-      this.scene.selectRelative(1);
-      this.updateReadout();
-    });
     this.elements.toolButtons.forEach((button) => {
       button.addEventListener('click', () => {
         this.pointerTool = button.dataset
@@ -276,7 +231,6 @@ export class ObjectManipulationBenchExperience {
         this.updateToolButtons();
       });
     });
-    this.elements.undo.addEventListener('click', () => this.undoDiscard());
     this.elements.reset.addEventListener('click', () => this.reset());
     this.elements.objectCanvas.addEventListener('pointerdown', (event) =>
       this.pointerStart(event),
@@ -295,9 +249,6 @@ export class ObjectManipulationBenchExperience {
     );
     window.addEventListener('pointerup', (event) => this.pointerEnd(event));
     window.addEventListener('pointercancel', (event) => this.pointerEnd(event));
-    window.addEventListener('resize', () => {
-      this.trashBounds = undefined;
-    });
     document.addEventListener('keydown', (event) => this.handleKeyboard(event));
     document.addEventListener('visibilitychange', () => {
       if (!document.hidden || this.mode !== 'camera') return;
@@ -396,7 +347,6 @@ export class ObjectManipulationBenchExperience {
     fixtureState?: ObjectBenchFixtureState,
   ): void {
     this.currentFrame = frame;
-    const previousAction = this.manipulationSignal.payload.action;
     this.motionSignal = this.motion.update(
       frame.observations,
       frame.timestampMs,
@@ -410,7 +360,7 @@ export class ObjectManipulationBenchExperience {
       this.matrixSignal,
       frame.timestampMs,
     );
-    this.applyGestureTransform(previousAction, frame.timestampMs);
+    this.applyGestureTransform();
     this.elements.fixtureLabel.textContent =
       fixtureState?.label ?? `${frame.observations.length} hand evidence`;
     this.updateReadout();
@@ -427,19 +377,9 @@ export class ObjectManipulationBenchExperience {
     }
   }
 
-  private applyGestureTransform(
-    previousAction: ObjectManipulationAction | undefined,
-    timestampMs: number,
-  ): void {
+  private applyGestureTransform(): void {
     if (this.pointerDragging) return;
     const payload = this.manipulationSignal.payload;
-    const acquisitionCursor = displayCursor(
-      payload.acquisitionCursor ?? payload.cursor,
-      this.elements.mirror.checked,
-    );
-    if (payload.reason === 'action-acquired' && acquisitionCursor) {
-      this.scene.selectAt(acquisitionCursor.x, acquisitionCursor.y);
-    }
     if (
       payload.reason === 'action-acquired' ||
       payload.reason === 'transforming'
@@ -458,145 +398,14 @@ export class ObjectManipulationBenchExperience {
       }
       if (payload.action === 'scale') this.scene.resize(payload.scaleFactor);
     }
-    this.updateTrash(payload.action === 'translate', timestampMs);
-    if (previousAction === 'translate' && payload.action !== 'translate') {
-      this.releaseTrash();
-    }
-  }
-
-  private createObject(): void {
-    const object = this.scene.create();
-    this.setStatus(
-      object ? 'object-created' : 'capacity-reached',
-      object
-        ? `${object.id} created in ephemeral scene.`
-        : `Scene limit reached: ${this.scene.capacity} objects on this viewport.`,
-    );
-    this.updateReadout();
-  }
-
-  private discardSelected(): void {
-    const discarded = this.scene.discardSelected();
-    if (!discarded) return;
-    this.lastDiscarded = discarded;
-    if (this.undoTimer !== undefined) window.clearTimeout(this.undoTimer);
-    this.elements.undoToast.hidden = false;
-    this.elements.undoToast.dataset.visible = 'true';
-    this.undoTimer = window.setTimeout(() => {
-      this.lastDiscarded = undefined;
-      this.elements.undoToast.hidden = true;
-      this.elements.undoToast.dataset.visible = 'false';
-    }, 5000);
-    this.setStatus(
-      'object-discarded',
-      `${discarded.object.id} discarded. Undo remains available for five seconds.`,
-    );
-    this.updateReadout();
-  }
-
-  private undoDiscard(): void {
-    if (!this.lastDiscarded || !this.scene.restore(this.lastDiscarded)) return;
-    const id = this.lastDiscarded.object.id;
-    this.lastDiscarded = undefined;
-    if (this.undoTimer !== undefined) window.clearTimeout(this.undoTimer);
-    this.undoTimer = undefined;
-    this.elements.undoToast.hidden = true;
-    this.elements.undoToast.dataset.visible = 'false';
-    this.setStatus(
-      'object-restored',
-      `${id} restored with its exact transform.`,
-    );
-    this.updateReadout();
-  }
-
-  private updateTrash(active: boolean, timestampMs: number): void {
-    const selected = this.scene.selected;
-    const manipulationActive =
-      active || (this.pointerDragging && this.pointerTool === 'translate');
-    const bounds = this.trashBounds ?? this.measureTrashBounds();
-    const inside = Boolean(
-      manipulationActive &&
-      selected &&
-      bounds &&
-      selected.x >= bounds.left &&
-      selected.x <= bounds.right &&
-      selected.y >= bounds.top &&
-      selected.y <= bounds.bottom,
-    );
-    this.elements.trash.dataset.visible = String(manipulationActive);
-    if (!inside) {
-      this.trashEnteredAtMs = undefined;
-      this.trashProgress = 0;
-      this.trashArmed = false;
-    } else {
-      this.trashEnteredAtMs ??= timestampMs;
-      this.trashProgress = Math.min(
-        1,
-        (timestampMs - this.trashEnteredAtMs) / 500,
-      );
-      this.trashArmed = this.trashProgress >= 1;
-    }
-    this.elements.trash.dataset.armed = String(this.trashArmed);
-    this.elements.trash.style.setProperty(
-      '--trash-progress',
-      String(this.trashProgress),
-    );
-    this.elements.trashLabel.textContent = this.trashArmed
-      ? 'Release to discard'
-      : inside
-        ? 'Hold to arm'
-        : 'Move here to discard';
-  }
-
-  private measureTrashBounds(): NormalizedBounds | undefined {
-    const width = this.elements.objectCanvas.offsetWidth;
-    const height = this.elements.objectCanvas.offsetHeight;
-    if (width <= 0 || height <= 0) return undefined;
-    const bounds = {
-      left:
-        (this.elements.trash.offsetLeft -
-          this.elements.objectCanvas.offsetLeft) /
-        width,
-      right:
-        (this.elements.trash.offsetLeft +
-          this.elements.trash.offsetWidth -
-          this.elements.objectCanvas.offsetLeft) /
-        width,
-      top:
-        (this.elements.trash.offsetTop - this.elements.objectCanvas.offsetTop) /
-        height,
-      bottom:
-        (this.elements.trash.offsetTop +
-          this.elements.trash.offsetHeight -
-          this.elements.objectCanvas.offsetTop) /
-        height,
-    };
-    this.trashBounds = bounds;
-    return bounds;
-  }
-
-  private releaseTrash(): void {
-    if (this.trashArmed) this.discardSelected();
-    this.clearTrash();
-  }
-
-  private clearTrash(): void {
-    this.trashEnteredAtMs = undefined;
-    this.trashProgress = 0;
-    this.trashArmed = false;
-    this.elements.trash.dataset.visible = 'false';
-    this.elements.trash.dataset.armed = 'false';
-    this.elements.trash.style.setProperty('--trash-progress', '0');
   }
 
   private pointerStart(event: PointerEvent): void {
     const point = this.pointerPoint(event);
-    const selected = this.scene.selectAt(point.x, point.y);
-    if (!selected) return;
+    if (!this.scene.selected) return;
     this.pointerDragging = true;
     this.pointerPrevious = point;
     this.elements.objectCanvas.setPointerCapture(event.pointerId);
-    this.updateTrash(this.pointerTool === 'translate', performance.now());
     this.updateReadout();
   }
 
@@ -613,20 +422,16 @@ export class ObjectManipulationBenchExperience {
     if (this.pointerTool === 'scale') {
       this.scene.resize(Math.min(1.08, Math.max(0.92, 1 - deltaY * 2)));
     }
-    this.updateTrash(this.pointerTool === 'translate', performance.now());
     this.updateReadout();
   }
 
   private pointerEnd(event: PointerEvent): void {
     if (!this.pointerDragging) return;
-    const shouldDiscard = this.trashArmed;
     this.pointerDragging = false;
     this.pointerPrevious = undefined;
     if (this.elements.objectCanvas.hasPointerCapture(event.pointerId)) {
       this.elements.objectCanvas.releasePointerCapture(event.pointerId);
     }
-    if (shouldDiscard) this.discardSelected();
-    this.clearTrash();
   }
 
   private pointerPoint(event: PointerEvent): NormalizedPoint {
@@ -645,14 +450,7 @@ export class ObjectManipulationBenchExperience {
     ) {
       return;
     }
-    const key = event.key.toLowerCase();
-    if (key === 'c') this.createObject();
-    else if (key === 'u') this.undoDiscard();
-    else if (event.key === '[') this.scene.selectRelative(-1);
-    else if (event.key === ']') this.scene.selectRelative(1);
-    else if (event.key === 'Delete' || event.key === 'Backspace') {
-      this.discardSelected();
-    } else if (event.key.startsWith('Arrow')) {
+    if (event.key.startsWith('Arrow')) {
       event.preventDefault();
       this.applyKeyboardArrow(event.key);
     } else if (event.key === '+' || event.key === '=') this.scene.resize(1.05);
@@ -680,7 +478,6 @@ export class ObjectManipulationBenchExperience {
     const payload = this.manipulationSignal.payload;
     this.elements.root.dataset.active = String(this.mode !== 'idle');
     this.elements.root.dataset.action = payload.action ?? 'none';
-    this.elements.selected.textContent = selected?.id.toUpperCase() ?? 'EMPTY';
     this.elements.action.textContent = label(payload.action).toUpperCase();
     this.elements.gesture.textContent = label(
       this.matrixSignal.payload.gesture,
@@ -696,15 +493,6 @@ export class ObjectManipulationBenchExperience {
       ? `${selected.rotationX.toFixed(2)}, ${selected.rotationY.toFixed(2)}`
       : '-';
     this.elements.scale.textContent = selected?.scale.toFixed(2) ?? '-';
-    this.elements.count.textContent = String(this.scene.count);
-    this.elements.capacity.textContent = String(this.scene.capacity);
-    this.elements.create.disabled = this.scene.full;
-    this.elements.create.textContent = this.scene.full
-      ? `Scene full · ${this.scene.capacity}`
-      : 'Create cube';
-    const selectionDisabled = this.scene.count <= 1;
-    this.elements.previous.disabled = selectionDisabled;
-    this.elements.next.disabled = selectionDisabled;
     this.updateToolButtons();
   }
 
@@ -740,7 +528,6 @@ export class ObjectManipulationBenchExperience {
       this.matrixSignal,
       timestampMs,
     );
-    this.clearTrash();
     this.updateReadout();
   }
 
@@ -787,7 +574,6 @@ export class ObjectManipulationBenchExperience {
     if (this.disposed) return;
     this.disposed = true;
     cancelAnimationFrame(this.displayRequest);
-    if (this.undoTimer !== undefined) window.clearTimeout(this.undoTimer);
     this.stopInput();
     this.monitor.dispose();
     this.tracker.close();

@@ -57,8 +57,10 @@ test('initial bench stays camera-free and marks study 006 current', async ({
   await expect(
     page.getByRole('heading', { name: 'Object Bench' }),
   ).toBeVisible();
-  await expect(page.locator('#object-undo-toast')).toBeHidden();
-  await expect(page.locator('#object-count')).toHaveText('1');
+  await expect(page.getByRole('button', { name: 'Create cube' })).toHaveCount(
+    0,
+  );
+  await expect(page.locator('#object-trash')).toHaveCount(0);
   await page.getByRole('button', { name: 'Studies' }).click();
   await expect(
     page
@@ -92,26 +94,12 @@ for (const [scenario, selector, initial] of transformScenarios) {
   });
 }
 
-test('desktop capacity stops at three cubes', async ({ page }) => {
-  await startScenario(page, 'neutral');
-  const create = page.getByRole('button', { name: 'Create cube' });
-  await create.click();
-  await create.click();
-  await expect(page.locator('#object-count')).toHaveText('3');
-  await expect(page.locator('#object-create')).toBeDisabled();
-  await expect(page.locator('#object-create')).toHaveText('Scene full · 3');
-});
-
-test('fresh mobile scene stops at two cubes without horizontal overflow', async ({
+test('mobile keeps one fixed cube without horizontal overflow', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await startScenario(page, 'neutral');
-  await page.getByRole('button', { name: 'Create cube' }).click();
-  await expect(page.locator('#object-count')).toHaveText('2');
-  await expect(page.locator('#object-capacity')).toHaveText('2');
   await expect(page.locator('#object-overlay')).not.toBeChecked();
-  await expect(page.locator('#object-create')).toBeDisabled();
   await expect
     .poll(() =>
       page.evaluate(
@@ -121,12 +109,11 @@ test('fresh mobile scene stops at two cubes without horizontal overflow', async 
     .toBe(true);
 });
 
-test('landscape mobile keeps the two-cube cap without horizontal overflow', async ({
+test('landscape mobile keeps one fixed cube without horizontal overflow', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 844, height: 390 });
   await startScenario(page, 'neutral');
-  await expect(page.locator('#object-capacity')).toHaveText('2');
   await expect(page.locator('#object-overlay')).not.toBeChecked();
   await expect
     .poll(() =>
@@ -200,32 +187,6 @@ test('mobile pointer rotate and scale work through the scene readout', async ({
   await page.mouse.move(scaleCenter.x, scaleCenter.y - 44, { steps: 4 });
   await page.mouse.up();
   await expect(page.locator('#object-scale')).not.toHaveText(scaleBefore ?? '');
-});
-
-test('trash dwell discards and Undo restores exact cube', async ({ page }) => {
-  await startScenario(page, 'neutral');
-  const canvas = page.locator('#object-stage');
-  const bounds = await canvas.boundingBox();
-  if (!bounds) throw new Error('Object canvas has no bounds.');
-  const startX = bounds.x + bounds.width * 0.5;
-  const startY = bounds.y + bounds.height * 0.49;
-  const trashBounds = await page.locator('#object-trash').boundingBox();
-  if (!trashBounds) throw new Error('Trash zone has no bounds.');
-  const trashX = trashBounds.x + trashBounds.width / 2;
-  const trashY = trashBounds.y + trashBounds.height / 2;
-  await page.mouse.move(startX, startY);
-  await page.mouse.down();
-  await page.mouse.move(trashX, trashY, { steps: 6 });
-  await page.waitForTimeout(550);
-  await expect(page.locator('#object-trash')).toHaveAttribute(
-    'data-armed',
-    'true',
-  );
-  await page.mouse.up();
-  await expect(page.locator('#object-count')).toHaveText('0');
-  await page.getByRole('button', { name: 'Undo' }).click();
-  await expect(page.locator('#object-count')).toHaveText('1');
-  await expect(page.locator('#object-selected')).toHaveText('CUBE-1');
 });
 
 test('camera denial keeps fixture recovery', async ({ page }) => {
@@ -317,20 +278,10 @@ test('reduced motion keeps direct manipulation and removes transitions', async (
     .poll(() =>
       page.evaluate(() => ({
         reduced: matchMedia('(prefers-reduced-motion: reduce)').matches,
-        transition: Number.parseFloat(
-          getComputedStyle(document.querySelector<HTMLElement>('.trash-zone')!)
-            .transitionDuration,
-        ),
         scroll: getComputedStyle(document.documentElement).scrollBehavior,
       })),
     )
     .toMatchObject({ reduced: true, scroll: 'auto' });
-  const transition = await page
-    .locator('.trash-zone')
-    .evaluate((element) =>
-      Number.parseFloat(getComputedStyle(element).transitionDuration),
-    );
-  expect(transition).toBeLessThanOrEqual(0.00001);
 });
 
 declare global {

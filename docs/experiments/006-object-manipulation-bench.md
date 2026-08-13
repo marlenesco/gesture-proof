@@ -5,16 +5,16 @@ validation pending.
 
 ## Question
 
-Can confirmed hand gestures manipulate a small wireframe scene through stable,
-recoverable translate, rotate, scale, create, and discard operations without
-turning the experiment into a cluttered gesture-controlled editor?
+Can confirmed hand gestures transform one wireframe cube through stable,
+recoverable translate, rotate, and scale operations without turning the
+experiment into a cluttered gesture-controlled editor?
 
 ## Hypothesis
 
-One selected object, a locked action for each confirmed gesture, explicit
-release boundaries, reference-baseline reacquisition after tracking loss, and a
-strict object cap will make spatial manipulation legible while preventing noisy
-gesture changes from producing transform jumps.
+One fixed cube, a locked action for each confirmed gesture, explicit release
+boundaries, and reference-baseline reacquisition after tracking loss will make
+spatial manipulation legible while preventing noisy gesture changes from
+producing transform jumps.
 
 ## Originality check
 
@@ -30,17 +30,16 @@ handoff instead of hiding uncertainty behind a polished object demo.
 - deterministic translate, rotate, scale, dropout, neutral, and full-sequence
   fixtures without camera or model
 - one hand for translate and rotate; two stable hands for scale
-- one cube at reset; maximum three cubes on desktop and two on fresh mobile
-  sessions
+- one fixed cube on every viewport
 - pointer and keyboard controls as complete alternatives to gesture input
 
 ## Gesture contract
 
-- **Translate:** confirmed pinch locks the selected cube; normalized primary
+- **Translate:** confirmed pinch locks the cube; normalized primary
   palm displacement moves it in display X/Y
-- **Rotate:** confirmed fist locks the selected cube; palm displacement maps to
+- **Rotate:** confirmed fist locks the cube; palm displacement maps to
   yaw and pitch
-- **Scale:** confirmed two-hand span locks the selected cube; current span ratio
+- **Scale:** confirmed two-hand span locks the cube; current span ratio
   divided by its acquisition baseline produces scale delta
 - this experiment maps two-hand span from continuation at `1.45` mean palm
   widths to full activation at `2.45`; Experiment 004 keeps its stricter
@@ -53,7 +52,9 @@ handoff instead of hiding uncertainty behind a polished object demo.
   accumulated displacement remains inert until activation, then applies once
 - staged and active baselines are discarded after rejection, release, dropout,
   timestamp gap, impossible jump, owner loss, or reset
-- scale is clamped to `[0.48, 1.8]`; position stays inside a safe stage inset
+- scale is clamped to `[0.30, 1.8]`; position stays inside a safe stage inset.
+  Minimum cube remains roughly 44 px on a normal desktop stage, making compact
+  scale deliberate but still visible and interactive.
 - transform deltas above documented per-sample limits are rejected as
   `inconclusive`
 - short tracking loss freezes the object; recovery reacquires a baseline before
@@ -70,28 +71,23 @@ active → released → ready
 ## Scene contract
 
 - Canvas 2D projects eight cube vertices and twelve edges; no WebGL dependency
-- scene state contains stable ID, normalized position, Euler rotation, scale,
-  selection, and ephemeral deletion history
-- create starts one new cube at a deterministic open position
-- create is disabled at three desktop cubes or two mobile cubes
-- trash appears only during translate or pointer drag
-- a cube held inside trash for `500 ms` becomes armed; release removes it
-- one `Undo` action restores the last discarded cube during a five-second window
+- scene state contains one stable ID, normalized position, Euler rotation, and
+  scale
+- creation, selection, deletion, and Undo are intentionally out of scope;
+  Experiment 008 owns those multi-object contracts
 - no scene state persists across reset, reload, or navigation
 
 ## Visual thesis
 
-A near-black drafting field where a few ivory wireframes float with measured
-depth; one acid-cyan contour, not extra chrome, identifies the object receiving
-hand intent.
+A near-black drafting field where one ivory wireframe floats with measured
+depth; one acid-cyan contour, not extra chrome, identifies hand intent.
 
 ## Content plan
 
 - hero: Object Bench name, concise mapping, explicit camera and deterministic
   actions, dominant wireframe stage
-- support: input, fixture scenario, landmark overlay, mirror, and create action
-- detail: selected object, action phase, gesture, owner, delta, transform, scene
-  count, capacity, trash state, and failure reason
+- support: input, fixture scenario, landmark overlay, and mirror
+- detail: action phase, gesture, owner, transform, and failure reason
 - final action: reset scene, read experiment record, or return to study index
 
 ## Interaction thesis
@@ -100,11 +96,8 @@ hand intent.
   explaining when pose became an action
 - each transform keeps spatial continuity: translate follows, rotate pivots, and
   span expands around the same selected center
-- trash pulls only the selected contour after a deliberate dwell; discard exits
-  faster than entry and offers immediate undo
-
-Reduced motion removes halo pulses, transform interpolation, trash pull, and
-discard travel while retaining direct manipulation, state text, focus, and undo.
+  Reduced motion removes halo pulses and transform interpolation while retaining
+  direct manipulation, state text, and focus.
 
 ## Test matrix
 
@@ -114,10 +107,8 @@ discard travel while retaining direct manipulation, state text, focus, and undo.
   impossible movement
 - one hand, two hands, no hands, stable owner, owner loss, and hand crossing
 - left/right plus mirrored/unmirrored display
-- safe-position and scale clamps, maximum object capacity, selection cycling,
-  trash dwell, premature trash exit, discard, undo, and empty scene recovery
-- pointer move/rotate/scale plus keyboard create, selection, transform, discard,
-  and undo
+- safe-position and scale clamps on one fixed cube
+- pointer move/rotate/scale plus keyboard transform
 - rapid motion, blur, partial exits, low light, busy background, different skin
   tones, sleeves, and jewelry during physical-camera validation
 - permission denied, unavailable camera, model failure, reset, inactivity,
@@ -129,8 +120,7 @@ discard travel while retaining direct manipulation, state text, focus, and undo.
 - accepted, rejected, and baseline-reacquisition counts
 - position, rotation, and scale delta stability at different input rates
 - accidental action handoffs and transform jumps
-- trash dwell completion and undo use
-- display/inference rate, median/worst inference time, long tasks, and scene count
+- display/inference rate, median/worst inference time, and long tasks
 
 ## Privacy behavior
 
@@ -140,7 +130,6 @@ discard travel while retaining direct manipulation, state text, focus, and undo.
 - no backend, telemetry, recording, cookies, local storage, or persistence
 - camera tracks stop on mode switch, reset, inactivity, model failure, and
   teardown
-- deleted objects and undo history disappear on reset or page teardown
 - fixture mode requires neither camera nor model
 
 ## Exit criteria
@@ -148,8 +137,6 @@ discard travel while retaining direct manipulation, state text, focus, and undo.
 - every deterministic action changes only its documented transform
 - direct gesture changes cannot bypass release or reuse an old baseline
 - dropout and impossible motion never teleport, rotate, or resize an object
-- fresh desktop and mobile sessions cannot exceed their documented object caps
-- trash requires dwell plus release; undo restores exact identity and transform
 - all critical operations work through pointer and keyboard alternatives
 - reduced motion preserves control without recurring or spatially misleading
   animation
@@ -164,18 +151,13 @@ discard travel while retaining direct manipulation, state text, focus, and undo.
 - Translate, rotate, and scale fixtures change only their mapped transform;
   invalid handoffs, timestamp gaps, impossible deltas, and evidence loss freeze
   the scene or reacquire a baseline.
-- Fresh desktop scenes cap at three cubes. Portrait and landscape compact
-  viewports cap at two, hide the landmark overlay by default, and avoid
-  horizontal overflow.
-- Pointer input owns the scene for the duration of a drag, preventing live or
-  fixture gesture evidence from racing trash dwell. The 500 ms dwell, release,
-  discard, five-second undo, and exact object restore paths pass browser tests.
-- Follow-up hands-on use exposed three fixture-blind defects: mobile readout
-  layers intercepted cube drag, trash used hardcoded coordinates and required a
-  final pointer movement to finish dwell, and fist/span scoring required overly
-  clean pose evidence. Regression coverage now uses visible trash geometry,
-  stationary dwell, mobile pointer rotate/scale, one noisy fist finger, and a
-  practical two-hand span.
+- One fixed cube now exists on desktop and compact viewports, removing creation,
+  selection, deletion, and Undo from this study. Experiment 008 owns those
+  multi-object operations; 006 measures only transform continuity.
+- Pointer input owns the cube for the duration of a drag, preventing live or
+  fixture gesture evidence from racing pointer transforms. Regression coverage
+  keeps mobile pointer rotate/scale, one noisy fist finger, and a practical
+  two-hand span.
 - A second hands-on pass traced failed camera rotation to the shared experiment
   004 recognizer: fist and point fixtures used non-physical finger chains and
   score gates demanded nearly perfect closure. The shared pose metric, fixtures,
@@ -186,11 +168,8 @@ discard travel while retaining direct manipulation, state text, focus, and undo.
   `140 ms` confirmation, discarding natural movement made while acquiring the
   gesture. Candidate movement is now staged without mutating the scene and
   applied once on confirmation; rejection still produces no transform.
-- `pnpm check` passes with 91 unit tests. The experiment browser file passes 14
-  tests, and the full browser suite passes 55 tests serially.
-- Headed Chromium inspection passed at 1200 × 900, 390 × 844, and 844 × 390.
-  Reduced motion, permission denial, unavailable camera, and media-track
-  teardown are covered by automated browser evidence.
+- Current validation replaces capacity, trash, deletion, and Undo cases with
+  fixed-cube transform and responsive-layout cases.
 - Physical-camera conditions including blur, occlusion, low light, skin tones,
   sleeves, jewelry, and hand crossing remain unverified.
 
