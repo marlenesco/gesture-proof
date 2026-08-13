@@ -10,7 +10,7 @@
     />
     <meta
       name="description"
-      content="Manipulate a small local wireframe scene through explicit gesture, pointer, and keyboard contracts."
+      content="Transform one local wireframe cube through explicit gesture, pointer, and keyboard contracts."
     />
     <title>Object Manipulation Bench - Gesture Proof</title>
   </head>
@@ -67,7 +67,7 @@
             CANVAS 2D / 8 VERTICES / 12 EDGES
           </p>
           <p class="axis axis--margin" aria-hidden="true">
-            1 INITIAL / 3 DESKTOP / 2 MOBILE
+            1 FIXED CUBE / 3 TRANSFORMS / LOCAL
           </p>
 
           <div class="hero-copy">
@@ -75,7 +75,8 @@
             <h1 id="object-title"><span>Object</span><span>Bench</span></h1>
             <p class="lede">
               Pinch and move to translate. Close fist, then move to rotate.
-              Spread two open palms to scale. Scene stays small and local.
+              Spread two open palms to scale. One fixed cube keeps response
+              legible.
             </p>
             <div class="hero-actions">
               <button
@@ -116,9 +117,7 @@
             <label class="select-control" for="object-scenario">
               <span>Sequence</span>
               <select id="object-scenario">
-                <option value="full-sequence">
-                  Full manipulation sequence
-                </option>
+                <option value="full-sequence">Full transform sequence</option>
                 <option value="translate">Pinch translation</option>
                 <option value="rotate">Fist rotation</option>
                 <option value="scale">Two-hand scale</option>
@@ -172,26 +171,9 @@
             aria-labelledby="scene-title"
           >
             <header>
-              <p class="section-kicker">Ephemeral scene</p>
-              <h2 id="scene-title">Selected object</h2>
+              <p class="section-kicker">Fixed object</p>
+              <h2 id="scene-title">Cube transform</h2>
             </header>
-            <div class="object-selection">
-              <button
-                id="object-previous"
-                type="button"
-                aria-label="Select previous object"
-              >
-                ←
-              </button>
-              <strong id="object-selected">CUBE-1</strong>
-              <button
-                id="object-next"
-                type="button"
-                aria-label="Select next object"
-              >
-                →
-              </button>
-            </div>
             <dl class="object-transform">
               <div>
                 <dt>Position</dt>
@@ -205,17 +187,7 @@
                 <dt>Scale</dt>
                 <dd id="object-scale">1.00</dd>
               </div>
-              <div>
-                <dt>Scene</dt>
-                <dd>
-                  <span id="object-count">1</span> /
-                  <span id="object-capacity">3</span>
-                </dd>
-              </div>
             </dl>
-            <button class="create-object" id="object-create" type="button">
-              Create cube
-            </button>
           </section>
 
           <section
@@ -252,38 +224,10 @@
               </button>
             </div>
             <p>
-              Drag object or use arrows · C create · [ ] select · Delete discard
-              · U undo
+              Drag cube or use arrows. Select Move, Rotate, or Scale before
+              pointer or keyboard input.
             </p>
           </section>
-
-          <div
-            class="trash-zone"
-            id="object-trash"
-            data-visible="false"
-            data-armed="false"
-            style="--trash-progress: 0"
-            aria-hidden="true"
-          >
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M4 7h16M9 3h6l1 4H8l1-4Zm-2 4 1 14h8l1-14M10 11v6m4-6v6"
-              />
-            </svg>
-            <span id="object-trash-label">Move here to discard</span>
-          </div>
-
-          <div
-            class="undo-toast"
-            id="object-undo-toast"
-            data-visible="false"
-            role="status"
-            aria-live="polite"
-            hidden
-          >
-            <span>Cube discarded</span>
-            <button id="object-undo" type="button">Undo</button>
-          </div>
 
           <div class="status-line" data-state="idle">
             <i aria-hidden="true"></i>
@@ -330,8 +274,8 @@
             </header>
             <div>
               <h3>
-                Can gestures manipulate a small wireframe scene without
-                transform jumps or clutter?
+                Can gestures transform one wireframe cube without transform
+                jumps or clutter?
               </h3>
             </div>
           </article>
@@ -342,8 +286,8 @@
             </header>
             <div>
               <p>
-                Locked actions, explicit release, baseline reacquisition, and
-                strict object caps should keep movement causal and recoverable.
+                Locked actions, explicit release, and baseline reacquisition
+                should keep movement causal and recoverable.
               </p>
             </div>
           </article>
@@ -366,23 +310,14 @@
           <article class="record-entry">
             <header>
               <span class="record-index">04</span>
-              <p class="record-label">Scene restraint</p>
+              <p class="record-label">Scope</p>
             </header>
             <div>
-              <dl class="record-values">
-                <div>
-                  <dt>Initial</dt>
-                  <dd>1 cube</dd>
-                </div>
-                <div>
-                  <dt>Desktop max</dt>
-                  <dd>3 cubes</dd>
-                </div>
-                <div>
-                  <dt>Mobile max</dt>
-                  <dd>2 cubes</dd>
-                </div>
-              </dl>
+              <p>
+                Exactly one cube exists for every viewport. Creation, selection,
+                deletion, and undo belong to Experiment 008, where containment
+                and set operations are explicit research questions.
+              </p>
             </div>
           </article>
           <article class="record-entry">
@@ -392,8 +327,9 @@
             </header>
             <div>
               <p>
-                Trash requires dwell plus release and keeps one exact undo.
-                Scene, deletion history, and transforms remain ephemeral.
+                Candidate baselines disappear on rejection, release, dropout, or
+                owner loss. Recovery reacquires a fresh baseline before the
+                fixed cube moves again.
               </p>
             </div>
           </article>
@@ -404,12 +340,12 @@
             </header>
             <div>
               <h3>
-                The compact scene is coherent enough for real-hand validation.
+                One fixed cube is coherent enough for real-hand validation.
               </h3>
               <p>
-                Deterministic inputs, responsive density, trash recovery, and
-                fallback controls pass. Physical tracking conditions still
-                decide threshold tuning and final product direction.
+                Deterministic transforms and fallback controls pass. Physical
+                tracking conditions still decide threshold tuning and final
+                product direction.
               </p>
             </div>
           </article>
