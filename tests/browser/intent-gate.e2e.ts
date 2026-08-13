@@ -80,6 +80,14 @@ test('index keeps all experiments separate and reachable', async ({ page }) => {
   await expect(
     page.locator('.research-menu-toggle .burger-mark i'),
   ).toHaveCount(3);
+  const footer = page.getByRole('contentinfo', { name: 'Project information' });
+  await expect(
+    footer.getByRole('link', { name: /source on github/i }),
+  ).toHaveAttribute('href', 'https://github.com/marlenesco/gesture-proof');
+  await expect(footer.getByText('Apache-2.0')).toBeVisible();
+  await expect(
+    footer.getByRole('link', { name: /david foliti on twitter/i }),
+  ).toHaveAttribute('href', 'https://twitter.com/marlenesco');
   await expect
     .poll(() => page.evaluate(() => window.__cameraRequestCount__ ?? 0))
     .toBe(0);
@@ -123,6 +131,9 @@ test('initial gate does not request camera permission', async ({ page }) => {
   await expect(page.locator('.wordmark-copy small')).toHaveText(
     'Read the movement',
   );
+  await expect(
+    page.getByRole('contentinfo', { name: 'Project information' }),
+  ).toBeVisible();
   const menuToggle = page.getByRole('button', { name: 'Studies' });
   await expect(menuToggle).toHaveAttribute('aria-expanded', 'false');
   await menuToggle.click();

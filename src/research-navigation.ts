@@ -1,3 +1,5 @@
+import './site-footer.css';
+
 type Study = {
   readonly number:
     '001' | '002' | '003' | '004' | '005' | '006' | '007' | '008';
@@ -90,6 +92,29 @@ function studyMarkup(study: Study, currentStudy: string): string {
     </li>`;
 }
 
+function mountSiteFooter(): void {
+  const footer = document.createElement('footer');
+  footer.className = 'site-footer';
+  footer.setAttribute('aria-label', 'Project information');
+  footer.innerHTML = `
+    <div class="site-footer__group">
+      <a class="site-footer__link" href="https://github.com/marlenesco/gesture-proof" target="_blank" rel="noreferrer" aria-label="Gesture Proof source on GitHub, opens in a new tab">
+        <svg class="site-footer__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2C6.48 2 2 6.58 2 12.24c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-1.04-.01-1.89-2.78.62-3.37-1.2-3.37-1.2-.46-1.2-1.12-1.51-1.12-1.51-.91-.64.07-.63.07-.63 1.01.07 1.54 1.06 1.54 1.06.9 1.57 2.35 1.12 2.92.86.09-.67.35-1.12.64-1.38-2.22-.26-4.56-1.15-4.56-5.09 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.31.1-2.73 0 0 .84-.27 2.75 1.05A9.27 9.27 0 0 1 12 6.9c.85 0 1.7.12 2.5.35 1.91-1.32 2.75-1.05 2.75-1.05.55 1.42.2 2.47.1 2.73.64.72 1.03 1.63 1.03 2.75 0 3.95-2.35 4.82-4.58 5.08.36.32.68.93.68 1.88 0 1.36-.01 2.46-.01 2.8 0 .27.18.6.69.49A10.26 10.26 0 0 0 22 12.24C22 6.58 17.52 2 12 2Z" /></svg>
+        <span>Source / GitHub</span>
+      </a>
+      <span class="site-footer__divider" aria-hidden="true">/</span>
+      <span class="site-footer__license">Apache-2.0</span>
+    </div>
+    <div class="site-footer__group">
+      <span class="site-footer__by">By</span>
+      <a class="site-footer__link" href="https://twitter.com/marlenesco" target="_blank" rel="noreferrer" aria-label="David Foliti on Twitter, opens in a new tab">
+        <svg class="site-footer__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M23.15 4.78c-.82.37-1.7.61-2.62.72a4.55 4.55 0 0 0 2-2.52 9.1 9.1 0 0 1-2.89 1.11 4.54 4.54 0 0 0-7.86 3.1c0 .36.04.72.12 1.06A12.88 12.88 0 0 1 2.55 3.5a4.54 4.54 0 0 0 1.4 6.06 4.5 4.5 0 0 1-2.06-.57v.06a4.54 4.54 0 0 0 3.64 4.45c-.4.11-.82.17-1.25.17-.3 0-.6-.03-.89-.09a4.55 4.55 0 0 0 4.24 3.16 9.13 9.13 0 0 1-5.64 1.95c-.37 0-.73-.02-1.09-.06a12.87 12.87 0 0 0 6.96 2.04c8.35 0 12.91-6.92 12.91-12.92 0-.2 0-.4-.01-.59a9.2 9.2 0 0 0 2.26-2.35l.13-.07Z" /></svg>
+        <span>@marlenesco</span>
+      </a>
+    </div>`;
+  document.body.append(footer);
+}
+
 function initResearchNavigation(): void {
   const toggle = document.querySelector<HTMLButtonElement>(
     '.research-menu-toggle',
@@ -168,4 +193,5 @@ function initResearchNavigation(): void {
   });
 }
 
+mountSiteFooter();
 initResearchNavigation();
