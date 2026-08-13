@@ -170,7 +170,7 @@ a {
   max-width: 35rem;
   margin: 1.25rem 0 0;
   padding-left: 1rem;
-  border-left: 2px solid #ff4fc3;
+  border-left: 2px solid #ff4f2f;
   color: var(--ink);
   font-size: clamp(1.05rem, 1.45vw, 1.3rem);
   font-weight: 560;
@@ -205,9 +205,13 @@ a {
 }
 
 .button--primary {
-  border-color: #ff4fc3;
-  background: #ff4fc3;
-  color: #180716;
+  border-color: #ff4f2f;
+  background: #ff4f2f;
+  color: #1d0b06;
+}
+
+.hero-actions .button--primary {
+  font-size: 0.82rem;
 }
 
 .button--quiet {
@@ -221,8 +225,8 @@ a {
 
 .button--primary:hover,
 .button--primary:focus-visible {
-  border-color: #ff8cd9;
-  background: #ff8cd9;
+  border-color: #ff745c;
+  background: #ff745c;
 }
 
 .button--quiet:hover,
@@ -312,19 +316,29 @@ a {
 }
 
 .signal-points circle:nth-child(n + 6) {
-  stroke: #ff4fc3;
+  stroke: #ff4f2f;
 }
 
-.signal-frame path:first-child {
-  fill: rgba(255, 79, 195, 0.1);
-  stroke: #ff4fc3;
+.signal-set > path:first-child {
+  fill: rgba(255, 79, 47, 0.1);
+  stroke: #ff4f2f;
   stroke-width: 2;
 }
 
-.signal-frame path:last-child {
+.signal-set > path:nth-child(2) {
   fill: none;
   stroke: rgba(244, 238, 229, 0.55);
   stroke-width: 1;
+}
+
+.signal-set-cube path {
+  fill: none;
+  stroke: #ff4f2f;
+  stroke-width: 1.65;
+}
+
+.signal-set-cube--two {
+  opacity: 0.78;
 }
 
 .signal-label {
@@ -350,10 +364,10 @@ a {
   color: #53e0e4;
 }
 
-.signal-label--field {
+.signal-label--set {
   right: 5%;
   bottom: 21%;
-  color: #ff4fc3;
+  color: #ff4f2f;
 }
 
 .hero-index {
@@ -616,6 +630,10 @@ a {
   --study-accent: #d9359d;
 }
 
+.featured-study--set {
+  --study-accent: #7359cc;
+}
+
 .featured-study:nth-child(even) .featured-art {
   order: 2;
 }
@@ -719,6 +737,37 @@ a {
 .aperture-cross {
   opacity: 0.55;
   stroke-width: 1.5;
+}
+
+.set-guide,
+.set-frame,
+.set-cube path {
+  fill: none;
+  stroke: currentColor;
+}
+
+.set-guide {
+  opacity: 0.25;
+  stroke-width: 1;
+}
+
+.set-frame {
+  fill: color-mix(in srgb, currentColor 8%, transparent);
+  stroke-width: 3;
+}
+
+.set-cube path {
+  stroke-width: 2.5;
+}
+
+.set-cube--two {
+  opacity: 0.72;
+}
+
+.set-points circle {
+  fill: var(--paper);
+  stroke: currentColor;
+  stroke-width: 3;
 }
 
 .featured-study:hover .featured-copy b,
@@ -911,7 +960,7 @@ a {
     animation-delay: 1140ms;
   }
 
-  .signal-frame {
+  .signal-set {
     transform-box: fill-box;
     transform-origin: center;
     animation: frame-enter 650ms 1.08s cubic-bezier(0.22, 1, 0.36, 1) both;
@@ -920,7 +969,9 @@ a {
   .featured-study .field-particles circle,
   .featured-study .cube,
   .featured-study .aperture-frame,
-  .featured-study .aperture-cross {
+  .featured-study .aperture-cross,
+  .featured-study .set-frame,
+  .featured-study .set-cube {
     transition:
       transform 500ms cubic-bezier(0.22, 1, 0.36, 1),
       opacity 350ms ease;
@@ -952,6 +1003,16 @@ a {
   .featured-study--aperture:hover .aperture-cross,
   .featured-study--aperture:focus-visible .aperture-cross {
     transform: rotate(-4deg);
+  }
+
+  .featured-study--set:hover .set-frame,
+  .featured-study--set:focus-visible .set-frame {
+    transform: scale(1.05) rotate(2deg);
+  }
+
+  .featured-study--set:hover .set-cube,
+  .featured-study--set:focus-visible .set-cube {
+    transform: translate(0.7rem, -0.45rem);
   }
 }
 
@@ -1034,7 +1095,7 @@ a {
     background:
       radial-gradient(
         circle at 90% 67%,
-        rgba(255, 79, 195, 0.16),
+        rgba(255, 79, 47, 0.16),
         transparent 36%
       ),
       linear-gradient(
